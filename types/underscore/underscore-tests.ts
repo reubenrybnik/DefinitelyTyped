@@ -5708,83 +5708,83 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
 // these tests also check to make sure that _.chain() and _().chain() yield the same types
 {
     {
-        let result: _._Chain<SimpleStringObject[]>;
+        let result: _._Chain2<SimpleStringObject[]>;
 
-        // $ExpectType _Chain<SimpleStringObject[], SimpleStringObject>
+        // $ExpectType _Chain2<SimpleStringObject[], SimpleStringObject>
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray);
 
-        // $ExpectType _Chain<SimpleStringObject[], SimpleStringObject>
+        // $ExpectType _Chain2<SimpleStringObject[], SimpleStringObject>
         result = _.chain(simpleStringObjectArray);
 
-        // $ExpectType _Chain<SimpleStringObject[], SimpleStringObject>
+        // $ExpectType _Chain2<SimpleStringObject[], SimpleStringObject>
         result = _<SimpleStringObject[]>(simpleStringObjectArray).chain();
 
-        // $ExpectType _Chain<SimpleStringObject[], SimpleStringObject>
+        // $ExpectType _Chain2<SimpleStringObject[], SimpleStringObject>
         result = _(simpleStringObjectArray).chain();
     }
 
     {
-        let result: _._Chain<_.List<SimpleStringObject>>;
+        let result: _._Chain2<_.List<SimpleStringObject>>;
 
-        // $ExpectType _Chain<List<SimpleStringObject>, SimpleStringObject>
+        // $ExpectType _Chain2<List<SimpleStringObject>, SimpleStringObject>
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList);
 
-        // $ExpectType _Chain<List<SimpleStringObject>, SimpleStringObject>
+        // $ExpectType _Chain2<List<SimpleStringObject>, SimpleStringObject>
         result = _.chain(simpleStringObjectList);
 
-        // $ExpectType _Chain<List<SimpleStringObject>, SimpleStringObject>
+        // $ExpectType _Chain2<List<SimpleStringObject>, SimpleStringObject>
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).chain();
 
-        // $ExpectType _Chain<List<SimpleStringObject>, SimpleStringObject>
+        // $ExpectType _Chain2<List<SimpleStringObject>, SimpleStringObject>
         result = _(simpleStringObjectList).chain();
     }
 
     {
-        let result: _._Chain<_.Dictionary<SimpleStringObject>>;
+        let result: _._Chain2<_.Dictionary<SimpleStringObject>>;
 
-        // $ExpectType _Chain<Dictionary<SimpleStringObject>, SimpleStringObject>
+        // $ExpectType _Chain2<Dictionary<SimpleStringObject>, SimpleStringObject>
         result = _.chain<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary);
 
-        // $ExpectType _Chain<Dictionary<SimpleStringObject>, SimpleStringObject>
+        // $ExpectType _Chain2<Dictionary<SimpleStringObject>, SimpleStringObject>
         result = _.chain(simpleStringObjectDictionary);
 
-        // $ExpectType _Chain<Dictionary<SimpleStringObject>, SimpleStringObject>
+        // $ExpectType _Chain2<Dictionary<SimpleStringObject>, SimpleStringObject>
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).chain();
 
-        // $ExpectType _Chain<Dictionary<SimpleStringObject>, SimpleStringObject>
+        // $ExpectType _Chain2<Dictionary<SimpleStringObject>, SimpleStringObject>
         result = _(simpleStringObjectDictionary).chain();
 
     }
 
     {
-        let result: _._Chain<string>;
+        let result: _._Chain2<string>;
 
-        // $ExpectType _Chain<string, string>
+        // $ExpectType _Chain2<string, string>
         result = _.chain<string>(simpleString);
 
-        // $ExpectType _Chain<string, string>
+        // $ExpectType _Chain2<string, string>
         result = _.chain(simpleString);
 
-        // $ExpectType _Chain<string, string>
+        // $ExpectType _Chain2<string, string>
         result = _<string>(simpleString).chain();
 
-        // $ExpectType _Chain<string, string>
+        // $ExpectType _Chain2<string, string>
         result = _(simpleString).chain();
     }
 
     {
-        let result: _._Chain<number>;
+        let result: _._Chain2<number>;
 
-        // $ExpectType _Chain<number, never>
+        // $ExpectType _Chain2<number, never>
         result = _.chain<number>(simpleNumber);
 
-        // $ExpectType _Chain<number, never>
+        // $ExpectType _Chain2<number, never>
         result = _.chain(simpleNumber);
 
-        // $ExpectType _Chain<number, never>
+        // $ExpectType _Chain2<number, never>
         result = _<number>(simpleNumber).chain();
 
-        // $ExpectType _Chain<number, never>
+        // $ExpectType _Chain2<number, never>
         result = _(simpleNumber).chain();
     }
 }
@@ -5841,6 +5841,116 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
 
         // $ExpectType number
         result = _.chain(simpleNumber).value();
+    }
+}
+
+// Backwards Compatibility
+
+// underscore
+{
+    {
+        const underscoreArray: _.Underscore<SimpleStringObject> = _(simpleStringObjectArray);
+        underscoreArray.each((value, index, list) => {
+            const valueTest: SimpleStringObject = value;
+            const indexTest: number = index;
+            const listTest: _.List<SimpleStringObject> = list;
+        });
+        underscoreArray.reduce((prev, curr, index, list) => {
+            const prevTest: {} = prev;
+            const currTest: SimpleStringObject = curr;
+            const indexTest: number = index;
+            const listTest: _.List<SimpleStringObject> = list;
+            return prevTest;
+        },
+            {});
+    }
+
+    {
+        const underscoreDictionary: _.Underscore<SimpleStringObject, _.Dictionary<SimpleStringObject>> = _(simpleStringObjectDictionary);
+        underscoreDictionary.each((element, key, object) => {
+            const elementTest: SimpleStringObject = element;
+            const keyTest: string = key;
+            const objectTest: _.Dictionary<SimpleStringObject> = object;
+        });
+        underscoreDictionary.reduce((prev, curr, key, object) => {
+            const prevTest: {} = prev;
+            const currTest: SimpleStringObject = curr;
+            const keyTest: string = key;
+            const objectTest: _.Dictionary<SimpleStringObject> = object;
+            return prevTest;
+        },
+            {});
+    }
+
+    {
+        const underscoreString: _.Underscore<string> = _(simpleString);
+        underscoreString.each((value, index, list) => {
+            const valueTest: string = value;
+            const indexTest: number = index;
+            const listTest: _.List<string> = list;
+        });
+        underscoreString.reduce((prev, curr, index, list) => {
+            const prevTest: {} = prev;
+            const currTest: string = curr;
+            const indexTest: number = index;
+            const listTest: _.List<string> = list;
+            return prevTest;
+        },
+            {});
+    }
+}
+
+// chain
+{
+    {
+        const chainArray: _._Chain<SimpleStringObject> = _.chain(simpleStringObjectArray);
+        chainArray.each((value, index, list) => {
+            const valueTest: SimpleStringObject = value;
+            const indexTest: number = index;
+            const listTest: _.List<SimpleStringObject> = list;
+        });
+        chainArray.reduce((prev, curr, index, list) => {
+            const prevTest: {} = prev;
+            const currTest: SimpleStringObject = curr;
+            const indexTest: number = index;
+            const listTest: _.List<SimpleStringObject> = list;
+            return prevTest;
+        },
+            {});
+    }
+
+    {
+        const chainDictionary: _._Chain<SimpleStringObject, _.Dictionary<SimpleStringObject>> = _.chain(simpleStringObjectDictionary);
+        chainDictionary.each((element, key, object) => {
+            const elementTest: SimpleStringObject = element;
+            const keyTest: string = key;
+            const objectTest: _.Dictionary<SimpleStringObject> = object;
+        });
+        chainDictionary.reduce((prev, curr, key, object) => {
+            const prevTest: {} = prev;
+            const currTest: SimpleStringObject = curr;
+            const keyTest: string = key;
+            const objectTest: _.Dictionary<SimpleStringObject> = object;
+            return prevTest;
+        },
+            {});
+    }
+
+    {
+        const chainString: _._Chain<string> = _.chain(simpleString);
+        chainString.each((value, index, list) => {
+            const valueTest: string = value;
+            const indexTest: number = index;
+            const listTest: _.List<string> = list;
+        });
+        chainString.reduce((prev, curr, index, list) => {
+            const prevTest: {} = prev;
+            const currTest: string = curr;
+            const indexTest: number = index;
+            const listTest: _.List<string> = list;
+            return prevTest;
+        },
+            {});
     }
 }
 
