@@ -12,13 +12,13 @@ _.map({ one: 1, two: 2, three: 3 }, (value, key) => value * 3);
 let plucked: string[] = _.map([{key: 'apples'}, {key: 'oranges'}], 'key');
 
 //var sum = _.reduce([1, 2, 3], (memo, num) => memo + num, 0);    // https://typescript.codeplex.com/workitem/1960
-var sum = _.reduce<number, number>([1, 2, 3], (memo, num) => memo + num, 0);
-sum = _.reduce<number, number>([1, 2, 3], (memo, num) => memo + num); // memo is optional #issue 5 github
-sum = _.reduce<string, number>({'a':'1', 'b':'2', 'c':'3'}, (memo, numstr) => memo + (+numstr));
+var sum = _.reduce<number[], number>([1, 2, 3], (memo, num) => memo + num, 0);
+sum = _.reduce<number[], number>([1, 2, 3], (memo, num) => memo + num); // memo is optional #issue 5 github
+sum = _.reduce<_.Dictionary<string>, number>({'a':'1', 'b':'2', 'c':'3'}, (memo, numstr) => memo + (+numstr));
 
 var list = [[0, 1], [2, 3], [4, 5]];
 //var flat = _.reduceRight(list, (a, b) => a.concat(b), []);    // https://typescript.codeplex.com/workitem/1960
-var flat = _.reduceRight<number[], number[]>(list, (a, b) => a.concat(b), []);
+var flat = _.reduceRight<number[][], number[]>(list, (a, b) => a.concat(b), []);
 
 // common testing types and objects
 const context = {};
@@ -115,8 +115,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
 
         let result: SimpleStringObject[];
 
-        result = _.each<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator);
-        result = _.each<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator, context);
+        result = _.each<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator);
+        result = _.each<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator, context);
         result = _.each(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator);
         result = _.each(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator, context);
 
@@ -130,8 +130,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectArray).each(simpleStringObjectListPropertyModifyingIterator).value();
         result = _.chain(simpleStringObjectArray).each(simpleStringObjectListPropertyModifyingIterator, context).value();
 
-        result = _.forEach<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator);
-        result = _.forEach<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator, context);
+        result = _.forEach<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator);
+        result = _.forEach<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator, context);
         result = _.forEach(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator);
         result = _.forEach(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator, context);
 
@@ -149,8 +149,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.List<SimpleStringObject>;
 
-        result = _.each<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator);
-        result = _.each<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator, context);
+        result = _.each<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator);
+        result = _.each<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator, context);
         result = _.each(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator);
         result = _.each(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator, context);
 
@@ -164,8 +164,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectList).each(simpleStringObjectListPropertyModifyingIterator).value();
         result = _.chain(simpleStringObjectList).each(simpleStringObjectListPropertyModifyingIterator, context).value();
 
-        result = _.forEach<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator);
-        result = _.forEach<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator, context);
+        result = _.forEach<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator);
+        result = _.forEach<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator, context);
         result = _.forEach(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator);
         result = _.forEach(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator, context);
 
@@ -183,8 +183,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<SimpleStringObject>;
 
-        result = _.each<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator);
-        result = _.each<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator, context);
+        result = _.each<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator);
+        result = _.each<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator, context);
         result = _.each(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator);
         result = _.each(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator, context);
 
@@ -198,8 +198,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectDictionary).each(simpleStringObjectDictionaryPropertyModifyingIterator).value();
         result = _.chain(simpleStringObjectDictionary).each(simpleStringObjectDictionaryPropertyModifyingIterator, context).value();
 
-        result = _.forEach<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator);
-        result = _.forEach<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator, context);
+        result = _.forEach<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator);
+        result = _.forEach<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator, context);
         result = _.forEach(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator);
         result = _.forEach(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator, context);
 
@@ -221,8 +221,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: string[];
 
-        result = _.map<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
-        result = _.map<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.map<SimpleStringObject[], string>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
+        result = _.map<SimpleStringObject[], string>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
         result = _.map(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
         result = _.map(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
 
@@ -236,8 +236,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectArray).map(simpleStringObjectListPropertySelectingIterator).value();
         result = _.chain(simpleStringObjectArray).map(simpleStringObjectListPropertySelectingIterator, context).value();
 
-        result = _.collect<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
-        result = _.collect<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.collect<SimpleStringObject[], string>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
+        result = _.collect<SimpleStringObject[], string>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
         result = _.collect(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
         result = _.collect(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
 
@@ -255,8 +255,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: string[];
 
-        result = _.map<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
-        result = _.map<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.map<_.List<SimpleStringObject>, string>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
+        result = _.map<_.List<SimpleStringObject>, string>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
         result = _.map(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
         result = _.map(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
 
@@ -270,8 +270,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectList).map(simpleStringObjectListPropertySelectingIterator).value();
         result = _.chain(simpleStringObjectList).map(simpleStringObjectListPropertySelectingIterator, context).value();
 
-        result = _.collect<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
-        result = _.collect<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.collect<_.List<SimpleStringObject>, string>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
+        result = _.collect<_.List<SimpleStringObject>, string>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
         result = _.collect(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
         result = _.collect(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
 
@@ -289,8 +289,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: string[];
 
-        result = _.map<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
-        result = _.map<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
+        result = _.map<_.Dictionary<SimpleStringObject>, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
+        result = _.map<_.Dictionary<SimpleStringObject>, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
         result = _.map(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
         result = _.map(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
 
@@ -304,8 +304,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectDictionary).map(simpleStringObjectDictionaryPropertySelectingIterator).value();
         result = _.chain(simpleStringObjectDictionary).map(simpleStringObjectDictionaryPropertySelectingIterator, context).value();
 
-        result = _.collect<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
-        result = _.collect<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
+        result = _.collect<_.Dictionary<SimpleStringObject>, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
+        result = _.collect<_.Dictionary<SimpleStringObject>, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
         result = _.collect(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
         result = _.collect(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
 
@@ -358,7 +358,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean[];
 
-        result = _.map<SimpleStringObjectOrUndefined>(simpleStringObjectOrUndefinedArray, simpleStringObjectPartialPropertyMatch);
+        result = _.map<SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray, simpleStringObjectPartialPropertyMatch);
         result = _.map(simpleStringObjectOrUndefinedArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).map(simpleStringObjectPartialPropertyMatch);
@@ -367,7 +367,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).map(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectOrUndefinedArray).map(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.collect<SimpleStringObjectOrUndefined>(simpleStringObjectOrUndefinedArray, simpleStringObjectPartialPropertyMatch);
+        result = _.collect<SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray, simpleStringObjectPartialPropertyMatch);
         result = _.collect(simpleStringObjectOrUndefinedArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).collect(simpleStringObjectPartialPropertyMatch);
@@ -380,7 +380,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean[];
 
-        result = _.map<SimpleStringObjectOrUndefined>(simpleStringObjectOrUndefinedList, simpleStringObjectPartialPropertyMatch);
+        result = _.map<_.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList, simpleStringObjectPartialPropertyMatch);
         result = _.map(simpleStringObjectOrUndefinedList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).map(simpleStringObjectPartialPropertyMatch);
@@ -389,7 +389,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).map(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectOrUndefinedList).map(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.collect<SimpleStringObjectOrUndefined>(simpleStringObjectOrUndefinedList, simpleStringObjectPartialPropertyMatch);
+        result = _.collect<_.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList, simpleStringObjectPartialPropertyMatch);
         result = _.collect(simpleStringObjectOrUndefinedList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).collect(simpleStringObjectPartialPropertyMatch);
@@ -402,7 +402,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean[];
 
-        result = _.map<SimpleStringObjectOrUndefined>(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPartialPropertyMatch);
+        result = _.map<_.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPartialPropertyMatch);
         result = _.map(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).map(simpleStringObjectPartialPropertyMatch);
@@ -411,7 +411,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).map(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectOrUndefinedDictionary).map(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.collect<SimpleStringObjectOrUndefined>(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPartialPropertyMatch);
+        result = _.collect<_.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPartialPropertyMatch);
         result = _.collect(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).collect(simpleStringObjectPartialPropertyMatch);
@@ -425,7 +425,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | boolean)[];
 
-        result = _.map<IntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(intersectingObjectPropertiesArray, simpleObjectPropertyName);
+        result = _.map<IntersectingObjectPropertiesType[], typeof simpleObjectPropertyName>(intersectingObjectPropertiesArray, simpleObjectPropertyName);
         result = _.map(intersectingObjectPropertiesArray, simpleObjectPropertyName);
 
         result = _<IntersectingObjectPropertiesType[]>(intersectingObjectPropertiesArray).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -434,7 +434,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<IntersectingObjectPropertiesType[]>(intersectingObjectPropertiesArray).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName).value();
         result = _.chain(intersectingObjectPropertiesArray).map(simpleObjectPropertyName).value();
 
-        result = _.collect<IntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(intersectingObjectPropertiesArray, simpleObjectPropertyName);
+        result = _.collect<IntersectingObjectPropertiesType[], typeof simpleObjectPropertyName>(intersectingObjectPropertiesArray, simpleObjectPropertyName);
         result = _.collect(intersectingObjectPropertiesArray, simpleObjectPropertyName);
 
         result = _<IntersectingObjectPropertiesType[]>(intersectingObjectPropertiesArray).collect<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -447,7 +447,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | boolean)[];
 
-        result = _.map<IntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(intersectingObjectPropertiesList, simpleObjectPropertyName);
+        result = _.map<_.List<IntersectingObjectPropertiesType>, typeof simpleObjectPropertyName>(intersectingObjectPropertiesList, simpleObjectPropertyName);
         result = _.map(intersectingObjectPropertiesList, simpleObjectPropertyName);
 
         result = _<_.List<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesList).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -456,7 +456,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesList).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName).value();
         result = _.chain(intersectingObjectPropertiesList).map(simpleObjectPropertyName).value();
 
-        result = _.collect<IntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(intersectingObjectPropertiesList, simpleObjectPropertyName);
+        result = _.collect<_.List<IntersectingObjectPropertiesType>, typeof simpleObjectPropertyName>(intersectingObjectPropertiesList, simpleObjectPropertyName);
         result = _.collect(intersectingObjectPropertiesList, simpleObjectPropertyName);
 
         result = _<_.List<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesList).collect<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -469,7 +469,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | boolean)[];
 
-        result = _.map<IntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(intersectingObjectPropertiesDictionary, simpleObjectPropertyName);
+        result = _.map<_.Dictionary<IntersectingObjectPropertiesType>, typeof simpleObjectPropertyName>(intersectingObjectPropertiesDictionary, simpleObjectPropertyName);
         result = _.map(intersectingObjectPropertiesDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesDictionary).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -478,7 +478,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.Dictionary<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesDictionary).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName).value();
         result = _.chain(intersectingObjectPropertiesDictionary).map(simpleObjectPropertyName).value();
 
-        result = _.collect<IntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(intersectingObjectPropertiesDictionary, simpleObjectPropertyName);
+        result = _.collect<_.Dictionary<IntersectingObjectPropertiesType>, typeof simpleObjectPropertyName>(intersectingObjectPropertiesDictionary, simpleObjectPropertyName);
         result = _.collect(intersectingObjectPropertiesDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesDictionary).collect<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -492,7 +492,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | undefined)[];
 
-        result = _.map<SimpleStringObjectOrUndefined, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedArray, simpleObjectPropertyName);
+        result = _.map<SimpleStringObjectOrUndefined[], typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedArray, simpleObjectPropertyName);
         result = _.map(simpleStringObjectOrUndefinedArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -501,7 +501,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectOrUndefinedArray).map(simpleObjectPropertyName).value();
 
-        result = _.collect<SimpleStringObjectOrUndefined, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedArray, simpleObjectPropertyName);
+        result = _.collect<SimpleStringObjectOrUndefined[], typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedArray, simpleObjectPropertyName);
         result = _.collect(simpleStringObjectOrUndefinedArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).collect<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -514,7 +514,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | undefined)[];
 
-        result = _.map<SimpleStringObjectOrUndefined, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedList, simpleObjectPropertyName);
+        result = _.map<_.List<SimpleStringObjectOrUndefined>, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedList, simpleObjectPropertyName);
         result = _.map(simpleStringObjectOrUndefinedList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -523,7 +523,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectOrUndefinedList).map(simpleObjectPropertyName).value();
 
-        result = _.collect<SimpleStringObjectOrUndefined, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedList, simpleObjectPropertyName);
+        result = _.collect<_.List<SimpleStringObjectOrUndefined>, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedList, simpleObjectPropertyName);
         result = _.collect(simpleStringObjectOrUndefinedList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).collect<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -536,7 +536,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | undefined)[];
 
-        result = _.map<SimpleStringObjectOrUndefined, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedDictionary, simpleObjectPropertyName);
+        result = _.map<_.Dictionary<SimpleStringObjectOrUndefined>, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedDictionary, simpleObjectPropertyName);
         result = _.map(simpleStringObjectOrUndefinedDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -545,7 +545,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectOrUndefinedDictionary).map(simpleObjectPropertyName).value();
 
-        result = _.collect<SimpleStringObjectOrUndefined, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedDictionary, simpleObjectPropertyName);
+        result = _.collect<_.Dictionary<SimpleStringObjectOrUndefined>, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedDictionary, simpleObjectPropertyName);
         result = _.collect(simpleStringObjectOrUndefinedDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).collect<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -559,7 +559,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | undefined)[];
 
-        result = _.map<NonIntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleObjectPropertyName);
+        result = _.map<NonIntersectingObjectPropertiesType[], typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleObjectPropertyName);
         result = _.map(nonIntersectingObjectPropertiesArray, simpleObjectPropertyName);
 
         result = _<NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -568,7 +568,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName).value();
         result = _.chain(nonIntersectingObjectPropertiesArray).map(simpleObjectPropertyName).value();
 
-        result = _.collect<NonIntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleObjectPropertyName);
+        result = _.collect<NonIntersectingObjectPropertiesType[], typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleObjectPropertyName);
         result = _.collect(nonIntersectingObjectPropertiesArray, simpleObjectPropertyName);
 
         result = _<NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).collect<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -581,7 +581,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | undefined)[];
 
-        result = _.map<NonIntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesList, simpleObjectPropertyName);
+        result = _.map<_.List<NonIntersectingObjectPropertiesType>, typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesList, simpleObjectPropertyName);
         result = _.map(nonIntersectingObjectPropertiesArray, simpleObjectPropertyName);
 
         result = _<_.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesArray).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -590,7 +590,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesArray).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName).value();
         result = _.chain(nonIntersectingObjectPropertiesArray).map(simpleObjectPropertyName).value();
 
-        result = _.collect<NonIntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleObjectPropertyName);
+        result = _.collect<NonIntersectingObjectPropertiesType[], typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleObjectPropertyName);
         result = _.collect(nonIntersectingObjectPropertiesArray, simpleObjectPropertyName);
 
         result = _<_.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesArray).collect<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -603,7 +603,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | undefined)[];
 
-        result = _.map<NonIntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesDictionary, simpleObjectPropertyName);
+        result = _.map<_.Dictionary<NonIntersectingObjectPropertiesType>, typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesDictionary, simpleObjectPropertyName);
         result = _.map(nonIntersectingObjectPropertiesDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -612,7 +612,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).map<typeof simpleObjectPropertyName>(simpleObjectPropertyName).value();
         result = _.chain(nonIntersectingObjectPropertiesDictionary).map(simpleObjectPropertyName).value();
 
-        result = _.collect<NonIntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesDictionary, simpleObjectPropertyName);
+        result = _.collect<_.Dictionary<NonIntersectingObjectPropertiesType>, typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesDictionary, simpleObjectPropertyName);
         result = _.collect(nonIntersectingObjectPropertiesDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).collect<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -629,8 +629,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const memo = '';
         let result: string;
 
-        result = _.reduce<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
-        result = _.reduce<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
+        result = _.reduce<SimpleStringObject[], string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
+        result = _.reduce<SimpleStringObject[], string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
         result = _.reduce(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
         result = _.reduce(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
 
@@ -644,8 +644,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectArray).reduce(simpleStringObjectListPropertyMemoIterator, memo).value();
         result = _.chain(simpleStringObjectArray).reduce(simpleStringObjectListPropertyMemoIterator, memo, context).value();
 
-        result = _.foldl<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
-        result = _.foldl<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
+        result = _.foldl<SimpleStringObject[], string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
+        result = _.foldl<SimpleStringObject[], string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
         result = _.foldl(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
         result = _.foldl(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
 
@@ -659,8 +659,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectArray).foldl(simpleStringObjectListPropertyMemoIterator, memo).value();
         result = _.chain(simpleStringObjectArray).foldl(simpleStringObjectListPropertyMemoIterator, memo, context).value();
 
-        result = _.inject<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
-        result = _.inject<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
+        result = _.inject<SimpleStringObject[], string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
+        result = _.inject<SimpleStringObject[], string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
         result = _.inject(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
         result = _.inject(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
 
@@ -679,8 +679,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const memo = '';
         let result: string;
 
-        result = _.reduce<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
-        result = _.reduce<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
+        result = _.reduce<_.List<SimpleStringObject>, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
+        result = _.reduce<_.List<SimpleStringObject>, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
         result = _.reduce(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
         result = _.reduce(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
 
@@ -694,8 +694,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectList).reduce(simpleStringObjectListPropertyMemoIterator, memo).value();
         result = _.chain(simpleStringObjectList).reduce(simpleStringObjectListPropertyMemoIterator, memo, context).value();
 
-        result = _.foldl<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
-        result = _.foldl<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
+        result = _.foldl<_.List<SimpleStringObject>, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
+        result = _.foldl<_.List<SimpleStringObject>, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
         result = _.foldl(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
         result = _.foldl(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
 
@@ -709,8 +709,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectList).foldl(simpleStringObjectListPropertyMemoIterator, memo).value();
         result = _.chain(simpleStringObjectList).foldl(simpleStringObjectListPropertyMemoIterator, memo, context).value();
 
-        result = _.inject<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
-        result = _.inject<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
+        result = _.inject<_.List<SimpleStringObject>, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
+        result = _.inject<_.List<SimpleStringObject>, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
         result = _.inject(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
         result = _.inject(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
 
@@ -729,8 +729,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const memo = '';
         let result: string;
 
-        result = _.reduce<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
-        result = _.reduce<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
+        result = _.reduce<_.Dictionary<SimpleStringObject>, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
+        result = _.reduce<_.Dictionary<SimpleStringObject>, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
         result = _.reduce(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
         result = _.reduce(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
 
@@ -744,8 +744,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectDictionary).reduce(simpleStringObjectDictionaryPropertyMemoIterator, memo).value();
         result = _.chain(simpleStringObjectDictionary).reduce(simpleStringObjectDictionaryPropertyMemoIterator, memo, context).value();
 
-        result = _.foldl<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
-        result = _.foldl<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
+        result = _.foldl<_.Dictionary<SimpleStringObject>, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
+        result = _.foldl<_.Dictionary<SimpleStringObject>, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
         result = _.foldl(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
         result = _.foldl(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
 
@@ -759,8 +759,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectDictionary).foldl(simpleStringObjectDictionaryPropertyMemoIterator, memo).value();
         result = _.chain(simpleStringObjectDictionary).foldl(simpleStringObjectDictionaryPropertyMemoIterator, memo, context).value();
 
-        result = _.inject<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
-        result = _.inject<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
+        result = _.inject<_.Dictionary<SimpleStringObject>, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
+        result = _.inject<_.Dictionary<SimpleStringObject>, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
         result = _.inject(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
         result = _.inject(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
 
@@ -832,8 +832,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const memo = '';
         let result: string;
 
-        result = _.reduceRight<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
-        result = _.reduceRight<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
+        result = _.reduceRight<SimpleStringObject[], string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
+        result = _.reduceRight<SimpleStringObject[], string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
         result = _.reduceRight(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
         result = _.reduceRight(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
 
@@ -847,8 +847,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectArray).reduceRight(simpleStringObjectListPropertyMemoIterator, memo).value();
         result = _.chain(simpleStringObjectArray).reduceRight(simpleStringObjectListPropertyMemoIterator, memo, context).value();
 
-        result = _.foldr<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
-        result = _.foldr<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
+        result = _.foldr<SimpleStringObject[], string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
+        result = _.foldr<SimpleStringObject[], string>(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
         result = _.foldr(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo);
         result = _.foldr(simpleStringObjectArray, simpleStringObjectListPropertyMemoIterator, memo, context);
 
@@ -867,8 +867,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const memo = '';
         let result: string;
 
-        result = _.reduceRight<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
-        result = _.reduceRight<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
+        result = _.reduceRight<_.List<SimpleStringObject>, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
+        result = _.reduceRight<_.List<SimpleStringObject>, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
         result = _.reduceRight(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
         result = _.reduceRight(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
 
@@ -882,8 +882,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectList).reduceRight(simpleStringObjectListPropertyMemoIterator, memo).value();
         result = _.chain(simpleStringObjectList).reduceRight(simpleStringObjectListPropertyMemoIterator, memo, context).value();
 
-        result = _.foldr<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
-        result = _.foldr<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
+        result = _.foldr<_.List<SimpleStringObject>, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
+        result = _.foldr<_.List<SimpleStringObject>, string>(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
         result = _.foldr(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo);
         result = _.foldr(simpleStringObjectList, simpleStringObjectListPropertyMemoIterator, memo, context);
 
@@ -902,8 +902,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const memo = '';
         let result: string;
 
-        result = _.reduceRight<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
-        result = _.reduceRight<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
+        result = _.reduceRight<_.Dictionary<SimpleStringObject>, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
+        result = _.reduceRight<_.Dictionary<SimpleStringObject>, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
         result = _.reduceRight(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
         result = _.reduceRight(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
 
@@ -917,8 +917,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectDictionary).reduceRight(simpleStringObjectDictionaryPropertyMemoIterator, memo).value();
         result = _.chain(simpleStringObjectDictionary).reduceRight(simpleStringObjectDictionaryPropertyMemoIterator, memo, context).value();
 
-        result = _.foldr<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
-        result = _.foldr<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
+        result = _.foldr<_.Dictionary<SimpleStringObject>, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
+        result = _.foldr<_.Dictionary<SimpleStringObject>, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
         result = _.foldr(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo);
         result = _.foldr(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyMemoIterator, memo, context);
 
@@ -975,8 +975,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: {a: string} | undefined;
 
-        result = _.find<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
-        result = _.find<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.find<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
+        result = _.find<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
         result = _.find(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
         result = _.find(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -990,8 +990,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectArray).find(simpleStringObjectListPropertyComparingIterator).value();
         result = _.chain(simpleStringObjectArray).find(simpleStringObjectListPropertyComparingIterator, context).value();
 
-        result = _.detect<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
-        result = _.detect<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.detect<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
+        result = _.detect<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
         result = _.detect(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
         result = _.detect(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -1009,8 +1009,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.find<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
-        result = _.find<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.find<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
+        result = _.find<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
         result = _.find(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
         result = _.find(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -1024,8 +1024,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectList).find(simpleStringObjectListPropertyComparingIterator).value();
         result = _.chain(simpleStringObjectList).find(simpleStringObjectListPropertyComparingIterator, context).value();
 
-        result = _.detect<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
-        result = _.detect<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.detect<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
+        result = _.detect<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
         result = _.detect(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
         result = _.detect(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -1043,8 +1043,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.find<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
-        result = _.find<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
+        result = _.find<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
+        result = _.find<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
         result = _.find(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
         result = _.find(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
 
@@ -1058,8 +1058,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectDictionary).find(simpleStringObjectDictionaryPropertyComparingIterator).value();
         result = _.chain(simpleStringObjectDictionary).find(simpleStringObjectDictionaryPropertyComparingIterator, context).value();
 
-        result = _.detect<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
-        result = _.detect<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
+        result = _.detect<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
+        result = _.detect<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
         result = _.detect(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
         result = _.detect(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
 
@@ -1112,7 +1112,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.find<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        result = _.find<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
         result = _.find(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).find(simpleStringObjectPartialPropertyMatch);
@@ -1121,7 +1121,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).find(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectArray).find(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.detect<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        result = _.detect<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
         result = _.detect(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).detect(simpleStringObjectPartialPropertyMatch);
@@ -1134,7 +1134,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.find<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        result = _.find<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
         result = _.find(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).find(simpleStringObjectPartialPropertyMatch);
@@ -1143,7 +1143,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).find(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectList).find(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.detect<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        result = _.detect<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
         result = _.detect(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).detect(simpleStringObjectPartialPropertyMatch);
@@ -1156,7 +1156,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.find<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+        result = _.find<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
         result = _.find(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).find(simpleStringObjectPartialPropertyMatch);
@@ -1165,7 +1165,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).find(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectDictionary).find(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.detect<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+        result = _.detect<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
         result = _.detect(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).detect(simpleStringObjectPartialPropertyMatch);
@@ -1179,7 +1179,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.find<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.find<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.find(simpleStringObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).find(simpleObjectPropertyName);
@@ -1188,7 +1188,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).find(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectArray).find(simpleObjectPropertyName).value();
 
-        result = _.detect<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.detect<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.detect(simpleStringObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).detect(simpleObjectPropertyName);
@@ -1201,7 +1201,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.find<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.find<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
         result = _.find(simpleStringObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).find(simpleObjectPropertyName);
@@ -1210,7 +1210,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).find(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectList).find(simpleObjectPropertyName).value();
 
-        result = _.detect<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.detect<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
         result = _.detect(simpleStringObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).detect(simpleObjectPropertyName);
@@ -1223,7 +1223,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.find<SimpleStringObject>(simpleStringObjectDictionary, simpleObjectPropertyName);
+        result = _.find<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleObjectPropertyName);
         result = _.find(simpleStringObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).find(simpleObjectPropertyName);
@@ -1232,7 +1232,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).find(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectDictionary).find(simpleObjectPropertyName).value();
 
-        result = _.detect<SimpleStringObject>(simpleStringObjectDictionary, simpleObjectPropertyName);
+        result = _.detect<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleObjectPropertyName);
         result = _.detect(simpleStringObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).detect(simpleObjectPropertyName);
@@ -1249,8 +1249,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.filter<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
-        result = _.filter<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.filter<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
+        result = _.filter<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
         result = _.filter(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
         result = _.filter(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -1264,8 +1264,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectArray).filter(simpleStringObjectListPropertyComparingIterator).value();
         result = _.chain(simpleStringObjectArray).filter(simpleStringObjectListPropertyComparingIterator, context).value();
 
-        result = _.select<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
-        result = _.select<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.select<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
+        result = _.select<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
         result = _.select(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
         result = _.select(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -1283,8 +1283,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.filter<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
-        result = _.filter<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.filter<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
+        result = _.filter<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
         result = _.filter(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
         result = _.filter(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -1298,8 +1298,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectList).filter(simpleStringObjectListPropertyComparingIterator).value();
         result = _.chain(simpleStringObjectList).filter(simpleStringObjectListPropertyComparingIterator, context).value();
 
-        result = _.select<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
-        result = _.select<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.select<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
+        result = _.select<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
         result = _.select(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
         result = _.select(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -1317,8 +1317,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.filter<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
-        result = _.filter<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
+        result = _.filter<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
+        result = _.filter<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
         result = _.filter(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
         result = _.filter(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
 
@@ -1332,8 +1332,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectDictionary).filter(simpleStringObjectDictionaryPropertyComparingIterator).value();
         result = _.chain(simpleStringObjectDictionary).filter(simpleStringObjectDictionaryPropertyComparingIterator, context).value();
 
-        result = _.select<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
-        result = _.select<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
+        result = _.select<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
+        result = _.select<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
         result = _.select(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
         result = _.select(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
 
@@ -1386,7 +1386,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.filter<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        result = _.filter<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
         result = _.filter(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).filter(simpleStringObjectPartialPropertyMatch);
@@ -1395,7 +1395,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).filter(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectArray).filter(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.select<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        result = _.select<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
         result = _.select(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).select(simpleStringObjectPartialPropertyMatch);
@@ -1408,7 +1408,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.filter<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        result = _.filter<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
         result = _.filter(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).filter(simpleStringObjectPartialPropertyMatch);
@@ -1417,7 +1417,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).filter(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectList).filter(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.select<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        result = _.select<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
         result = _.select(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).select(simpleStringObjectPartialPropertyMatch);
@@ -1430,7 +1430,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.filter<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+        result = _.filter<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
         result = _.filter(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).filter(simpleStringObjectPartialPropertyMatch);
@@ -1439,7 +1439,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).filter(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectDictionary).filter(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.select<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+        result = _.select<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
         result = _.select(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).select(simpleStringObjectPartialPropertyMatch);
@@ -1453,7 +1453,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.filter<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.filter<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.filter(simpleStringObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).filter(simpleObjectPropertyName);
@@ -1462,7 +1462,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).filter(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectArray).filter(simpleObjectPropertyName).value();
 
-        result = _.select<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.select<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.select(simpleStringObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).select(simpleObjectPropertyName);
@@ -1475,7 +1475,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.filter<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.filter<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
         result = _.filter(simpleStringObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).filter(simpleObjectPropertyName);
@@ -1484,7 +1484,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).filter(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectList).filter(simpleObjectPropertyName).value();
 
-        result = _.select<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.select<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
         result = _.select(simpleStringObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).select(simpleObjectPropertyName);
@@ -1497,7 +1497,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.filter<SimpleStringObject>(simpleStringObjectDictionary, simpleObjectPropertyName);
+        result = _.filter<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleObjectPropertyName);
         result = _.filter(simpleStringObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).filter(simpleObjectPropertyName);
@@ -1506,7 +1506,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).filter(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectDictionary).filter(simpleObjectPropertyName).value();
 
-        result = _.select<SimpleStringObject>(simpleStringObjectDictionary, simpleObjectPropertyName);
+        result = _.select<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleObjectPropertyName);
         result = _.select(simpleStringObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).select(simpleObjectPropertyName);
@@ -1522,7 +1522,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.where<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        result = _.where<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
         result = _.where(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).where(simpleStringObjectPartialPropertyMatch);
@@ -1535,7 +1535,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.where<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        result = _.where<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
         result = _.where(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).where(simpleStringObjectPartialPropertyMatch);
@@ -1548,7 +1548,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.where<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+        result = _.where<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
         result = _.where(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).where(simpleStringObjectPartialPropertyMatch);
@@ -1564,7 +1564,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.findWhere<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        result = _.findWhere<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
         result = _.findWhere(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).findWhere(simpleStringObjectPartialPropertyMatch);
@@ -1577,7 +1577,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.findWhere<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        result = _.findWhere<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
         result = _.findWhere(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).findWhere(simpleStringObjectPartialPropertyMatch);
@@ -1590,7 +1590,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.findWhere<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+        result = _.findWhere<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
         result = _.findWhere(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).findWhere(simpleStringObjectPartialPropertyMatch);
@@ -1607,8 +1607,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.reject<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
-        result = _.reject<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.reject<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
+        result = _.reject<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
         result = _.reject(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
         result = _.reject(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -1626,8 +1626,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.reject<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
-        result = _.reject<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.reject<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
+        result = _.reject<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
         result = _.reject(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
         result = _.reject(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -1645,8 +1645,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.reject<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
-        result = _.reject<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
+        result = _.reject<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
+        result = _.reject<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
         result = _.reject(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
         result = _.reject(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
 
@@ -1684,7 +1684,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.reject<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        result = _.reject<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
         result = _.reject(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).reject(simpleStringObjectPartialPropertyMatch);
@@ -1697,7 +1697,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.reject<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        result = _.reject<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
         result = _.reject(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).reject(simpleStringObjectPartialPropertyMatch);
@@ -1710,7 +1710,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.reject<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+        result = _.reject<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
         result = _.reject(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).reject(simpleStringObjectPartialPropertyMatch);
@@ -1724,7 +1724,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.reject<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.reject<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.reject(simpleStringObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).reject(simpleObjectPropertyName);
@@ -1737,7 +1737,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.reject<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.reject<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
         result = _.reject(simpleStringObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).reject(simpleObjectPropertyName);
@@ -1750,7 +1750,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.reject<SimpleStringObject>(simpleStringObjectDictionary, simpleObjectPropertyName);
+        result = _.reject<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleObjectPropertyName);
         result = _.reject(simpleStringObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).reject(simpleObjectPropertyName);
@@ -1767,8 +1767,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.every<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
-        result = _.every<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.every<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
+        result = _.every<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
         result = _.every(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
         result = _.every(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -1782,8 +1782,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectArray).every(simpleStringObjectListPropertyComparingIterator).value();
         result = _.chain(simpleStringObjectArray).every(simpleStringObjectListPropertyComparingIterator, context).value();
 
-        result = _.all<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
-        result = _.all<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.all<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
+        result = _.all<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
         result = _.all(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
         result = _.all(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -1801,8 +1801,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.every<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
-        result = _.every<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.every<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
+        result = _.every<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
         result = _.every(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
         result = _.every(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -1816,8 +1816,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectList).every(simpleStringObjectListPropertyComparingIterator).value();
         result = _.chain(simpleStringObjectList).every(simpleStringObjectListPropertyComparingIterator, context).value();
 
-        result = _.all<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
-        result = _.all<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.all<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
+        result = _.all<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
         result = _.all(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
         result = _.all(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -1835,8 +1835,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.every<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
-        result = _.every<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
+        result = _.every<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
+        result = _.every<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
         result = _.every(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
         result = _.every(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
 
@@ -1850,8 +1850,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectDictionary).every(simpleStringObjectDictionaryPropertyComparingIterator).value();
         result = _.chain(simpleStringObjectDictionary).every(simpleStringObjectDictionaryPropertyComparingIterator, context).value();
 
-        result = _.all<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
-        result = _.all<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
+        result = _.all<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
+        result = _.all<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
         result = _.all(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
         result = _.all(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
 
@@ -1904,7 +1904,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.every<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        result = _.every<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
         result = _.every(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).every(simpleStringObjectPartialPropertyMatch);
@@ -1913,7 +1913,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).every(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectArray).every(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.all<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        result = _.all<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
         result = _.all(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).all(simpleStringObjectPartialPropertyMatch);
@@ -1926,7 +1926,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.every<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        result = _.every<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
         result = _.every(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).every(simpleStringObjectPartialPropertyMatch);
@@ -1935,7 +1935,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).every(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectList).every(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.all<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        result = _.all<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
         result = _.all(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).all(simpleStringObjectPartialPropertyMatch);
@@ -1948,7 +1948,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.every<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+        result = _.every<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
         result = _.every(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).every(simpleStringObjectPartialPropertyMatch);
@@ -1957,7 +1957,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).every(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectDictionary).every(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.all<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+        result = _.all<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
         result = _.all(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).all(simpleStringObjectPartialPropertyMatch);
@@ -1971,7 +1971,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.every<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.every<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.every(simpleStringObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).every(simpleObjectPropertyName);
@@ -1980,7 +1980,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).every(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectArray).every(simpleObjectPropertyName).value();
 
-        result = _.all<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.all<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.all(simpleStringObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).all(simpleObjectPropertyName);
@@ -1993,7 +1993,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.every<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.every<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
         result = _.every(simpleStringObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).every(simpleObjectPropertyName);
@@ -2002,7 +2002,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).every(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectList).every(simpleObjectPropertyName).value();
 
-        result = _.all<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.all<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
         result = _.all(simpleStringObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).all(simpleObjectPropertyName);
@@ -2015,7 +2015,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.every<SimpleStringObject>(simpleStringObjectDictionary, simpleObjectPropertyName);
+        result = _.every<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleObjectPropertyName);
         result = _.every(simpleStringObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).every(simpleObjectPropertyName);
@@ -2024,7 +2024,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).every(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectDictionary).every(simpleObjectPropertyName).value();
 
-        result = _.all<SimpleStringObject>(simpleStringObjectDictionary, simpleObjectPropertyName);
+        result = _.all<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleObjectPropertyName);
         result = _.all(simpleStringObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).all(simpleObjectPropertyName);
@@ -2041,8 +2041,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.some<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
-        result = _.some<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.some<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
+        result = _.some<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
         result = _.some(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
         result = _.some(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -2056,8 +2056,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectArray).some(simpleStringObjectListPropertyComparingIterator).value();
         result = _.chain(simpleStringObjectArray).some(simpleStringObjectListPropertyComparingIterator, context).value();
 
-        result = _.any<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
-        result = _.any<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.any<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
+        result = _.any<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
         result = _.any(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
         result = _.any(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -2075,8 +2075,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.some<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
-        result = _.some<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.some<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
+        result = _.some<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
         result = _.some(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
         result = _.some(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -2090,8 +2090,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectList).some(simpleStringObjectListPropertyComparingIterator).value();
         result = _.chain(simpleStringObjectList).some(simpleStringObjectListPropertyComparingIterator, context).value();
 
-        result = _.any<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
-        result = _.any<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.any<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
+        result = _.any<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
         result = _.any(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
         result = _.any(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -2109,8 +2109,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.some<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
-        result = _.some<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
+        result = _.some<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
+        result = _.some<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
         result = _.some(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
         result = _.some(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
 
@@ -2124,8 +2124,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectDictionary).some(simpleStringObjectDictionaryPropertyComparingIterator).value();
         result = _.chain(simpleStringObjectDictionary).some(simpleStringObjectDictionaryPropertyComparingIterator, context).value();
 
-        result = _.any<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
-        result = _.any<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
+        result = _.any<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
+        result = _.any<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
         result = _.any(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
         result = _.any(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
 
@@ -2178,7 +2178,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.some<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        result = _.some<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
         result = _.some(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).some(simpleStringObjectPartialPropertyMatch);
@@ -2187,7 +2187,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).some(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectArray).some(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.any<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        result = _.any<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
         result = _.any(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).any(simpleStringObjectPartialPropertyMatch);
@@ -2200,7 +2200,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.some<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        result = _.some<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
         result = _.some(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).some(simpleStringObjectPartialPropertyMatch);
@@ -2209,7 +2209,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).some(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectList).some(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.any<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        result = _.any<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
         result = _.any(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).any(simpleStringObjectPartialPropertyMatch);
@@ -2222,7 +2222,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.some<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+        result = _.some<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
         result = _.some(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).some(simpleStringObjectPartialPropertyMatch);
@@ -2231,7 +2231,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).some(simpleStringObjectPartialPropertyMatch).value();
         result = _.chain(simpleStringObjectDictionary).some(simpleStringObjectPartialPropertyMatch).value();
 
-        result = _.any<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+        result = _.any<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
         result = _.any(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).any(simpleStringObjectPartialPropertyMatch);
@@ -2245,7 +2245,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.some<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.some<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.some(simpleStringObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).some(simpleObjectPropertyName);
@@ -2254,7 +2254,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).some(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectArray).some(simpleObjectPropertyName).value();
 
-        result = _.any<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.any<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.any(simpleStringObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).any(simpleObjectPropertyName);
@@ -2267,7 +2267,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.some<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.some<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
         result = _.some(simpleStringObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).some(simpleObjectPropertyName);
@@ -2276,7 +2276,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).some(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectList).some(simpleObjectPropertyName).value();
 
-        result = _.any<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.any<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
         result = _.any(simpleStringObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).any(simpleObjectPropertyName);
@@ -2289,7 +2289,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: boolean;
 
-        result = _.some<SimpleStringObject>(simpleStringObjectDictionary, simpleObjectPropertyName);
+        result = _.some<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleObjectPropertyName);
         result = _.some(simpleStringObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).some(simpleObjectPropertyName);
@@ -2298,7 +2298,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).some(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectDictionary).some(simpleObjectPropertyName).value();
 
-        result = _.any<SimpleStringObject>(simpleStringObjectDictionary, simpleObjectPropertyName);
+        result = _.any<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleObjectPropertyName);
         result = _.any(simpleStringObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).any(simpleObjectPropertyName);
@@ -2317,8 +2317,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const value = simpleStringObjectArray[0];
         let result: boolean;
 
-        result = _.contains<SimpleStringObject>(simpleStringObjectArray, value);
-        result = _.contains<SimpleStringObject>(simpleStringObjectArray, value, fromIndex);
+        result = _.contains<SimpleStringObject[]>(simpleStringObjectArray, value);
+        result = _.contains<SimpleStringObject[]>(simpleStringObjectArray, value, fromIndex);
         result = _.contains(simpleStringObjectArray, value);
         result = _.contains(simpleStringObjectArray, value, fromIndex);
 
@@ -2332,8 +2332,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectArray).contains(value).value();
         result = _.chain(simpleStringObjectArray).contains(value, fromIndex).value();
 
-        result = _.include<SimpleStringObject>(simpleStringObjectArray, value);
-        result = _.include<SimpleStringObject>(simpleStringObjectArray, value, fromIndex);
+        result = _.include<SimpleStringObject[]>(simpleStringObjectArray, value);
+        result = _.include<SimpleStringObject[]>(simpleStringObjectArray, value, fromIndex);
         result = _.include(simpleStringObjectArray, value);
         result = _.include(simpleStringObjectArray, value, fromIndex);
 
@@ -2347,8 +2347,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectArray).include(value).value();
         result = _.chain(simpleStringObjectArray).include(value, fromIndex).value();
 
-        result = _.includes<SimpleStringObject>(simpleStringObjectArray, value);
-        result = _.includes<SimpleStringObject>(simpleStringObjectArray, value, fromIndex);
+        result = _.includes<SimpleStringObject[]>(simpleStringObjectArray, value);
+        result = _.includes<SimpleStringObject[]>(simpleStringObjectArray, value, fromIndex);
         result = _.includes(simpleStringObjectArray, value);
         result = _.includes(simpleStringObjectArray, value, fromIndex);
 
@@ -2367,8 +2367,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const value = simpleStringObjectList[0];
         let result: boolean;
 
-        result = _.contains<SimpleStringObject>(simpleStringObjectList, value);
-        result = _.contains<SimpleStringObject>(simpleStringObjectList, value, fromIndex);
+        result = _.contains<_.List<SimpleStringObject>>(simpleStringObjectList, value);
+        result = _.contains<_.List<SimpleStringObject>>(simpleStringObjectList, value, fromIndex);
         result = _.contains(simpleStringObjectList, value);
         result = _.contains(simpleStringObjectList, value, fromIndex);
 
@@ -2382,8 +2382,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectList).contains(value).value();
         result = _.chain(simpleStringObjectList).contains(value, fromIndex).value();
 
-        result = _.include<SimpleStringObject>(simpleStringObjectList, value);
-        result = _.include<SimpleStringObject>(simpleStringObjectList, value, fromIndex);
+        result = _.include<_.List<SimpleStringObject>>(simpleStringObjectList, value);
+        result = _.include<_.List<SimpleStringObject>>(simpleStringObjectList, value, fromIndex);
         result = _.include(simpleStringObjectList, value);
         result = _.include(simpleStringObjectList, value, fromIndex);
 
@@ -2397,8 +2397,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectList).include(value).value();
         result = _.chain(simpleStringObjectList).include(value, fromIndex).value();
 
-        result = _.includes<SimpleStringObject>(simpleStringObjectList, value);
-        result = _.includes<SimpleStringObject>(simpleStringObjectList, value, fromIndex);
+        result = _.includes<_.List<SimpleStringObject>>(simpleStringObjectList, value);
+        result = _.includes<_.List<SimpleStringObject>>(simpleStringObjectList, value, fromIndex);
         result = _.includes(simpleStringObjectList, value);
         result = _.includes(simpleStringObjectList, value, fromIndex);
 
@@ -2417,7 +2417,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const value = simpleStringObjectDictionary.a;
         let result: boolean;
 
-        result = _.contains<SimpleStringObject>(simpleStringObjectDictionary, value);
+        result = _.contains<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, value);
         result = _.contains(simpleStringObjectDictionary, value);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).contains(value);
@@ -2426,7 +2426,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).contains(value).value();
         result = _.chain(simpleStringObjectDictionary).contains(value).value();
 
-        result = _.include<SimpleStringObject>(simpleStringObjectDictionary, value);
+        result = _.include<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, value);
         result = _.include(simpleStringObjectDictionary, value);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).include(value);
@@ -2435,7 +2435,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).include(value).value();
         result = _.chain(simpleStringObjectDictionary).include(value).value();
 
-        result = _.includes<SimpleStringObject>(simpleStringObjectDictionary, value);
+        result = _.includes<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, value);
         result = _.includes(simpleStringObjectDictionary, value);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).includes(value);
@@ -2506,7 +2506,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: unknown[];
 
-        result = _.invoke<SimpleNoParameterFunctionObject>(simpleNoParameterFunctionObjectArray, simpleObjectPropertyName);
+        result = _.invoke<SimpleNoParameterFunctionObject[]>(simpleNoParameterFunctionObjectArray, simpleObjectPropertyName);
         result = _.invoke(simpleNoParameterFunctionObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleNoParameterFunctionObject[]>(simpleNoParameterFunctionObjectArray).invoke(simpleObjectPropertyName);
@@ -2519,7 +2519,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: unknown[];
 
-        result = _.invoke<SimpleNoParameterFunctionObject>(simpleNoParameterFunctionObjectList, simpleObjectPropertyName);
+        result = _.invoke<_.List<SimpleNoParameterFunctionObject>>(simpleNoParameterFunctionObjectList, simpleObjectPropertyName);
         result = _.invoke(simpleNoParameterFunctionObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleNoParameterFunctionObject>>(simpleNoParameterFunctionObjectList).invoke(simpleObjectPropertyName);
@@ -2532,7 +2532,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: unknown[];
 
-        result = _.invoke<SimpleNoParameterFunctionObject>(simpleNoParameterFunctionObjectDictionary, simpleObjectPropertyName);
+        result = _.invoke<_.Dictionary<SimpleNoParameterFunctionObject>>(simpleNoParameterFunctionObjectDictionary, simpleObjectPropertyName);
         result = _.invoke(simpleNoParameterFunctionObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleNoParameterFunctionObject>>(simpleNoParameterFunctionObjectDictionary).invoke(simpleObjectPropertyName);
@@ -2560,7 +2560,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const arg = -1;
         let result: unknown[];
 
-        result = _.invoke<SimpleOneParameterFunctionObject>(simpleOneParameterFunctionObjectArray, simpleObjectPropertyName, arg);
+        result = _.invoke<SimpleOneParameterFunctionObject[]>(simpleOneParameterFunctionObjectArray, simpleObjectPropertyName, arg);
         result = _.invoke(simpleOneParameterFunctionObjectArray, simpleObjectPropertyName, arg);
 
         result = _<SimpleOneParameterFunctionObject[]>(simpleOneParameterFunctionObjectArray).invoke(simpleObjectPropertyName, arg);
@@ -2574,7 +2574,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const arg = -1;
         let result: unknown[];
 
-        result = _.invoke<SimpleOneParameterFunctionObject>(simpleOneParameterFunctionObjectList, simpleObjectPropertyName, arg);
+        result = _.invoke<_.List<SimpleOneParameterFunctionObject>>(simpleOneParameterFunctionObjectList, simpleObjectPropertyName, arg);
         result = _.invoke(simpleOneParameterFunctionObjectList, simpleObjectPropertyName, arg);
 
         result = _<_.List<SimpleOneParameterFunctionObject>>(simpleOneParameterFunctionObjectList).invoke(simpleObjectPropertyName, arg);
@@ -2588,7 +2588,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const arg = -1;
         let result: unknown[];
 
-        result = _.invoke<SimpleOneParameterFunctionObject>(simpleOneParameterFunctionObjectDictionary, simpleObjectPropertyName, arg);
+        result = _.invoke<_.Dictionary<SimpleOneParameterFunctionObject>>(simpleOneParameterFunctionObjectDictionary, simpleObjectPropertyName, arg);
         result = _.invoke(simpleOneParameterFunctionObjectDictionary, simpleObjectPropertyName, arg);
 
         result = _<_.Dictionary<SimpleOneParameterFunctionObject>>(simpleOneParameterFunctionObjectDictionary).invoke(simpleObjectPropertyName, arg);
@@ -2620,7 +2620,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | boolean)[];
 
-        result = _.pluck<IntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(intersectingObjectPropertiesArray, simpleObjectPropertyName);
+        result = _.pluck<IntersectingObjectPropertiesType[], typeof simpleObjectPropertyName>(intersectingObjectPropertiesArray, simpleObjectPropertyName);
         result = _.pluck(intersectingObjectPropertiesArray, simpleObjectPropertyName);
 
         result = _<IntersectingObjectPropertiesType[]>(intersectingObjectPropertiesArray).pluck<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -2633,7 +2633,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | boolean)[];
 
-        result = _.pluck<IntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(intersectingObjectPropertiesList, simpleObjectPropertyName);
+        result = _.pluck<_.List<IntersectingObjectPropertiesType>, typeof simpleObjectPropertyName>(intersectingObjectPropertiesList, simpleObjectPropertyName);
         result = _.pluck(intersectingObjectPropertiesList, simpleObjectPropertyName);
 
         result = _<_.List<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesList).pluck<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -2646,7 +2646,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | boolean)[];
 
-        result = _.pluck<IntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(intersectingObjectPropertiesDictionary, simpleObjectPropertyName);
+        result = _.pluck<_.Dictionary<IntersectingObjectPropertiesType>, typeof simpleObjectPropertyName>(intersectingObjectPropertiesDictionary, simpleObjectPropertyName);
         result = _.pluck(intersectingObjectPropertiesDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesDictionary).pluck<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -2660,7 +2660,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | undefined)[];
 
-        result = _.pluck<SimpleStringObjectOrUndefined, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedArray, simpleObjectPropertyName);
+        result = _.pluck<SimpleStringObjectOrUndefined[], typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedArray, simpleObjectPropertyName);
         result = _.pluck(simpleStringObjectOrUndefinedArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).pluck<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -2673,7 +2673,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | undefined)[];
 
-        result = _.pluck<SimpleStringObjectOrUndefined, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedList, simpleObjectPropertyName);
+        result = _.pluck<_.List<SimpleStringObjectOrUndefined>, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedList, simpleObjectPropertyName);
         result = _.pluck(simpleStringObjectOrUndefinedList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).pluck<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -2686,7 +2686,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | undefined)[];
 
-        result = _.pluck<SimpleStringObjectOrUndefined, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedDictionary, simpleObjectPropertyName);
+        result = _.pluck<_.Dictionary<SimpleStringObjectOrUndefined>, typeof simpleObjectPropertyName>(simpleStringObjectOrUndefinedDictionary, simpleObjectPropertyName);
         result = _.pluck(simpleStringObjectOrUndefinedDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).pluck<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -2700,7 +2700,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | undefined)[];
 
-        result = _.pluck<NonIntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleObjectPropertyName);
+        result = _.pluck<NonIntersectingObjectPropertiesType[], typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleObjectPropertyName);
         result = _.pluck(nonIntersectingObjectPropertiesArray, simpleObjectPropertyName);
 
         result = _<NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).pluck<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -2713,7 +2713,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | undefined)[];
 
-        result = _.pluck<NonIntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesList, simpleObjectPropertyName);
+        result = _.pluck<_.List<NonIntersectingObjectPropertiesType>, typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesList, simpleObjectPropertyName);
         result = _.pluck(nonIntersectingObjectPropertiesArray, simpleObjectPropertyName);
 
         result = _<_.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesArray).pluck<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -2726,7 +2726,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: (string | undefined)[];
 
-        result = _.pluck<NonIntersectingObjectPropertiesType, typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesDictionary, simpleObjectPropertyName);
+        result = _.pluck<_.Dictionary<NonIntersectingObjectPropertiesType>, typeof simpleObjectPropertyName>(nonIntersectingObjectPropertiesDictionary, simpleObjectPropertyName);
         result = _.pluck(nonIntersectingObjectPropertiesDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).pluck<typeof simpleObjectPropertyName>(simpleObjectPropertyName);
@@ -2743,7 +2743,6 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.max<number>(simpleNumberArray);
         result = _.max(simpleNumberArray);
 
         result = _<number[]>(simpleNumberArray).max();
@@ -2756,7 +2755,6 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.max<number>(simpleNumberList);
         result = _.max(simpleNumberList);
 
         result = _<_.List<number>>(simpleNumberList).max();
@@ -2769,7 +2767,6 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.max<number>(simpleNumberDictionary);
         result = _.max(simpleNumberDictionary);
 
         result = _<_.Dictionary<number>>(simpleNumberDictionary).max();
@@ -2783,8 +2780,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleNumberObject | number;
 
-        result = _.max<SimpleNumberObject>(simpleNumberObjectArray, simpleNumberObjectListPropertySelectingIterator);
-        result = _.max<SimpleNumberObject>(simpleNumberObjectArray, simpleNumberObjectListPropertySelectingIterator, context);
+        result = _.max<SimpleNumberObject[]>(simpleNumberObjectArray, simpleNumberObjectListPropertySelectingIterator);
+        result = _.max<SimpleNumberObject[]>(simpleNumberObjectArray, simpleNumberObjectListPropertySelectingIterator, context);
         result = _.max(simpleNumberObjectArray, simpleNumberObjectListPropertySelectingIterator);
         result = _.max(simpleNumberObjectArray, simpleNumberObjectListPropertySelectingIterator, context);
 
@@ -2802,8 +2799,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleNumberObject | number;
 
-        result = _.max<SimpleNumberObject>(simpleNumberObjectList, simpleNumberObjectListPropertySelectingIterator);
-        result = _.max<SimpleNumberObject>(simpleNumberObjectList, simpleNumberObjectListPropertySelectingIterator, context);
+        result = _.max<_.List<SimpleNumberObject>>(simpleNumberObjectList, simpleNumberObjectListPropertySelectingIterator);
+        result = _.max<_.List<SimpleNumberObject>>(simpleNumberObjectList, simpleNumberObjectListPropertySelectingIterator, context);
         result = _.max(simpleNumberObjectList, simpleNumberObjectListPropertySelectingIterator);
         result = _.max(simpleNumberObjectList, simpleNumberObjectListPropertySelectingIterator, context);
 
@@ -2821,8 +2818,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleNumberObject | number;
 
-        result = _.max<SimpleNumberObject>(simpleNumberObjectDictionary, simpleNumberObjectDictionaryPropertySelectingIterator);
-        result = _.max<SimpleNumberObject>(simpleNumberObjectDictionary, simpleNumberObjectDictionaryPropertySelectingIterator, context);
+        result = _.max<_.Dictionary<SimpleNumberObject>>(simpleNumberObjectDictionary, simpleNumberObjectDictionaryPropertySelectingIterator);
+        result = _.max<_.Dictionary<SimpleNumberObject>>(simpleNumberObjectDictionary, simpleNumberObjectDictionaryPropertySelectingIterator, context);
         result = _.max(simpleNumberObjectDictionary, simpleNumberObjectDictionaryPropertySelectingIterator);
         result = _.max(simpleNumberObjectDictionary, simpleNumberObjectDictionaryPropertySelectingIterator, context);
 
@@ -2841,7 +2838,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleNumberObject | number;
 
-        result = _.max<SimpleNumberObject>(simpleNumberObjectArray, simpleObjectPropertyName);
+        result = _.max<SimpleNumberObject[]>(simpleNumberObjectArray, simpleObjectPropertyName);
         result = _.max(simpleNumberObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleNumberObject[]>(simpleNumberObjectArray).max(simpleObjectPropertyName);
@@ -2854,7 +2851,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleNumberObject | number;
 
-        result = _.max<SimpleNumberObject>(simpleNumberObjectList, simpleObjectPropertyName);
+        result = _.max<_.List<SimpleNumberObject>>(simpleNumberObjectList, simpleObjectPropertyName);
         result = _.max(simpleNumberObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleNumberObject>>(simpleNumberObjectList).max(simpleObjectPropertyName);
@@ -2867,7 +2864,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleNumberObject | number;
 
-        result = _.max<SimpleNumberObject>(simpleNumberObjectDictionary, simpleObjectPropertyName);
+        result = _.max<_.Dictionary<SimpleNumberObject>>(simpleNumberObjectDictionary, simpleObjectPropertyName);
         result = _.max(simpleNumberObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleNumberObject>>(simpleNumberObjectDictionary).max(simpleObjectPropertyName);
@@ -2884,7 +2881,6 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.min<number>(simpleNumberArray);
         result = _.min(simpleNumberArray);
 
         result = _<number[]>(simpleNumberArray).min();
@@ -2897,7 +2893,6 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.min<number>(simpleNumberList);
         result = _.min(simpleNumberList);
 
         result = _<_.List<number>>(simpleNumberList).min();
@@ -2910,7 +2905,6 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.min<number>(simpleNumberDictionary);
         result = _.min(simpleNumberDictionary);
 
         result = _<_.Dictionary<number>>(simpleNumberDictionary).min();
@@ -2924,8 +2918,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleNumberObject | number;
 
-        result = _.min<SimpleNumberObject>(simpleNumberObjectArray, simpleNumberObjectListPropertySelectingIterator);
-        result = _.min<SimpleNumberObject>(simpleNumberObjectArray, simpleNumberObjectListPropertySelectingIterator, context);
+        result = _.min<SimpleNumberObject[]>(simpleNumberObjectArray, simpleNumberObjectListPropertySelectingIterator);
+        result = _.min<SimpleNumberObject[]>(simpleNumberObjectArray, simpleNumberObjectListPropertySelectingIterator, context);
         result = _.min(simpleNumberObjectArray, simpleNumberObjectListPropertySelectingIterator);
         result = _.min(simpleNumberObjectArray, simpleNumberObjectListPropertySelectingIterator, context);
 
@@ -2943,8 +2937,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleNumberObject | number;
 
-        result = _.min<SimpleNumberObject>(simpleNumberObjectList, simpleNumberObjectListPropertySelectingIterator);
-        result = _.min<SimpleNumberObject>(simpleNumberObjectList, simpleNumberObjectListPropertySelectingIterator, context);
+        result = _.min<_.List<SimpleNumberObject>>(simpleNumberObjectList, simpleNumberObjectListPropertySelectingIterator);
+        result = _.min<_.List<SimpleNumberObject>>(simpleNumberObjectList, simpleNumberObjectListPropertySelectingIterator, context);
         result = _.min(simpleNumberObjectList, simpleNumberObjectListPropertySelectingIterator);
         result = _.min(simpleNumberObjectList, simpleNumberObjectListPropertySelectingIterator, context);
 
@@ -2962,8 +2956,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleNumberObject | number;
 
-        result = _.min<SimpleNumberObject>(simpleNumberObjectDictionary, simpleNumberObjectDictionaryPropertySelectingIterator);
-        result = _.min<SimpleNumberObject>(simpleNumberObjectDictionary, simpleNumberObjectDictionaryPropertySelectingIterator, context);
+        result = _.min<_.Dictionary<SimpleNumberObject>>(simpleNumberObjectDictionary, simpleNumberObjectDictionaryPropertySelectingIterator);
+        result = _.min<_.Dictionary<SimpleNumberObject>>(simpleNumberObjectDictionary, simpleNumberObjectDictionaryPropertySelectingIterator, context);
         result = _.min(simpleNumberObjectDictionary, simpleNumberObjectDictionaryPropertySelectingIterator);
         result = _.min(simpleNumberObjectDictionary, simpleNumberObjectDictionaryPropertySelectingIterator, context);
 
@@ -2982,7 +2976,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleNumberObject | number;
 
-        result = _.min<SimpleNumberObject>(simpleNumberObjectArray, simpleObjectPropertyName);
+        result = _.min<SimpleNumberObject[]>(simpleNumberObjectArray, simpleObjectPropertyName);
         result = _.min(simpleNumberObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleNumberObject[]>(simpleNumberObjectArray).min(simpleObjectPropertyName);
@@ -2995,7 +2989,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleNumberObject | number;
 
-        result = _.min<SimpleNumberObject>(simpleNumberObjectList, simpleObjectPropertyName);
+        result = _.min<_.List<SimpleNumberObject>>(simpleNumberObjectList, simpleObjectPropertyName);
         result = _.min(simpleNumberObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleNumberObject>>(simpleNumberObjectList).min(simpleObjectPropertyName);
@@ -3008,7 +3002,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleNumberObject | number;
 
-        result = _.min<SimpleNumberObject>(simpleNumberObjectDictionary, simpleObjectPropertyName);
+        result = _.min<_.Dictionary<SimpleNumberObject>>(simpleNumberObjectDictionary, simpleObjectPropertyName);
         result = _.min(simpleNumberObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleNumberObject>>(simpleNumberObjectDictionary).min(simpleObjectPropertyName);
@@ -3025,8 +3019,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.sortBy<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
-        result = _.sortBy<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.sortBy<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
+        result = _.sortBy<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
         result = _.sortBy(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
         result = _.sortBy(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
 
@@ -3044,8 +3038,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.sortBy<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
-        result = _.sortBy<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.sortBy<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
+        result = _.sortBy<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
         result = _.sortBy(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
         result = _.sortBy(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
 
@@ -3063,8 +3057,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.sortBy<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
-        result = _.sortBy<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
+        result = _.sortBy<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
+        result = _.sortBy<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
         result = _.sortBy(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
         result = _.sortBy(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
 
@@ -3083,7 +3077,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.sortBy<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.sortBy<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.sortBy(simpleStringObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).sortBy(simpleObjectPropertyName);
@@ -3096,7 +3090,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.sortBy<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.sortBy<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
         result = _.sortBy(simpleStringObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).sortBy(simpleObjectPropertyName);
@@ -3109,7 +3103,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.sortBy<SimpleStringObject>(simpleStringObjectDictionary, simpleObjectPropertyName);
+        result = _.sortBy<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleObjectPropertyName);
         result = _.sortBy(simpleStringObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).sortBy(simpleObjectPropertyName);
@@ -3126,8 +3120,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<_.List<SimpleStringObject>>;
 
-        result = _.groupBy<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
-        result = _.groupBy<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.groupBy<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
+        result = _.groupBy<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
         result = _.groupBy(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
         result = _.groupBy(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
 
@@ -3145,8 +3139,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<_.List<SimpleStringObject>>;
 
-        result = _.groupBy<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
-        result = _.groupBy<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.groupBy<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
+        result = _.groupBy<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
         result = _.groupBy(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
         result = _.groupBy(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
 
@@ -3164,8 +3158,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<_.List<SimpleStringObject>>;
 
-        result = _.groupBy<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
-        result = _.groupBy<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
+        result = _.groupBy<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
+        result = _.groupBy<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
         result = _.groupBy(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
         result = _.groupBy(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
 
@@ -3184,7 +3178,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<_.List<SimpleStringObject>>;
 
-        result = _.groupBy<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.groupBy<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.groupBy(simpleStringObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).groupBy(simpleObjectPropertyName);
@@ -3197,7 +3191,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<_.List<SimpleStringObject>>;
 
-        result = _.groupBy<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.groupBy<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
         result = _.groupBy(simpleStringObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).groupBy(simpleObjectPropertyName);
@@ -3210,7 +3204,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<_.List<SimpleStringObject>>;
 
-        result = _.groupBy<SimpleStringObject>(simpleStringObjectDictionary, simpleObjectPropertyName);
+        result = _.groupBy<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleObjectPropertyName);
         result = _.groupBy(simpleStringObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).groupBy(simpleObjectPropertyName);
@@ -3227,8 +3221,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<SimpleStringObject>;
 
-        result = _.indexBy<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
-        result = _.indexBy<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.indexBy<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
+        result = _.indexBy<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
         result = _.indexBy(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
         result = _.indexBy(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
 
@@ -3246,8 +3240,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<SimpleStringObject>;
 
-        result = _.indexBy<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
-        result = _.indexBy<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.indexBy<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
+        result = _.indexBy<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
         result = _.indexBy(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
         result = _.indexBy(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
 
@@ -3265,8 +3259,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<SimpleStringObject>;
 
-        result = _.indexBy<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
-        result = _.indexBy<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
+        result = _.indexBy<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
+        result = _.indexBy<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
         result = _.indexBy(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
         result = _.indexBy(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
 
@@ -3285,7 +3279,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<SimpleStringObject>;
 
-        result = _.indexBy<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.indexBy<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.indexBy(simpleStringObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).indexBy(simpleObjectPropertyName);
@@ -3298,7 +3292,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<SimpleStringObject>;
 
-        result = _.indexBy<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.indexBy<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
         result = _.indexBy(simpleStringObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).indexBy(simpleObjectPropertyName);
@@ -3311,7 +3305,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<SimpleStringObject>;
 
-        result = _.indexBy<SimpleStringObject>(simpleStringObjectDictionary, simpleObjectPropertyName);
+        result = _.indexBy<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleObjectPropertyName);
         result = _.indexBy(simpleStringObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).indexBy(simpleObjectPropertyName);
@@ -3328,8 +3322,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<number>;
 
-        result = _.countBy<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
-        result = _.countBy<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.countBy<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
+        result = _.countBy<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
         result = _.countBy(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
         result = _.countBy(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
 
@@ -3347,8 +3341,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<number>;
 
-        result = _.countBy<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
-        result = _.countBy<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.countBy<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
+        result = _.countBy<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
         result = _.countBy(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
         result = _.countBy(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
 
@@ -3366,8 +3360,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<number>;
 
-        result = _.countBy<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
-        result = _.countBy<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
+        result = _.countBy<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
+        result = _.countBy<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
         result = _.countBy(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
         result = _.countBy(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
 
@@ -3405,7 +3399,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<number>;
 
-        result = _.countBy<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.countBy<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.countBy(simpleStringObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).countBy(simpleObjectPropertyName);
@@ -3418,7 +3412,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<number>;
 
-        result = _.countBy<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.countBy<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
         result = _.countBy(simpleStringObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).countBy(simpleObjectPropertyName);
@@ -3431,7 +3425,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: _.Dictionary<number>;
 
-        result = _.countBy<SimpleStringObject>(simpleStringObjectDictionary, simpleObjectPropertyName);
+        result = _.countBy<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleObjectPropertyName);
         result = _.countBy(simpleStringObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).countBy(simpleObjectPropertyName);
@@ -3447,7 +3441,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.shuffle<SimpleStringObject>(simpleStringObjectArray);
+        result = _.shuffle<SimpleStringObject[]>(simpleStringObjectArray);
         result = _.shuffle(simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).shuffle();
@@ -3460,7 +3454,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.shuffle<SimpleStringObject>(simpleStringObjectList);
+        result = _.shuffle<_.List<SimpleStringObject>>(simpleStringObjectList);
         result = _.shuffle(simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).shuffle();
@@ -3473,7 +3467,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.shuffle<SimpleStringObject>(simpleStringObjectDictionary);
+        result = _.shuffle<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary);
         result = _.shuffle(simpleStringObjectDictionary);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).shuffle();
@@ -3503,7 +3497,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.sample<SimpleStringObject>(simpleStringObjectArray);
+        result = _.sample<SimpleStringObject[]>(simpleStringObjectArray);
         result = _.sample(simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).sample();
@@ -3516,7 +3510,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.sample<SimpleStringObject>(simpleStringObjectList);
+        result = _.sample<_.List<SimpleStringObject>>(simpleStringObjectList);
         result = _.sample(simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).sample();
@@ -3529,7 +3523,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.sample<SimpleStringObject>(simpleStringObjectDictionary);
+        result = _.sample<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary);
         result = _.sample(simpleStringObjectDictionary);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).sample();
@@ -3557,7 +3551,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const n = 2;
         let result: SimpleStringObject[];
 
-        result = _.sample<SimpleStringObject>(simpleStringObjectArray, n);
+        result = _.sample<SimpleStringObject[]>(simpleStringObjectArray, n);
         result = _.sample(simpleStringObjectArray, n);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).sample(n);
@@ -3571,7 +3565,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const n = 2;
         let result: SimpleStringObject[];
 
-        result = _.sample<SimpleStringObject>(simpleStringObjectList, n);
+        result = _.sample<_.List<SimpleStringObject>>(simpleStringObjectList, n);
         result = _.sample(simpleStringObjectList, n);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).sample(n);
@@ -3585,7 +3579,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const n = 2;
         let result: SimpleStringObject[];
 
-        result = _.sample<SimpleStringObject>(simpleStringObjectDictionary, n);
+        result = _.sample<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, n);
         result = _.sample(simpleStringObjectDictionary, n);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).sample(n);
@@ -3615,7 +3609,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.toArray<SimpleStringObject>(simpleStringObjectArray);
+        result = _.toArray<SimpleStringObject[]>(simpleStringObjectArray);
         result = _.toArray(simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).toArray();
@@ -3628,7 +3622,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.toArray<SimpleStringObject>(simpleStringObjectList);
+        result = _.toArray<_.List<SimpleStringObject>>(simpleStringObjectList);
         result = _.toArray(simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).toArray();
@@ -3641,7 +3635,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.toArray<SimpleStringObject>(simpleStringObjectDictionary);
+        result = _.toArray<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary);
         result = _.toArray(simpleStringObjectDictionary);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).toArray();
@@ -3670,7 +3664,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.size<SimpleStringObject>(simpleStringObjectArray);
+        result = _.size<SimpleStringObject[]>(simpleStringObjectArray);
         result = _.size(simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).size();
@@ -3683,7 +3677,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.size<SimpleStringObject>(simpleStringObjectList);
+        result = _.size<_.List<SimpleStringObject>>(simpleStringObjectList);
         result = _.size(simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).size();
@@ -3696,7 +3690,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.size<SimpleStringObject>(simpleStringObjectDictionary);
+        result = _.size<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary);
         result = _.size(simpleStringObjectDictionary);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).size();
@@ -3726,8 +3720,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: [SimpleStringObject[], SimpleStringObject[]];
 
-        result = _.partition<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
-        result = _.partition<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.partition<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
+        result = _.partition<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
         result = _.partition(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
         result = _.partition(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -3745,8 +3739,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: [SimpleStringObject[], SimpleStringObject[]];
 
-        result = _.partition<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
-        result = _.partition<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.partition<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
+        result = _.partition<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
         result = _.partition(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
         result = _.partition(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -3764,8 +3758,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: [SimpleStringObject[], SimpleStringObject[]];
 
-        result = _.partition<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
-        result = _.partition<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
+        result = _.partition<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
+        result = _.partition<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
         result = _.partition(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator);
         result = _.partition(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyComparingIterator, context);
 
@@ -3803,7 +3797,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: [SimpleStringObject[], SimpleStringObject[]];
 
-        result = _.partition<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        result = _.partition<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
         result = _.partition(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).partition(simpleStringObjectPartialPropertyMatch);
@@ -3816,7 +3810,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: [SimpleStringObject[], SimpleStringObject[]];
 
-        result = _.partition<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        result = _.partition<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
         result = _.partition(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).partition(simpleStringObjectPartialPropertyMatch);
@@ -3829,7 +3823,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: [SimpleStringObject[], SimpleStringObject[]];
 
-        result = _.partition<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+        result = _.partition<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
         result = _.partition(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).partition(simpleStringObjectPartialPropertyMatch);
@@ -3843,7 +3837,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: [SimpleStringObject[], SimpleStringObject[]];
 
-        result = _.partition<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.partition<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.partition(simpleStringObjectArray, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).partition(simpleObjectPropertyName);
@@ -3856,7 +3850,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: [SimpleStringObject[], SimpleStringObject[]];
 
-        result = _.partition<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.partition<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
         result = _.partition(simpleStringObjectList, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).partition(simpleObjectPropertyName);
@@ -3869,7 +3863,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: [SimpleStringObject[], SimpleStringObject[]];
 
-        result = _.partition<SimpleStringObject>(simpleStringObjectDictionary, simpleObjectPropertyName);
+        result = _.partition<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary, simpleObjectPropertyName);
         result = _.partition(simpleStringObjectDictionary, simpleObjectPropertyName);
 
         result = _<_.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).partition(simpleObjectPropertyName);
@@ -3888,7 +3882,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.first<SimpleStringObject>(simpleStringObjectArray);
+        result = _.first<SimpleStringObject[]>(simpleStringObjectArray);
         result = _.first(simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).first();
@@ -3897,7 +3891,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).first().value();
         result = _.chain(simpleStringObjectArray).first().value();
 
-        result = _.head<SimpleStringObject>(simpleStringObjectArray);
+        result = _.head<SimpleStringObject[]>(simpleStringObjectArray);
         result = _.head(simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).head();
@@ -3906,7 +3900,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).head().value();
         result = _.chain(simpleStringObjectArray).head().value();
 
-        result = _.take<SimpleStringObject>(simpleStringObjectArray);
+        result = _.take<SimpleStringObject[]>(simpleStringObjectArray);
         result = _.take(simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).take();
@@ -3919,7 +3913,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.first<SimpleStringObject>(simpleStringObjectList);
+        result = _.first<_.List<SimpleStringObject>>(simpleStringObjectList);
         result = _.first(simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).first();
@@ -3928,7 +3922,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).first().value();
         result = _.chain(simpleStringObjectList).first().value();
 
-        result = _.head<SimpleStringObject>(simpleStringObjectList);
+        result = _.head<_.List<SimpleStringObject>>(simpleStringObjectList);
         result = _.head(simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).head();
@@ -3937,7 +3931,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).head().value();
         result = _.chain(simpleStringObjectList).head().value();
 
-        result = _.take<SimpleStringObject>(simpleStringObjectList);
+        result = _.take<_.List<SimpleStringObject>>(simpleStringObjectList);
         result = _.take(simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).take();
@@ -3983,7 +3977,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const n = 2;
         let result: SimpleStringObject[];
 
-        result = _.first<SimpleStringObject>(simpleStringObjectArray, n);
+        result = _.first<SimpleStringObject[]>(simpleStringObjectArray, n);
         result = _.first(simpleStringObjectArray, n);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).first(n);
@@ -3992,7 +3986,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).first(n).value();
         result = _.chain(simpleStringObjectArray).first(n).value();
 
-        result = _.head<SimpleStringObject>(simpleStringObjectArray, n);
+        result = _.head<SimpleStringObject[]>(simpleStringObjectArray, n);
         result = _.head(simpleStringObjectArray, n);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).head(n);
@@ -4001,7 +3995,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).head(n).value();
         result = _.chain(simpleStringObjectArray).head(n).value();
 
-        result = _.take<SimpleStringObject>(simpleStringObjectArray, n);
+        result = _.take<SimpleStringObject[]>(simpleStringObjectArray, n);
         result = _.take(simpleStringObjectArray, n);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).take(n);
@@ -4015,7 +4009,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const n = 2;
         let result: SimpleStringObject[];
 
-        result = _.first<SimpleStringObject>(simpleStringObjectList, n);
+        result = _.first<_.List<SimpleStringObject>>(simpleStringObjectList, n);
         result = _.first(simpleStringObjectList, n);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).first(n);
@@ -4024,7 +4018,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).first(n).value();
         result = _.chain(simpleStringObjectList).first(n).value();
 
-        result = _.head<SimpleStringObject>(simpleStringObjectList, n);
+        result = _.head<_.List<SimpleStringObject>>(simpleStringObjectList, n);
         result = _.head(simpleStringObjectList, n);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).head(n);
@@ -4033,7 +4027,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).head(n).value();
         result = _.chain(simpleStringObjectList).head(n).value();
 
-        result = _.take<SimpleStringObject>(simpleStringObjectList, n);
+        result = _.take<_.List<SimpleStringObject>>(simpleStringObjectList, n);
         result = _.take(simpleStringObjectList, n);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).take(n);
@@ -4082,7 +4076,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.initial<SimpleStringObject>(simpleStringObjectArray);
+        result = _.initial<SimpleStringObject[]>(simpleStringObjectArray);
         result = _.initial(simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).initial();
@@ -4095,7 +4089,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.initial<SimpleStringObject>(simpleStringObjectList);
+        result = _.initial<_.List<SimpleStringObject>>(simpleStringObjectList);
         result = _.initial(simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).initial();
@@ -4123,7 +4117,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const n = 2;
         let result: SimpleStringObject[];
 
-        result = _.initial<SimpleStringObject>(simpleStringObjectArray, n);
+        result = _.initial<SimpleStringObject[]>(simpleStringObjectArray, n);
         result = _.initial(simpleStringObjectArray, n);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).initial(n);
@@ -4137,7 +4131,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const n = 2;
         let result: SimpleStringObject[];
 
-        result = _.initial<SimpleStringObject>(simpleStringObjectList, n);
+        result = _.initial<_.List<SimpleStringObject>>(simpleStringObjectList, n);
         result = _.initial(simpleStringObjectList, n);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).initial(n);
@@ -4168,7 +4162,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.last<SimpleStringObject>(simpleStringObjectArray);
+        result = _.last<SimpleStringObject[]>(simpleStringObjectArray);
         result = _.last(simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).last();
@@ -4181,7 +4175,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObjectOrUndefined;
 
-        result = _.last<SimpleStringObject>(simpleStringObjectList);
+        result = _.last<_.List<SimpleStringObject>>(simpleStringObjectList);
         result = _.last(simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).last();
@@ -4209,7 +4203,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const n = 2;
         let result: SimpleStringObject[];
 
-        result = _.last<SimpleStringObject>(simpleStringObjectArray, n);
+        result = _.last<SimpleStringObject[]>(simpleStringObjectArray, n);
         result = _.last(simpleStringObjectArray, n);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).last(n);
@@ -4223,7 +4217,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const n = 2;
         let result: SimpleStringObject[];
 
-        result = _.last<SimpleStringObject>(simpleStringObjectList, n);
+        result = _.last<_.List<SimpleStringObject>>(simpleStringObjectList, n);
         result = _.last(simpleStringObjectList, n);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).last(n);
@@ -4254,7 +4248,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.rest<SimpleStringObject>(simpleStringObjectArray);
+        result = _.rest<SimpleStringObject[]>(simpleStringObjectArray);
         result = _.rest(simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).rest();
@@ -4263,7 +4257,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).rest().value();
         result = _.chain(simpleStringObjectArray).rest().value();
 
-        result = _.tail<SimpleStringObject>(simpleStringObjectArray);
+        result = _.tail<SimpleStringObject[]>(simpleStringObjectArray);
         result = _.tail(simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).tail();
@@ -4272,7 +4266,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).tail().value();
         result = _.chain(simpleStringObjectArray).tail().value();
 
-        result = _.drop<SimpleStringObject>(simpleStringObjectArray);
+        result = _.drop<SimpleStringObject[]>(simpleStringObjectArray);
         result = _.drop(simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).drop();
@@ -4285,7 +4279,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.rest<SimpleStringObject>(simpleStringObjectList);
+        result = _.rest<_.List<SimpleStringObject>>(simpleStringObjectList);
         result = _.rest(simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).rest();
@@ -4294,7 +4288,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).rest().value();
         result = _.chain(simpleStringObjectList).rest().value();
 
-        result = _.tail<SimpleStringObject>(simpleStringObjectList);
+        result = _.tail<_.List<SimpleStringObject>>(simpleStringObjectList);
         result = _.tail(simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).tail();
@@ -4303,7 +4297,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).tail().value();
         result = _.chain(simpleStringObjectList).tail().value();
 
-        result = _.drop<SimpleStringObject>(simpleStringObjectList);
+        result = _.drop<_.List<SimpleStringObject>>(simpleStringObjectList);
         result = _.drop(simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).drop();
@@ -4349,7 +4343,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const n = 2;
         let result: SimpleStringObject[];
 
-        result = _.rest<SimpleStringObject>(simpleStringObjectArray, n);
+        result = _.rest<SimpleStringObject[]>(simpleStringObjectArray, n);
         result = _.rest(simpleStringObjectArray, n);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).rest(n);
@@ -4358,7 +4352,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).rest(n).value();
         result = _.chain(simpleStringObjectArray).rest(n).value();
 
-        result = _.tail<SimpleStringObject>(simpleStringObjectArray, n);
+        result = _.tail<SimpleStringObject[]>(simpleStringObjectArray, n);
         result = _.tail(simpleStringObjectArray, n);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).tail(n);
@@ -4367,7 +4361,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<SimpleStringObject[]>(simpleStringObjectArray).tail(n).value();
         result = _.chain(simpleStringObjectArray).tail(n).value();
 
-        result = _.drop<SimpleStringObject>(simpleStringObjectArray, n);
+        result = _.drop<SimpleStringObject[]>(simpleStringObjectArray, n);
         result = _.drop(simpleStringObjectArray, n);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).drop(n);
@@ -4381,7 +4375,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const n = 2;
         let result: SimpleStringObject[];
 
-        result = _.rest<SimpleStringObject>(simpleStringObjectList, n);
+        result = _.rest<_.List<SimpleStringObject>>(simpleStringObjectList, n);
         result = _.rest(simpleStringObjectList, n);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).rest(n);
@@ -4390,7 +4384,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).rest(n).value();
         result = _.chain(simpleStringObjectList).rest(n).value();
 
-        result = _.tail<SimpleStringObject>(simpleStringObjectList, n);
+        result = _.tail<_.List<SimpleStringObject>>(simpleStringObjectList, n);
         result = _.tail(simpleStringObjectList, n);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).tail(n);
@@ -4399,7 +4393,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain<_.List<SimpleStringObject>>(simpleStringObjectList).tail(n).value();
         result = _.chain(simpleStringObjectList).tail(n).value();
 
-        result = _.drop<SimpleStringObject>(simpleStringObjectList, n);
+        result = _.drop<_.List<SimpleStringObject>>(simpleStringObjectList, n);
         result = _.drop(simpleStringObjectList, n);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).drop(n);
@@ -4447,7 +4441,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.compact<SimpleStringObjectOrUndefined>(simpleStringObjectOrUndefinedArray);
+        result = _.compact<SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray);
         result = _.compact(simpleStringObjectOrUndefinedArray);
 
         result = _<SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).compact();
@@ -4460,7 +4454,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.compact<SimpleStringObjectOrUndefined>(simpleStringObjectOrUndefinedList);
+        result = _.compact<_.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList);
         result = _.compact(simpleStringObjectOrUndefinedList);
 
         result = _<_.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).compact();
@@ -4477,7 +4471,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.flatten<SimpleStringObject>(simpleStringObjectArray);
+        result = _.flatten<SimpleStringObject[]>(simpleStringObjectArray);
         result = _.flatten(simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).flatten();
@@ -4490,7 +4484,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.flatten<SimpleStringObject>(simpleStringObjectList);
+        result = _.flatten<_.List<SimpleStringObject>>(simpleStringObjectList);
         result = _.flatten(simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).flatten();
@@ -4504,7 +4498,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.flatten<SimpleStringObject>(simpleStringObjectArray, true);
+        result = _.flatten<SimpleStringObject[]>(simpleStringObjectArray, true);
         result = _.flatten(simpleStringObjectArray, true);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).flatten(true);
@@ -4517,7 +4511,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.flatten<SimpleStringObject>(simpleStringObjectList, true);
+        result = _.flatten<_.List<SimpleStringObject>>(simpleStringObjectList, true);
         result = _.flatten(simpleStringObjectList, true);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).flatten(true);
@@ -4532,7 +4526,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const array: SimpleStringObject[][] = [simpleStringObjectArray];
         let result: SimpleStringObject[];
 
-        result = _.flatten<SimpleStringObject[]>(array);
+        result = _.flatten<SimpleStringObject[][]>(array);
         result = _.flatten(array);
 
         result = _<SimpleStringObject[][]>(array).flatten();
@@ -4546,7 +4540,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const list: _.List<_.List<SimpleStringObject>> = { 0: simpleStringObjectList, length: 1 };
         let result: SimpleStringObject[];
 
-        result = _.flatten<_.List<SimpleStringObject>>(list);
+        result = _.flatten<_.List<_.List<SimpleStringObject>>>(list);
         result = _.flatten(list);
 
         result = _<_.List<_.List<SimpleStringObject>>>(list).flatten();
@@ -4561,7 +4555,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const array: SimpleStringObject[][] = [simpleStringObjectArray];
         let result: SimpleStringObject[];
 
-        result = _.flatten<SimpleStringObject[]>(array, true);
+        result = _.flatten<SimpleStringObject[][]>(array, true);
         result = _.flatten(array, true);
 
         result = _<SimpleStringObject[][]>(array).flatten(true);
@@ -4575,7 +4569,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const list: _.List<_.List<SimpleStringObject>> = { 0: simpleStringObjectList, length: 1 };
         let result: SimpleStringObject[];
 
-        result = _.flatten<_.List<SimpleStringObject>>(list, true);
+        result = _.flatten<_.List<_.List<SimpleStringObject>>>(list, true);
         result = _.flatten(list, true);
 
         result = _<_.List<_.List<SimpleStringObject>>>(list).flatten(true);
@@ -4590,7 +4584,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const array: SimpleStringObject[][][] = [[simpleStringObjectArray]];
         let result: SimpleStringObject[];
 
-        result = _.flatten<SimpleStringObject[][]>(array);
+        result = _.flatten<SimpleStringObject[][][]>(array);
         result = _.flatten(array);
 
         result = _<SimpleStringObject[][][]>(array).flatten();
@@ -4604,7 +4598,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const list: _.List<_.List<_.List<SimpleStringObject>>> = { 0: { 0: simpleStringObjectList, length: 1 }, length: 1 };
         let result: SimpleStringObject[];
 
-        result = _.flatten<_.List<_.List<SimpleStringObject>>>(list);
+        result = _.flatten<_.List<_.List<_.List<SimpleStringObject>>>>(list);
         result = _.flatten(list);
 
         result = _<_.List<_.List<_.List<SimpleStringObject>>>>(list).flatten();
@@ -4619,7 +4613,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const array: SimpleStringObject[][][] = [[simpleStringObjectArray]];
         let result: SimpleStringObject[][];
 
-        result = _.flatten<SimpleStringObject[][]>(array, true);
+        result = _.flatten<SimpleStringObject[][][]>(array, true);
         result = _.flatten(array, true);
 
         result = _<SimpleStringObject[][][]>(array).flatten(true);
@@ -4633,7 +4627,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const list: _.List<_.List<_.List<SimpleStringObject>>> = { 0: { 0: simpleStringObjectList, length: 1 }, length: 1 };
         let result: _.List<SimpleStringObject>[];
 
-        result = _.flatten<_.List<_.List<SimpleStringObject>>>(list, true);
+        result = _.flatten<_.List<_.List<_.List<SimpleStringObject>>>>(list, true);
         result = _.flatten(list, true);
 
         result = _<_.List<_.List<_.List<SimpleStringObject>>>>(list).flatten(true);
@@ -4649,7 +4643,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         let result: unknown[];
 
         // $ExpectType unknown[]
-        result = _.flatten<SimpleStringObject[][][]>(array);
+        result = _.flatten<SimpleStringObject[][][][]>(array);
         // $ExpectType unknown[]
         result = _.flatten(array);
 
@@ -4669,7 +4663,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         let result: unknown[];
 
         // $ExpectType unknown[]
-        result = _.flatten<_.List<_.List<_.List<SimpleStringObject>>>>(list);
+        result = _.flatten<_.List<_.List<_.List<_.List<SimpleStringObject>>>>>(list);
         // $ExpectType unknown[]
         result = _.flatten(list);
 
@@ -4692,7 +4686,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const item2 = simpleStringObjectArray[1];
         let result: SimpleStringObject[];
 
-        result = _.without<SimpleStringObject>(simpleStringObjectArray, item1, item2);
+        result = _.without<SimpleStringObject[]>(simpleStringObjectArray, item1, item2);
         result = _.without(simpleStringObjectArray, item1, item2);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).without(item1, item2);
@@ -4707,7 +4701,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const item2 = simpleStringObjectList[1];
         let result: SimpleStringObject[];
 
-        result = _.without<SimpleStringObject>(simpleStringObjectList, item1, item2);
+        result = _.without<_.List<SimpleStringObject>>(simpleStringObjectList, item1, item2);
         result = _.without(simpleStringObjectList, item1, item2);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).without(item1, item2);
@@ -4738,7 +4732,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.union<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectArray);
+        result = _.union<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectArray);
         result = _.union(simpleStringObjectArray, simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).union(simpleStringObjectArray);
@@ -4751,7 +4745,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.union<SimpleStringObject>(simpleStringObjectList, simpleStringObjectList);
+        result = _.union<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectList);
         result = _.union(simpleStringObjectList, simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).union(simpleStringObjectList);
@@ -4780,7 +4774,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.intersection<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectArray);
+        result = _.intersection<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectArray);
         result = _.intersection(simpleStringObjectArray, simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).intersection(simpleStringObjectArray);
@@ -4793,7 +4787,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.intersection<SimpleStringObject>(simpleStringObjectList, simpleStringObjectList);
+        result = _.intersection<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectList);
         result = _.intersection(simpleStringObjectList, simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).intersection(simpleStringObjectList);
@@ -4822,7 +4816,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.difference<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectArray);
+        result = _.difference<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectArray);
         result = _.difference(simpleStringObjectArray, simpleStringObjectArray);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).difference(simpleStringObjectArray);
@@ -4835,7 +4829,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.difference<SimpleStringObject>(simpleStringObjectList, simpleStringObjectList);
+        result = _.difference<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectList);
         result = _.difference(simpleStringObjectList, simpleStringObjectList);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).difference(simpleStringObjectList);
@@ -4865,10 +4859,10 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.uniq<SimpleStringObject>(simpleStringObjectArray);
-        result = _.uniq<SimpleStringObject>(simpleStringObjectArray, true);
-        result = _.uniq<SimpleStringObject>(simpleStringObjectArray, true, simpleStringObjectListPropertySelectingIterator);
-        result = _.uniq<SimpleStringObject>(simpleStringObjectArray, true, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.uniq<SimpleStringObject[]>(simpleStringObjectArray);
+        result = _.uniq<SimpleStringObject[]>(simpleStringObjectArray, true);
+        result = _.uniq<SimpleStringObject[]>(simpleStringObjectArray, true, simpleStringObjectListPropertySelectingIterator);
+        result = _.uniq<SimpleStringObject[]>(simpleStringObjectArray, true, simpleStringObjectListPropertySelectingIterator, context);
         result = _.uniq(simpleStringObjectArray);
         result = _.uniq(simpleStringObjectArray, true);
         result = _.uniq(simpleStringObjectArray, true, simpleStringObjectListPropertySelectingIterator);
@@ -4892,10 +4886,10 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectArray).uniq(true, simpleStringObjectListPropertySelectingIterator).value();
         result = _.chain(simpleStringObjectArray).uniq(true, simpleStringObjectListPropertySelectingIterator, context).value();
 
-        result = _.unique<SimpleStringObject>(simpleStringObjectArray);
-        result = _.unique<SimpleStringObject>(simpleStringObjectArray, true);
-        result = _.unique<SimpleStringObject>(simpleStringObjectArray, true, simpleStringObjectListPropertySelectingIterator);
-        result = _.unique<SimpleStringObject>(simpleStringObjectArray, true, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.unique<SimpleStringObject[]>(simpleStringObjectArray);
+        result = _.unique<SimpleStringObject[]>(simpleStringObjectArray, true);
+        result = _.unique<SimpleStringObject[]>(simpleStringObjectArray, true, simpleStringObjectListPropertySelectingIterator);
+        result = _.unique<SimpleStringObject[]>(simpleStringObjectArray, true, simpleStringObjectListPropertySelectingIterator, context);
         result = _.unique(simpleStringObjectArray);
         result = _.unique(simpleStringObjectArray, true);
         result = _.unique(simpleStringObjectArray, true, simpleStringObjectListPropertySelectingIterator);
@@ -4923,12 +4917,12 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.uniq<SimpleStringObject>(simpleStringObjectList);
-        result = _.uniq<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
-        result = _.uniq<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
-        result = _.uniq<SimpleStringObject>(simpleStringObjectList, true);
-        result = _.uniq<SimpleStringObject>(simpleStringObjectList, true, simpleStringObjectListPropertySelectingIterator);
-        result = _.uniq<SimpleStringObject>(simpleStringObjectList, true, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.uniq<_.List<SimpleStringObject>>(simpleStringObjectList);
+        result = _.uniq<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
+        result = _.uniq<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.uniq<_.List<SimpleStringObject>>(simpleStringObjectList, true);
+        result = _.uniq<_.List<SimpleStringObject>>(simpleStringObjectList, true, simpleStringObjectListPropertySelectingIterator);
+        result = _.uniq<_.List<SimpleStringObject>>(simpleStringObjectList, true, simpleStringObjectListPropertySelectingIterator, context);
         result = _.uniq(simpleStringObjectList);
         result = _.uniq(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
         result = _.uniq(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
@@ -4962,12 +4956,12 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectList).uniq(true, simpleStringObjectListPropertySelectingIterator).value();
         result = _.chain(simpleStringObjectList).uniq(true, simpleStringObjectListPropertySelectingIterator, context).value();
 
-        result = _.unique<SimpleStringObject>(simpleStringObjectList);
-        result = _.unique<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
-        result = _.unique<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
-        result = _.unique<SimpleStringObject>(simpleStringObjectList, true);
-        result = _.unique<SimpleStringObject>(simpleStringObjectList, true, simpleStringObjectListPropertySelectingIterator);
-        result = _.unique<SimpleStringObject>(simpleStringObjectList, true, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.unique<_.List<SimpleStringObject>>(simpleStringObjectList);
+        result = _.unique<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
+        result = _.unique<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.unique<_.List<SimpleStringObject>>(simpleStringObjectList, true);
+        result = _.unique<_.List<SimpleStringObject>>(simpleStringObjectList, true, simpleStringObjectListPropertySelectingIterator);
+        result = _.unique<_.List<SimpleStringObject>>(simpleStringObjectList, true, simpleStringObjectListPropertySelectingIterator, context);
         result = _.unique(simpleStringObjectList);
         result = _.unique(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
         result = _.unique(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
@@ -5006,8 +5000,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.uniq<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
-        result = _.uniq<SimpleStringObject>(simpleStringObjectArray, true, simpleObjectPropertyName);
+        result = _.uniq<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.uniq<SimpleStringObject[]>(simpleStringObjectArray, true, simpleObjectPropertyName);
         result = _.uniq(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.uniq(simpleStringObjectArray, true, simpleObjectPropertyName);
 
@@ -5021,8 +5015,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectArray).uniq(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectArray).uniq(true, simpleObjectPropertyName).value();
 
-        result = _.unique<SimpleStringObject>(simpleStringObjectArray, simpleObjectPropertyName);
-        result = _.unique<SimpleStringObject>(simpleStringObjectArray, true, simpleObjectPropertyName);
+        result = _.unique<SimpleStringObject[]>(simpleStringObjectArray, simpleObjectPropertyName);
+        result = _.unique<SimpleStringObject[]>(simpleStringObjectArray, true, simpleObjectPropertyName);
         result = _.unique(simpleStringObjectArray, simpleObjectPropertyName);
         result = _.unique(simpleStringObjectArray, true, simpleObjectPropertyName);
 
@@ -5040,8 +5034,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: SimpleStringObject[];
 
-        result = _.uniq<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
-        result = _.uniq<SimpleStringObject>(simpleStringObjectList, true, simpleObjectPropertyName);
+        result = _.uniq<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.uniq<_.List<SimpleStringObject>>(simpleStringObjectList, true, simpleObjectPropertyName);
         result = _.uniq(simpleStringObjectList, simpleObjectPropertyName);
         result = _.uniq(simpleStringObjectList, true, simpleObjectPropertyName);
 
@@ -5055,8 +5049,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         result = _.chain(simpleStringObjectList).uniq(simpleObjectPropertyName).value();
         result = _.chain(simpleStringObjectList).uniq(true, simpleObjectPropertyName).value();
 
-        result = _.unique<SimpleStringObject>(simpleStringObjectList, simpleObjectPropertyName);
-        result = _.unique<SimpleStringObject>(simpleStringObjectList, true, simpleObjectPropertyName);
+        result = _.unique<_.List<SimpleStringObject>>(simpleStringObjectList, simpleObjectPropertyName);
+        result = _.unique<_.List<SimpleStringObject>>(simpleStringObjectList, true, simpleObjectPropertyName);
         result = _.unique(simpleStringObjectList, simpleObjectPropertyName);
         result = _.unique(simpleStringObjectList, true, simpleObjectPropertyName);
 
@@ -5136,7 +5130,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const valueArray: number[] = [1, 2];
         let result: _.Dictionary<number>;
 
-        result = _.object<number>(keyArray, valueArray);
+        result = _.object<number[]>(keyArray, valueArray);
         result = _.object(keyArray, valueArray);
 
         result = _<string[]>(keyArray).object<number>(valueArray);
@@ -5151,7 +5145,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const valueList: _.List<number> = { 0: 1, 1: 2, length: 2 };
         let result: _.Dictionary<number>;
 
-        result = _.object<number>(keyList, valueList);
+        result = _.object<_.List<number>>(keyList, valueList);
         result = _.object(keyList, valueList);
 
         result = _<_.List<string>>(keyList).object<number>(valueList);
@@ -5166,7 +5160,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const array: [string, number][] = [['a', 1], ['b', 2]];
         let result: _.Dictionary<number>;
 
-        result = _.object<number>(array);
+        result = _.object<[string, number][]>(array);
         result = _.object(array);
 
         result = _<[string, number][]>(array).object();
@@ -5180,7 +5174,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const list: _.List<[string, number]> = { 0: ['a', 1], 1: ['b', 2], length: 2 };
         let result: _.Dictionary<number>;
 
-        result = _.object<number>(list);
+        result = _.object<_.List<[string, number]>>(list);
         result = _.object(list);
 
         result = _<_.List<[string, number]>>(list).object();
@@ -5197,7 +5191,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const length = 2;
         let result: SimpleStringObject[][];
 
-        result = _.chunk<SimpleStringObject>(simpleStringObjectArray, length);
+        result = _.chunk<SimpleStringObject[]>(simpleStringObjectArray, length);
         result = _.chunk(simpleStringObjectArray, length);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).chunk(length);
@@ -5214,7 +5208,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const length = 2;
         let result: SimpleStringObject[][];
 
-        result = _.chunk<SimpleStringObject>(simpleStringObjectList, length);
+        result = _.chunk<_.List<SimpleStringObject>>(simpleStringObjectList, length);
         result = _.chunk(simpleStringObjectList, length);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).chunk(length);
@@ -5250,8 +5244,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const item = simpleStringObjectArray[0];
         let result: number;
 
-        result = _.indexOf<SimpleStringObject>(simpleStringObjectArray, item);
-        result = _.indexOf<SimpleStringObject>(simpleStringObjectArray, item, isSorted);
+        result = _.indexOf<SimpleStringObject[]>(simpleStringObjectArray, item);
+        result = _.indexOf<SimpleStringObject[]>(simpleStringObjectArray, item, isSorted);
         result = _.indexOf(simpleStringObjectArray, item);
         result = _.indexOf(simpleStringObjectArray, item, isSorted);
 
@@ -5275,8 +5269,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const item = simpleStringObjectList[0];
         let result: number;
 
-        result = _.indexOf<SimpleStringObject>(simpleStringObjectList, item);
-        result = _.indexOf<SimpleStringObject>(simpleStringObjectList, item, isSorted);
+        result = _.indexOf<_.List<SimpleStringObject>>(simpleStringObjectList, item);
+        result = _.indexOf<_.List<SimpleStringObject>>(simpleStringObjectList, item, isSorted);
         result = _.indexOf(simpleStringObjectList, item);
         result = _.indexOf(simpleStringObjectList, item, isSorted);
 
@@ -5325,8 +5319,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const item = simpleStringObjectArray[0];
         let result: number;
 
-        result = _.lastIndexOf<SimpleStringObject>(simpleStringObjectArray, item);
-        result = _.lastIndexOf<SimpleStringObject>(simpleStringObjectArray, item, fromIndex);
+        result = _.lastIndexOf<SimpleStringObject[]>(simpleStringObjectArray, item);
+        result = _.lastIndexOf<SimpleStringObject[]>(simpleStringObjectArray, item, fromIndex);
         result = _.lastIndexOf(simpleStringObjectArray, item);
         result = _.lastIndexOf(simpleStringObjectArray, item, fromIndex);
 
@@ -5350,8 +5344,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const item = simpleStringObjectList[0];
         let result: number;
 
-        result = _.lastIndexOf<SimpleStringObject>(simpleStringObjectList, item);
-        result = _.lastIndexOf<SimpleStringObject>(simpleStringObjectList, item, fromIndex);
+        result = _.lastIndexOf<_.List<SimpleStringObject>>(simpleStringObjectList, item);
+        result = _.lastIndexOf<_.List<SimpleStringObject>>(simpleStringObjectList, item, fromIndex);
         result = _.lastIndexOf(simpleStringObjectList, item);
         result = _.lastIndexOf(simpleStringObjectList, item, fromIndex);
 
@@ -5399,7 +5393,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const item = 'b';
         let result: number;
 
-        result = _.sortedIndex<string>(simpleStringArray, item);
+        result = _.sortedIndex<string[]>(simpleStringArray, item);
         result = _.sortedIndex(simpleStringArray, item);
 
         result = _<string[]>(simpleStringArray).sortedIndex(item);
@@ -5413,7 +5407,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const item = 'b';
         let result: number;
 
-        result = _.sortedIndex<string>(simpleStringList, item);
+        result = _.sortedIndex<_.List<string>>(simpleStringList, item);
         result = _.sortedIndex(simpleStringList, item);
 
         result = _<_.List<string>>(simpleStringList).sortedIndex(item);
@@ -5442,8 +5436,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const item = simpleStringObjectArray[0];
         let result: number;
 
-        result = _.sortedIndex<SimpleStringObject>(simpleStringObjectArray, item, simpleStringObjectListPropertySelectingIterator);
-        result = _.sortedIndex<SimpleStringObject>(simpleStringObjectArray, item, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.sortedIndex<SimpleStringObject[]>(simpleStringObjectArray, item, simpleStringObjectListPropertySelectingIterator);
+        result = _.sortedIndex<SimpleStringObject[]>(simpleStringObjectArray, item, simpleStringObjectListPropertySelectingIterator, context);
         result = _.sortedIndex(simpleStringObjectArray, item, simpleStringObjectListPropertySelectingIterator);
         result = _.sortedIndex(simpleStringObjectArray, item, simpleStringObjectListPropertySelectingIterator, context);
 
@@ -5462,8 +5456,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const item = simpleStringObjectList[0];
         let result: number;
 
-        result = _.sortedIndex<SimpleStringObject>(simpleStringObjectList, item, simpleStringObjectListPropertySelectingIterator);
-        result = _.sortedIndex<SimpleStringObject>(simpleStringObjectList, item, simpleStringObjectListPropertySelectingIterator, context);
+        result = _.sortedIndex<_.List<SimpleStringObject>>(simpleStringObjectList, item, simpleStringObjectListPropertySelectingIterator);
+        result = _.sortedIndex<_.List<SimpleStringObject>>(simpleStringObjectList, item, simpleStringObjectListPropertySelectingIterator, context);
         result = _.sortedIndex(simpleStringObjectList, item, simpleStringObjectListPropertySelectingIterator);
         result = _.sortedIndex(simpleStringObjectList, item, simpleStringObjectListPropertySelectingIterator, context);
 
@@ -5483,7 +5477,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const item = simpleStringObjectArray[0];
         let result: number;
 
-        result = _.sortedIndex<SimpleStringObject>(simpleStringObjectArray, item, simpleObjectPropertyName);
+        result = _.sortedIndex<SimpleStringObject[]>(simpleStringObjectArray, item, simpleObjectPropertyName);
         result = _.sortedIndex(simpleStringObjectArray, item, simpleObjectPropertyName);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).sortedIndex(item, simpleObjectPropertyName);
@@ -5497,7 +5491,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const item = simpleStringObjectList[0];
         let result: number;
 
-        result = _.sortedIndex<SimpleStringObject>(simpleStringObjectList, item, simpleObjectPropertyName);
+        result = _.sortedIndex<_.List<SimpleStringObject>>(simpleStringObjectList, item, simpleObjectPropertyName);
         result = _.sortedIndex(simpleStringObjectList, item, simpleObjectPropertyName);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).sortedIndex(item, simpleObjectPropertyName);
@@ -5513,8 +5507,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.findIndex<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
-        result = _.findIndex<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.findIndex<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
+        result = _.findIndex<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
         result = _.findIndex(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
         result = _.findIndex(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -5532,7 +5526,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.findIndex<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        result = _.findIndex<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
         result = _.findIndex(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).findIndex(simpleStringObjectPartialPropertyMatch);
@@ -5545,8 +5539,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.findIndex<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
-        result = _.findIndex<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.findIndex<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
+        result = _.findIndex<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
         result = _.findIndex(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
         result = _.findIndex(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -5564,7 +5558,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.findIndex<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        result = _.findIndex<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
         result = _.findIndex(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).findIndex(simpleStringObjectPartialPropertyMatch);
@@ -5599,8 +5593,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.findLastIndex<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
-        result = _.findLastIndex<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.findLastIndex<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
+        result = _.findLastIndex<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
         result = _.findLastIndex(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator);
         result = _.findLastIndex(simpleStringObjectArray, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -5619,7 +5613,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
         const array: { a: string, b: string }[] = [{ a: 'a', b: 'c' }, { a: 'b', b: 'd' }];
         let result: number;
 
-        result = _.findLastIndex<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        result = _.findLastIndex<SimpleStringObject[]>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
         result = _.findLastIndex(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
 
         result = _<SimpleStringObject[]>(simpleStringObjectArray).findLastIndex(simpleStringObjectPartialPropertyMatch);
@@ -5632,8 +5626,8 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.findLastIndex<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
-        result = _.findLastIndex<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
+        result = _.findLastIndex<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
+        result = _.findLastIndex<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
         result = _.findLastIndex(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator);
         result = _.findLastIndex(simpleStringObjectList, simpleStringObjectListPropertyComparingIterator, context);
 
@@ -5651,7 +5645,7 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
     {
         let result: number;
 
-        result = _.findLastIndex<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        result = _.findLastIndex<_.List<SimpleStringObject>>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
         result = _.findLastIndex(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
 
         result = _<_.List<SimpleStringObject>>(simpleStringObjectList).findLastIndex(simpleStringObjectPartialPropertyMatch);
@@ -6060,7 +6054,7 @@ _.shuffle([1, 2, 3, 4, 5, 6]);
 
 _.size({ one: 1, two: 2, three: 3 });
 
-_.partition<number>([0, 1, 2, 3, 4, 5], (num) => {return num % 2 == 0 });
+_.partition<number[]>([0, 1, 2, 3, 4, 5], (num) => {return num % 2 == 0 });
 
 interface Family {
     name: string;

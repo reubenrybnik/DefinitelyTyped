@@ -167,43 +167,18 @@ declare module _ {
         ************* */
 
         /**
-        * Iterates over a list of elements, yielding each in turn to an iterator function. The iterator is
+        * Iterates over a collection of elements, yielding each in turn to an iterator function. The iterator is
         * bound to the context object, if one is passed. Each invocation of iterator is called with three
-        * arguments: (element, index, list). If list is a JavaScript object, iterator's arguments will be
+        * arguments: (element, index, collection). If collection is a JavaScript object, iterator's arguments will be
         * (value, key, object). Delegates to the native forEach function if it exists.
-        * @param list Iterates over this list of elements.
-        * @param iterator Iterator function for each element `list`.
+        * @param collection Iterates over this collection of elements.
+        * @param iterator Iterator function for each element `collection`.
         * @param context 'this' object in `iterator`, optional.
         **/
-        each<T>(
-            list: T[],
-            iterator: _.ListIterator<T, void, T[]>,
-            context?: unknown): T[];
-
-        /**
-        * Iterates over a list of elements, yielding each in turn to an iterator function. The iterator is
-        * bound to the context object, if one is passed. Each invocation of iterator is called with three
-        * arguments: (element, index, list). If list is a JavaScript object, iterator's arguments will be
-        * (value, key, object). Delegates to the native forEach function if it exists.
-        * @param list Iterates over this list of elements.
-        * @param iterator Iterator function for each element `list`.
-        * @param context 'this' object in `iterator`, optional.
-        **/
-        each<T>(
-            list: _.List<T>,
-            iterator: _.ListIterator<T, void>,
-            context?: unknown): _.List<T>;
-
-        /**
-        * @see _.each
-        * @param object Iterates over properties of this object.
-        * @param iterator Iterator function for each property on `object`.
-        * @param context 'this' object in `iterator`, optional.
-        **/
-        each<T>(
-            object: _.Dictionary<T>,
-            iterator: _.ObjectIterator<T, void>,
-            context?: unknown): _.Dictionary<T>;
+        each<V extends Collection<unknown>>(
+            collection: V,
+            iterator: CollectionIterator<TypeOfCollection<V>, void, V>,
+            context?: unknown): V;
 
         /**
         * @see _.each
@@ -211,28 +186,16 @@ declare module _ {
         forEach: UnderscoreStatic['each'];
 
         /**
-        * Produces a new array of values by mapping each value in list through a transformation function
+        * Produces a new array of values by mapping each value in collection through a transformation function
         * (iterator).
-        * @param list Maps the elements of this array.
-        * @param iterator Map iterator function for each element in `list`.
+        * @param collection Maps the elements of this collection.
+        * @param iterator Map iterator function for each element in `collection`.
         * @param context `this` object in `iterator`, optional.
         * @return The mapped array result.
         **/
-        map<T, TResult>(
-            list: _.List<T>,
-            iterator: _.ListIterator<T, TResult>,
-            context?: unknown): TResult[];
-
-        /**
-        * @see _.map
-        * @param object Maps the properties of this object.
-        * @param iterator Map iterator function for each property on `object`.
-        * @param context `this` object in `iterator`, optional.
-        * @return The mapped object result.
-        **/
-        map<T, TResult>(
-            object: _.Dictionary<T>,
-            iterator: _.ObjectIterator<T, TResult>,
+        map<V extends Collection<unknown>, TResult>(
+            collection: V,
+            iterator: CollectionIterator<TypeOfCollection<V>, TResult, V>,
             context?: unknown): TResult[];
 
         /**
@@ -241,9 +204,9 @@ declare module _ {
         * @param iterator - The name of a specific property to retrieve from all items.
         * @return The set of values for the specified property for each item in the collection.
         */
-        map<T, K extends KeysOfUnion<T>>(
-            collection: _.Collection<T>,
-            iterator: K): TypesOfUnionProperty<T, K>[];
+        map<V extends Collection<unknown>, K extends KeysOfUnion<TypeOfCollection<V>>>(
+            collection: V,
+            iterator: K): TypesOfUnionProperty<TypeOfCollection<V>, K>[];
 
         /**
         * @see _.map
@@ -251,9 +214,9 @@ declare module _ {
         * @param iterator - The set of properties to check the values for.
         * @return A set of boolean values that signify whether each item in the collection matches the set of provided values.
         */
-        map<T>(
-            collection: _.Collection<T>,
-            iterator: Partial<T>): boolean[];
+        map<V extends Collection<unknown>>(
+            collection: V,
+            iterator: Partial<TypeOfCollection<V>>): boolean[];
 
         /**
         * @see _.map
@@ -261,28 +224,19 @@ declare module _ {
         collect: UnderscoreStatic['map'];
 
         /**
-        * Also known as inject and foldl, reduce boils down a list of values into a single value.
+        * Also known as inject and foldl, reduce boils down a collection of values into a single value.
         * Memo is the initial state of the reduction, and each successive step of it should be
         * returned by iterator. The iterator is passed four arguments: the memo, then the value
-        * and index (or key) of the iteration, and finally a reference to the entire list.
-        * @param list Reduces the elements of this array.
-        * @param iterator Reduce iterator function for each element in `list`.
+        * and index (or key) of the iteration, and finally a reference to the entire collection.
+        * @param collection Reduces the elements of this collection.
+        * @param iterator Reduce iterator function for each element in `collection`.
         * @param memo Initial reduce state.
         * @param context `this` object in `iterator`, optional.
         * @return Reduced object result.
         **/
-        reduce<T, TResult>(
-            list: _.List<T>,
-            iterator: _.MemoIterator<T, TResult>,
-            memo?: TResult,
-            context?: unknown): TResult;
-
-        /**
-        * @see _.reduce
-        **/
-        reduce<T, TResult>(
-            object: _.Dictionary<T>,
-            iterator: _.MemoObjectIterator<T, TResult>,
+        reduce<V extends Collection<unknown>, TResult>(
+            collection: V,
+            iterator: MemoCollectionIterator<TypeOfCollection<V>, TResult, V>,
             memo?: TResult,
             context?: unknown): TResult;
 
@@ -300,24 +254,15 @@ declare module _ {
         * The right-associative version of reduce. Delegates to the JavaScript 1.8 version of
         * reduceRight, if it exists. `foldr` is not as useful in JavaScript as it would be in a
         * language with lazy evaluation.
-        * @param list Reduces the elements of this array.
-        * @param iterator Reduce iterator function for each element in `list`.
+        * @param collection Reduces the elements of this collection.
+        * @param iterator Reduce iterator function for each element in `collection`.
         * @param memo Initial reduce state.
         * @param context `this` object in `iterator`, optional.
         * @return Reduced object result.
         **/
-        reduceRight<T, TResult>(
-            list: _.List<T>,
-            iterator: _.MemoIterator<T, TResult>,
-            memo?: TResult,
-            context?: unknown): TResult;
-
-        /**
-        * @see _.reduceRight
-        **/
-        reduceRight<T, TResult>(
-            object: _.Dictionary<T>,
-            iterator: _.MemoObjectIterator<T, TResult>,
+        reduceRight<V extends Collection<unknown>, TResult>(
+            collection: V,
+            iterator: MemoCollectionIterator<TypeOfCollection<V>, TResult, V>,
             memo?: TResult,
             context?: unknown): TResult;
 
@@ -327,33 +272,18 @@ declare module _ {
         foldr: UnderscoreStatic['reduceRight'];
 
         /**
-        * Looks through each value in the list, returning the first one that passes a truth
+        * Looks through each value in the collection, returning the first one that passes a truth
         * test (iterator). The function returns as soon as it finds an acceptable element,
-        * and doesn't traverse the entire list.
-        * @param list Searches for a value in this list.
-        * @param iterator Search iterator function for each element in `list`.
+        * and doesn't traverse the entire collection.
+        * @param collection Searches for a value in this collection.
+        * @param iterator Search iterator function for each element in `collection`.
         * @param context `this` object in `iterator`, optional.
-        * @return The first acceptable found element in `list`, if nothing is found undefined/null is returned.
+        * @return The first acceptable found element in `collection`, if nothing is found undefined/null is returned.
         **/
-        find<T>(
-            list: _.List<T>,
-            iterator: _.ListIterator<T, boolean>,
-            context?: unknown): T | undefined;
-
-        /**
-        * @see _.find
-        **/
-        find<T>(
-            object: _.Dictionary<T>,
-            iterator: _.ObjectIterator<T, boolean>,
-            context?: unknown): T | undefined;
-
-        /**
-        * @see _.find
-        **/
-        find<T>(
-            collection: _.Collection<T>,
-            iterator: Partial<T> | KeysOfUnion<T>): T | undefined;
+        find<V extends Collection<unknown>>(
+            collection: V,
+            iterator: CollectionIterator<TypeOfCollection<V>, boolean, V> | Partial<TypeOfCollection<V>> | KeysOfUnion<TypeOfCollection<V>>,
+            context?: unknown): TypeOfCollection<V> | undefined;
 
         /**
         * @see _.find
@@ -361,32 +291,17 @@ declare module _ {
         detect: UnderscoreStatic['find'];
 
         /**
-        * Looks through each value in the list, returning an array of all the values that pass a truth
+        * Looks through each value in the collection, returning an array of all the values that pass a truth
         * test (iterator). Delegates to the native filter method, if it exists.
-        * @param list Filter elements out of this list.
-        * @param iterator Filter iterator function for each element in `list`.
+        * @param collection Filter elements out of this collection.
+        * @param iterator Filter iterator function for each element in `collection`.
         * @param context `this` object in `iterator`, optional.
-        * @return The filtered list of elements.
+        * @return The filtered collection of elements.
         **/
-        filter<T>(
-            list: _.List<T>,
-            iterator: _.ListIterator<T, boolean>,
-            context?: unknown): T[];
-
-        /**
-        * @see _.filter
-        **/
-        filter<T>(
-            object: _.Dictionary<T>,
-            iterator: _.ObjectIterator<T, boolean>,
-            context?: unknown): T[];
-
-        /**
-        * @see _.filter
-        **/
-        filter<T>(
-            collection: _.Collection<T>,
-            iterator: Partial<T> | KeysOfUnion<T>): T[];
+        filter<V extends Collection<unknown>>(
+            collection: V,
+            iterator: CollectionIterator<TypeOfCollection<V>, boolean, V> | Partial<TypeOfCollection<V>> | KeysOfUnion<TypeOfCollection<V>>,
+            context?: unknown): TypeOfCollection<V>[];
 
         /**
         * @see _.filter
@@ -394,82 +309,52 @@ declare module _ {
         select: UnderscoreStatic['filter'];
 
         /**
-        * Looks through each value in the list, returning an array of all the values that contain all
+        * Looks through each value in the collection, returning an array of all the values that contain all
         * of the key-value pairs listed in properties.
         * @param collection Colleciton to match elements against `properties`.
         * @param properties The properties to check for on each element within `collection`.
         * @return The elements within `collection` that contain the required `properties`.
         **/
-        where<T>(
-            collection: _.Collection<T>,
-            properties: Partial<T>): T[];
+        where<V extends Collection<unknown>>(
+            collection: V,
+            properties: Partial<TypeOfCollection<V>>): TypeOfCollection<V>[];
 
         /**
-        * Looks through the list and returns the first value that matches all of the key-value pairs listed in properties.
+        * Looks through the collection and returns the first value that matches all of the key-value pairs listed in properties.
         * @param collection Search through this collection's elements for the first object with all `properties`.
         * @param properties Properties to look for on the elements within `collection`.
         * @return The first element in `collection` that has all `properties`.
         **/
-        findWhere<T>(
-            collection: _.Collection<T>,
-            properties: Partial<T>): T | undefined;
+        findWhere<V extends Collection<unknown>>(
+            collection: V,
+            properties: Partial<TypeOfCollection<V>>): TypeOfCollection<V> | undefined;
 
         /**
-        * Returns the values in list without the elements that the truth test (iterator) passes.
+        * Returns the values in collection without the elements that the truth test (iterator) passes.
         * The opposite of filter.
         * Return all the elements for which a truth test fails.
-        * @param list Reject elements within this list.
-        * @param iterator Reject iterator function for each element in `list`.
+        * @param collection Reject elements within this collection.
+        * @param iterator Reject iterator function for each element in `collection`.
         * @param context `this` object in `iterator`, optional.
         * @return The rejected list of elements.
         **/
-        reject<T>(
-            list: _.List<T>,
-            iterator: _.ListIterator<T, boolean>,
-            context?: unknown): T[];
+        reject<V extends Collection<unknown>>(
+            collection: V,
+            iterator: CollectionIterator<TypeOfCollection<V>, boolean, V> | Partial<TypeOfCollection<V>> | KeysOfUnion<TypeOfCollection<V>>,
+            context?: unknown): TypeOfCollection<V>[];
 
         /**
-        * @see _.reject
-        **/
-        reject<T>(
-            object: _.Dictionary<T>,
-            iterator: _.ObjectIterator<T, boolean>,
-            context?: unknown): T[];
-
-        /**
-        * @see _.reject
-        **/
-        reject<T>(
-            collection: _.Collection<T>,
-            iterator: Partial<T> | KeysOfUnion<T>): T[];
-
-        /**
-        * Returns true if all of the values in the list pass the iterator truth test. Delegates to the
+        * Returns true if all of the values in the collection pass the iterator truth test. Delegates to the
         * native method every, if present.
-        * @param list Truth test against all elements within this list.
-        * @param iterator Trust test iterator function for each element in `list`.
+        * @param collection Truth test against all elements within this collection.
+        * @param iterator Trust test iterator function for each element in `collection`.
         * @param context `this` object in `iterator`, optional.
         * @return True if all elements passed the truth test, otherwise false.
         **/
-        every<T>(
-            list: _.List<T>,
-            iterator?: _.ListIterator<T, boolean>,
+        every<V extends Collection<unknown>>(
+            collection: V,
+            iterator?: CollectionIterator<TypeOfCollection<V>, boolean, V> | Partial<TypeOfCollection<V>> | KeysOfUnion<TypeOfCollection<V>>,
             context?: unknown): boolean;
-
-        /**
-        * @see _.every
-        **/
-        every<T>(
-            object: _.Dictionary<T>,
-            iterator?: _.ObjectIterator<T, boolean>,
-            context?: unknown): boolean;
-
-        /**
-        * @see _.every
-        **/
-        every<T>(
-            collection: _.Collection<T>,
-            iterator?: Partial<T> | KeysOfUnion<T>): boolean;
 
         /**
         * @see _.every
@@ -477,32 +362,17 @@ declare module _ {
         all: UnderscoreStatic['every'];
 
         /**
-        * Returns true if any of the values in the list pass the iterator truth test. Short-circuits and
-        * stops traversing the list if a true element is found. Delegates to the native method some, if present.
-        * @param list Truth test against all elements within this list.
-        * @param iterator Trust test iterator function for each element in `list`.
+        * Returns true if any of the values in the collection pass the iterator truth test. Short-circuits and
+        * stops traversing the collection if a true element is found. Delegates to the native method some, if present.
+        * @param collection Truth test against all elements within this collection.
+        * @param iterator Trust test iterator function for each element in `collection`.
         * @param context `this` object in `iterator`, optional.
         * @return True if any elements passed the truth test, otherwise false.
         **/
-        some<T>(
-            list: _.List<T>,
-            iterator?: _.ListIterator<T, boolean>,
+        some<V extends Collection<unknown>>(
+            collection: V,
+            iterator?: CollectionIterator<TypeOfCollection<V>, boolean, V> | Partial<TypeOfCollection<V>> | KeysOfUnion<TypeOfCollection<V>>,
             context?: unknown): boolean;
-
-        /**
-        * @see _.some
-        **/
-        some<T>(
-            object: _.Dictionary<T>,
-            iterator?: _.ObjectIterator<T, boolean>,
-            context?: unknown): boolean;
-
-        /**
-        * @see _.some
-        **/
-        some<T>(
-            collection: _.Collection<T>,
-            iterator?: Partial<T> | KeysOfUnion<T>): boolean;
 
         /**
         * @see _.some
@@ -510,23 +380,16 @@ declare module _ {
         any: UnderscoreStatic['some'];
 
         /**
-        * Returns true if the value is present in the list. Uses indexOf internally,
-        * if list is an Array.
-        * @param list Checks each element to see if `value` is present.
-        * @param value The value to check for within `list`.
-        * @return True if `value` is present in `list`, otherwise false.
+        * Returns true if the value is present in the collection. Uses indexOf internally,
+        * if collection is an Array.
+        * @param collection Checks each element to see if `value` is present.
+        * @param value The value to check for within `collection`.
+        * @return True if `value` is present in `collection`, otherwise false.
         **/
-        contains<T>(
-            list: _.List<T>,
-            value: T,
+        contains<V extends Collection<unknown>>(
+            collection: V,
+            value: TypeOfCollection<V>,
             fromIndex?: number): boolean;
-
-        /**
-        * @see _.contains
-        **/
-        contains<T>(
-            object: _.Dictionary<T>,
-            value: T): boolean;
 
         /**
         * @see _.contains
@@ -539,230 +402,136 @@ declare module _ {
         includes: UnderscoreStatic['contains'];
 
         /**
-        * Calls the method named by methodName on each value in the list. Any extra arguments passed to
+        * Calls the method named by methodName on each value in the collection. Any extra arguments passed to
         * invoke will be forwarded on to the method invocation.
-        * @param list The element's in this list will each have the method `methodName` invoked.
-        * @param methodName The method's name to call on each element within `list`.
+        * @param collection The element's in this collection will each have the method `methodName` invoked.
+        * @param methodName The method's name to call on each element within `collection`.
         * @param arguments Additional arguments to pass to the method `methodName`.
         **/
-        invoke<T>(
-            list: _.Collection<T>,
+        invoke<V extends Collection<unknown>>(
+            collection: V,
             methodName: string,
             ...args: unknown[]): unknown[];
 
         /**
-        * A convenient version of what is perhaps the most common use-case for map: extracting a list of
+        * A convenient version of what is perhaps the most common use-case for map: extracting a collection of
         * property values.
-        * @param collection The list to pluck elements out of that have the property `propertyName`.
-        * @param propertyName The property to look for on each element within `list`.
-        * @return The list of elements within `list` that have the property `propertyName`.
+        * @param collection The collection to pluck elements out of that have the property `propertyName`.
+        * @param propertyName The property to look for on each element within `collection`.
+        * @return The collection of elements within `collection` that have the property `propertyName`.
         **/
-        pluck<T, K extends KeysOfUnion<T>>(
-            collection: _.Collection<T>,
-            propertyName: K): TypesOfUnionProperty<T, K>[];
+        pluck<V extends Collection<unknown>, K extends KeysOfUnion<TypeOfCollection<V>>>(
+            collection: V,
+            propertyName: K): TypesOfUnionProperty<TypeOfCollection<V>, K>[];
 
         /**
-        * Returns the maximum value in list.
+        * Returns the maximum value in collection.
         * @param collection Finds the maximum value in this collection.
         * @return Maximum value in `collection`.
         **/
         max(collection: _.Collection<number>): number;
 
         /**
-        * Returns the maximum value in list. If iterator is passed, it will be used on each value to generate
+        * Returns the maximum value in collection. If iterator is passed, it will be used on each value to generate
         * the criterion by which the value is ranked.
-        * @param list Finds the maximum value in this list.
-        * @param iterator Compares each element in `list` to find the maximum value.
+        * @param collection Finds the maximum value in this collection.
+        * @param iterator Compares each element in `collection` to find the maximum value.
         * @param context `this` object in `iterator`, optional.
-        * @return The maximum element within `list` or -Infinity if the list is empty.
+        * @return The maximum element within `collection` or -Infinity if the collection is empty.
         **/
-        max<T>(
-            list: _.List<T>,
-            iterator?: _.ListIterator<T, number>,
-            context?: unknown): T;
+        max<V extends Collection<unknown>>(
+            collection: V,
+            iterator: CollectionIterator<TypeOfCollection<V>, number, V> | PropertyNamesOfType<TypeOfCollection<V>, number>,
+            context?: unknown): TypeOfCollection<V> | number;
 
         /**
-        * @see _.max
-        */
-        max<T>(
-            object: _.Dictionary<T>,
-            iterator?: _.ObjectIterator<T, number>,
-            context?: unknown): T | number;
-
-        /**
-        * @see _.max
-        */
-        max<T>(
-            collection: _.Collection<T>,
-            iterator?: PropertyNamesOfType<T, number>): T | number;
-
-        /**
-        * Returns the minimum value in list.
-        * @param list Finds the minimum value in this list.
-        * @return Minimum value in `list`.
+        * Returns the minimum value in collection.
+        * @param collection Finds the minimum value in this collection.
+        * @return Minimum value in `collection`.
         **/
-        min(list: _.Collection<number>): number;
+        min(collection: _.Collection<number>): number;
 
         /**
-        * Returns the minimum value in list. If iterator is passed, it will be used on each value to generate
+        * Returns the minimum value in collection. If iterator is passed, it will be used on each value to generate
         * the criterion by which the value is ranked.
-        * @param list Finds the minimum value in this list.
-        * @param iterator Compares each element in `list` to find the minimum value.
+        * @param collection Finds the minimum value in this collection.
+        * @param iterator Compares each element in `collection` to find the minimum value.
         * @param context `this` object in `iterator`, optional.
-        * @return The minimum element within `list` or Infinity if the list is empty.
+        * @return The minimum element within `collection` or Infinity if the collection is empty.
         **/
-        min<T>(
-            list: _.List<T>,
-            iterator?: _.ListIterator<T, number>,
-            context?: unknown): T | number;
+        min<V extends Collection<unknown>>(
+            collection: V,
+            iterator: CollectionIterator<TypeOfCollection<V>, number, V> | PropertyNamesOfType<TypeOfCollection<V>, number>,
+            context?: unknown): TypeOfCollection<V> | number;
 
         /**
-        * @see _.min
-        */
-        min<T>(
-            object: _.Dictionary<T>,
-            iterator?: _.ObjectIterator<T, number>,
-            context?: unknown): T | number;
-
-        /**
-        * @see _.min
-        */
-        min<T>(
-            collection: _.Collection<T>,
-            iterator?: PropertyNamesOfType<T, number>): T | number;
-
-        /**
-        * Returns a sorted copy of list, ranked in ascending order by the results of running each value
+        * Returns a sorted copy of collection, ranked in ascending order by the results of running each value
         * through iterator. Iterator may also be the string name of the property to sort by (eg. length).
-        * @param list Sorts this list.
-        * @param iterator Sort iterator for each element within `list`.
+        * @param collection Sorts this collection.
+        * @param iterator Sort iterator for each element within `collection`.
         * @param context `this` object in `iterator`, optional.
-        * @return A sorted copy of `list`.
+        * @return A sorted copy of `collection`.
         **/
-        sortBy<T>(
-            list: _.List<T>,
-            iterator?: _.ListIterator<T, unknown>,
-            context?: unknown): T[];
-
-        /**
-        * @see _.sortBy
-        */
-        sortBy<T>(
-            object: _.Dictionary<T>,
-            iterator?: _.ObjectIterator<T, unknown>,
-            context?: unknown): T[];
-
-        /**
-        * @see _.sortBy
-        * @param iterator Sort iterator for each element within `list`.
-        **/
-        sortBy<T>(
-            collection: _.Collection<T>,
-            iterator: keyof T): T[];
+        sortBy<V extends Collection<unknown>>(
+            collection: V,
+            iterator: CollectionIterator<TypeOfCollection<V>, unknown, V> | keyof TypeOfCollection<V>,
+            context?: unknown): TypeOfCollection<V>[];
 
         /**
         * Splits a collection into sets, grouped by the result of running each value through iterator.
         * If iterator is a string instead of a function, groups by the property named by iterator on
         * each of the values.
-        * @param list Groups this list.
-        * @param iterator Group iterator for each element within `list`, return the key to group the element by.
+        * @param collection Groups this collection.
+        * @param iterator Group iterator for each element within `collection`, return the key to group the element by.
         * @param context `this` object in `iterator`, optional.
-        * @return An object with the group names as properties where each property contains the grouped elements from `list`.
+        * @return An object with the group names as properties where each property contains the grouped elements from `collection`.
         **/
-        groupBy<T>(
-            list: _.List<T>,
-            iterator?: _.ListIterator<T, unknown>,
-            context?: unknown): _.Dictionary<T[]>;
+        groupBy<V extends Collection<unknown>>(
+            collection: V,
+            iterator: CollectionIterator<TypeOfCollection<V>, unknown, V> | keyof TypeOfCollection<V>,
+            context?: unknown): Dictionary<TypeOfCollection<V>[]>;
 
         /**
-        * @see _.groupBy
-        **/
-        groupBy<T>(
-            object: _.Dictionary<T>,
-            iterator: _.ObjectIterator<T, unknown>,
-            context?: unknown): _.Dictionary<T[]>;
-
-        /**
-        * @see _.groupBy
-        * @param iterator Property on each object to group them by.
-        **/
-        groupBy<T>(
-            collection: _.Collection<T>,
-            iterator: keyof T): _.Dictionary<T[]>;
-
-        /**
-        * Given a `list`, and an `iterator` function that returns a key for each element in the list (or a property name),
+        * Given a `collection`, and an `iterator` function that returns a key for each element in the collection (or a property name),
         * returns an object with an index of each item.  Just like _.groupBy, but for when you know your keys are unique.
         **/
-        indexBy<T>(
-            list: _.List<T>,
-            iterator: _.ListIterator<T, unknown>,
-            context?: unknown): _.Dictionary<T>;
+        indexBy<V extends Collection<unknown>>(
+            collection: V,
+            iterator: CollectionIterator<TypeOfCollection<V>, unknown, V> | keyof TypeOfCollection<V>,
+            context?: unknown): Dictionary<TypeOfCollection<V>>;
 
         /**
-       * @see _.indexBy
-       **/
-        indexBy<T>(
-            object: _.Dictionary<T>,
-            iterator: _.ObjectIterator<T, unknown>,
-            context?: unknown): _.Dictionary<T>;
-
-        /**
-        * @see _.indexBy
-        * @param iterator Property on each object to index them by.
-        **/
-        indexBy<T>(
-            collection: _.Collection<T>,
-            iterator: keyof T): _.Dictionary<T>;
-
-        /**
-        * Sorts a list into groups and returns a count for the number of objects in each group. Similar
-        * to groupBy, but instead of returning a list of values, returns a count for the number of values
+        * Sorts a collection into groups and returns a count for the number of objects in each group. Similar
+        * to groupBy, but instead of returning a collection of values, returns a count for the number of values
         * in that group.
-        * @param list Group elements in this list and then count the number of elements in each group.
-        * @param iterator Group iterator for each element within `list`, return the key to group the element by.
+        * @param collection Group elements in this collection and then count the number of elements in each group.
+        * @param iterator Group iterator for each element within `collection`, return the key to group the element by.
         * @param context `this` object in `iterator`, optional.
         * @return An object with the group names as properties where each property contains the number of elements in that group.
         **/
-        countBy<T>(
-            list: _.List<T>,
-            iterator?: _.ListIterator<T, unknown>,
-            context?: unknown): _.Dictionary<number>;
+        countBy<V extends Collection<unknown>>(
+            collection: V,
+            iterator: CollectionIterator<TypeOfCollection<V>, unknown, V> | keyof TypeOfCollection<V>,
+            context?: unknown): Dictionary<number>;
 
         /**
-         * @see _.countBy
-         **/
-        countBy<T>(
-            object: _.Dictionary<T>,
-            iterator: _.ObjectIterator<T, unknown>,
-            context?: unknown): _.Dictionary<number>;
-
-        /**
-        * @see _.countBy
-        * @param iterator Function name
-        **/
-        countBy<T>(
-            collection: _.Collection<T>,
-            iterator: keyof T): _.Dictionary<number>;
-
-        /**
-        * Returns a shuffled copy of the list, using a version of the Fisher-Yates shuffle.
+        * Returns a shuffled copy of the collection, using a version of the Fisher-Yates shuffle.
         * @param collection Collection to shuffle.
-        * @return Shuffled copy of `list`.
+        * @return Shuffled copy of `collection`.
         **/
-        shuffle<T>(collection: _.Collection<T>): T[];
+        shuffle<V extends Collection<unknown>>(collection: V): TypeOfCollection<V>[];
 
         /**
-        * Produce a random sample from the `list`.  Pass a number to return `n` random elements from the list.  Otherwise a single random item will be returned.
+        * Produce a random sample from the `collection`.  Pass a number to return `n` random elements from the collection.  Otherwise a single random item will be returned.
         * @param collection Collection to sample.
-        * @return Random sample of `n` elements in `list`.
+        * @return Random sample of `n` elements in `collection`.
         **/
-        sample<T>(collection: _.Collection<T>, n: number): T[];
+        sample<V extends Collection<unknown>>(collection: V, n: number): TypeOfCollection<V>[];
 
         /**
         * @see _.sample
         **/
-        sample<T>(collection: _.Collection<T>): T;
+        sample<V extends Collection<unknown>>(collection: V): TypeOfCollection<V>;
 
         /**
         * Converts the collection (anything that can be iterated over), into a real Array. Useful for transmuting
@@ -770,42 +539,27 @@ declare module _ {
         * @param collection Collection to transform into an array.
         * @return `collection` as an array.
         **/
-        toArray<T>(collection: _.Collection<T>): T[];
+        toArray<V extends Collection<unknown>>(collection: V): TypeOfCollection<V>[];
 
         /**
-        * Return the number of values in the list.
+        * Return the number of values in the collection.
         * @param collection Count the number of values/elements in this collection.
         * @return Number of values in `collection`.
         **/
-        size<T>(collection: _.Collection<T>): number;
+        size<V extends Collection<unknown>>(collection: V): number;
 
         /**
-        * Split list into two arrays:
+        * Split collection into two arrays:
         * one whose elements all satisfy predicate and one whose elements all do not satisfy predicate.
-        * @param list Array to split in two.
+        * @param collection Array to split in two.
         * @param iterator Filter iterator function for each element in `array`.
         * @param context `this` object in `iterator`, optional.
         * @return Array where Array[0] are the elements in `array` that satisfies the predicate, and Array[1] the elements that did not.
         **/
-        partition<T>(
-            list: _.List<T>,
-            iterator: _.ListIterator<T, boolean>,
-            context?: unknown): [T[], T[]];
-
-        /**
-        * @see _.partition.
-        **/
-        partition<T>(
-            object: _.Dictionary<T>,
-            iterator: _.ObjectIterator<T, boolean>,
-            context?: unknown): [T[], T[]];
-
-        /**
-        * @see _.partition.
-        **/
-        partition<T>(
-            collection: _.Collection<T>,
-            iterator: Partial<T> | KeysOfUnion<T>): [T[], T[]];
+        partition<V extends Collection<unknown>>(
+            collection: V,
+            iterator: CollectionIterator<TypeOfCollection<V>, boolean, V> | Partial<TypeOfCollection<V>> | KeysOfUnion<TypeOfCollection<V>>,
+            context?: unknown): [TypeOfCollection<V>[], TypeOfCollection<V>[]];
 
         /*********
         * Arrays *
@@ -816,15 +570,15 @@ declare module _ {
         * @param array Retrieves the first element of this array.
         * @return Returns the first element of `array`.
         **/
-        first<T>(array: _.List<T>): T | undefined;
+        first<V extends List<unknown>>(array: V): TypeOfList<V> | undefined;
 
         /**
         * @see _.first
         * @param n Return more than one element from `array`.
         **/
-        first<T>(
-            array: _.List<T>,
-            n: number): T[];
+        first<V extends List<unknown>>(
+            array: V,
+            n: number): TypeOfList<V>[];
 
         /**
         * @see _.first
@@ -843,24 +597,24 @@ declare module _ {
         * @param n Leaves this many elements behind, optional.
         * @return Returns everything but the last `n` elements of `array`.
         **/
-        initial<T>(
-            array: _.List<T>,
-            n?: number): T[];
+        initial<V extends List<unknown>>(
+            array: V,
+            n?: number): TypeOfList<V>[];
 
         /**
         * Returns the last element of an array. Passing n will return the last n elements of the array.
         * @param array Retrieves the last element of this array.
         * @return Returns the last element of `array`.
         **/
-        last<T>(array: _.List<T>): T | undefined;
+        last<V extends List<unknown>>(array: V): TypeOfList<V> | undefined;
 
         /**
         * @see _.last
         * @param n Return more than one element from `array`.
         **/
-        last<T>(
-            array: _.List<T>,
-            n: number): T[];
+        last<V extends List<unknown>>(
+            array: V,
+            n: number): TypeOfList<V>[];
 
         /**
         * Returns the rest of the elements in an array. Pass an index to return the values of the array
@@ -869,9 +623,9 @@ declare module _ {
         * @param n The index to start retrieving elements forward from, optional, default = 1.
         * @return Returns the elements of `array` from `index` to the end of `array`.
         **/
-        rest<T>(
-            array: _.List<T>,
-            n?: number): T[];
+        rest<V extends List<unknown>>(
+            array: V,
+            n?: number): TypeOfList<V>[];
 
         /**
         * @see _.rest
@@ -889,7 +643,7 @@ declare module _ {
         * @param array Array to compact.
         * @return Copy of `array` without false values.
         **/
-        compact<T>(array: _.List<T>): NonFalsy<T>[]
+        compact<V extends List<unknown>>(array: V): NonFalsy<TypeOfList<V>>[]
 
         /**
         * Flattens a nested array (the nesting can be to any depth). If you pass shallow, the array will
@@ -898,12 +652,12 @@ declare module _ {
         * @param shallow If true then only flatten one level, optional, default = false.
         * @return `array` flattened.
         **/
-        flatten<T>(array: _.List<T>, shallow?: false): DeepFlattenedList<T>;
+        flatten<V extends List<unknown>>(array: V, shallow?: false): DeepFlattenedList<TypeOfList<V>>;
 
         /**
         * @see _.flatten
         **/
-        flatten<T>(array: _.List<T>, shallow: true): ShallowFlattenedList<T>;
+        flatten<V extends List<unknown>>(array: V, shallow: true): ShallowFlattenedList<TypeOfList<V>>;
 
         /**
         * Returns a copy of the array with all instances of the values removed.
@@ -911,25 +665,27 @@ declare module _ {
         * @param values The values to remove from `array`.
         * @return Copy of `array` without `values`.
         **/
-        without<T>(
-            array: _.List<T>,
-            ...values: T[]): T[];
+        without<V extends List<unknown>>(
+            array: V,
+            ...values: TypeOfList<V>[]): TypeOfList<V>[];
 
         /**
         * Computes the union of the passed-in arrays: the list of unique items, in order, that are
         * present in one or more of the arrays.
-        * @param arrays Array of arrays to compute the union of.
+        * @param first The first array to include in the union.
+        * @param rest The rest of the arrays to include in the union.
         * @return The union of elements within `arrays`.
         **/
-        union<T>(...arrays: _.List<T>[]): T[];
+        union<V extends List<unknown>>(first?: V, ...rest: List<TypeOfList<V>>[]): TypeOfList<V>[];
 
         /**
         * Computes the list of values that are the intersection of all the arrays. Each value in the result
         * is present in each of the arrays.
-        * @param arrays Array of arrays to compute the intersection of.
+        * @param first The first array to include in the intersection.
+        * @param rest The rest of the arrays to include in the intersection.
         * @return The intersection of elements within `arrays`.
         **/
-        intersection<T>(...arrays: _.List<T>[]): T[];
+        intersection<V extends List<unknown>>(first?: V, ...rest: List<TypeOfList<V>>[]): TypeOfList<V>[];
 
         /**
         * Similar to without, but returns the values from array that are not present in the other arrays.
@@ -937,9 +693,9 @@ declare module _ {
         * @param others The values to keep within `array`.
         * @return Copy of `array` with only `others` values.
         **/
-        difference<T>(
-            array: _.List<T>,
-            ...others: _.List<T>[]): T[];
+        difference<V extends List<unknown>>(
+            array: V,
+            ...others: List<TypeOfList<V>>[]): TypeOfList<V>[];
 
         /**
         * Produces a duplicate-free version of the array, using === to test object equality. If you know in
@@ -951,19 +707,19 @@ declare module _ {
         * @param context 'this' object in `iterator`, optional.
         * @return Copy of `array` where all elements are unique.
         **/
-        uniq<T>(
-            array: _.List<T>,
+        uniq<V extends List<unknown>>(
+            array: V,
             isSorted?: boolean,
-            iterator?: _.ListIterator<T, unknown> | keyof T,
-            context?: unknown): T[];
+            iterator?: _.ListIterator<TypeOfList<V>, unknown, V> | keyof TypeOfList<V>,
+            context?: unknown): TypeOfList<V>[];
 
         /**
         * @see _.uniq
         **/
-        uniq<T>(
-            array: _.List<T>,
-            iterator?: _.ListIterator<T, unknown> | keyof T,
-            context?: unknown): T[];
+        uniq<V extends List<unknown>>(
+            array: V,
+            iterator?: _.ListIterator<TypeOfList<V>, unknown, V> | keyof TypeOfList<V>,
+            context?: unknown): TypeOfList<V>[];
 
         /**
         * @see _.uniq
@@ -996,9 +752,9 @@ declare module _ {
         * @param values Value array.
         * @return An object containing the `keys` as properties and `values` as the property values.
         **/
-        object<TValue>(
+        object<V extends _.List<unknown>>(
             keys: _.List<string>,
-            values: _.List<TValue>): _.Dictionary<TValue>;
+            values: V): _.Dictionary<TypeOfList<V>>;
 
         /**
         * Converts arrays into objects. Pass either a single list of [key, value] pairs, or a
@@ -1006,7 +762,7 @@ declare module _ {
         * @param keyValuePairs Array of [key, value] pairs.
         * @return An object containing the `keys` as properties and `values` as the property values.
         **/
-        object<TValue>(keyValuePairs: _.List<[string, TValue]>): _.Dictionary<TValue>;
+        object<V extends _.List<[string, unknown]>>(keyValuePairs: V): _.Dictionary<TypeOfList<V> extends [string, infer TValue] ? TValue : never>;
 
         /**
         * Returns the index at which value can be found in the array, or -1 if value is not present in the array.
@@ -1018,17 +774,17 @@ declare module _ {
         * @param isSorted True if the array is already sorted, optional, default = false.
         * @return The index of `value` within `array`.
         **/
-        indexOf<T>(
-            array: _.List<T>,
-            value: T,
+        indexOf<V extends List<unknown>>(
+            array: V,
+            value: TypeOfList<V>,
             isSorted?: boolean): number;
 
         /**
         * @see _indexof
         **/
-        indexOf<T>(
-            array: _.List<T>,
-            value: T,
+        indexOf<V extends List<unknown>>(
+            array: V,
+            value: TypeOfList<V>,
             startFrom: number): number;
 
         /**
@@ -1039,9 +795,9 @@ declare module _ {
         * @param from The starting index for the search, optional.
         * @return The index of the last occurrence of `value` within `array`.
         **/
-        lastIndexOf<T>(
-            array: _.List<T>,
-            value: T,
+        lastIndexOf<V extends List<unknown>>(
+            array: V,
+            value: TypeOfList<V>,
             from?: number): number;
 
         /**
@@ -1051,9 +807,9 @@ declare module _ {
         * @param context `this` object in `predicate`, optional.
         * @return Returns the index of an element in `array` where the predicate truth test passes or -1.`
         **/
-        findIndex<T>(
-            array: _.List<T>,
-            predicate: _.ListIterator<T, boolean> | Partial<T> | KeysOfUnion<T>,
+        findIndex<V extends List<unknown>>(
+            array: V,
+            predicate: _.ListIterator<TypeOfList<V>, boolean, V> | Partial<TypeOfList<V>> | KeysOfUnion<TypeOfList<V>>,
             context?: unknown): number;
 
         /**
@@ -1063,9 +819,9 @@ declare module _ {
         * @param context `this` object in `predicate`, optional.
         * @return Returns the index of an element in `array` where the predicate truth test passes or -1.`
         **/
-        findLastIndex<T>(
-            array: _.List<T>,
-            predicate: _.ListIterator<T, boolean> | Partial<T> | KeysOfUnion<T>,
+        findLastIndex<V extends List<unknown>>(
+            array: V,
+            predicate: _.ListIterator<TypeOfList<V>, boolean, V> | Partial<TypeOfList<V>> | KeysOfUnion<TypeOfList<V>>,
             context?: unknown): number;
 
         /**
@@ -1078,10 +834,10 @@ declare module _ {
         * @param context `this` object in `iterator`, optional.
         * @return The index where `value` should be inserted into `list`.
         **/
-        sortedIndex<T>(
-            list: _.List<T>,
-            value: T,
-            iterator?: _.ListIterator<T, unknown> | keyof T,
+        sortedIndex<V extends List<unknown>>(
+            list: V,
+            value: TypeOfList<V>,
+            iterator?: _.ListIterator<TypeOfList<V>, unknown, V> | keyof TypeOfList<V>,
             context?: unknown
         ): number;
 
@@ -1114,7 +870,7 @@ declare module _ {
         * @param array The array to split.
         * @param length The maximum size of the inner arrays.
         */
-        chunk<T>(array: _.List<T>, length: number): T[][]
+        chunk<V extends List<unknown>>(array: V, length: number): TypeOfList<V>[][]
 
         /*************
          * Functions *
