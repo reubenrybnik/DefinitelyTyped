@@ -1,17 +1,1817 @@
 // common testing types and objects
+const context = {};
+
 interface SimpleStringObject {
     a: string;
     b: string;
 }
 
+const simpleStringObjectPropertyName = 'a';
+const simpleStringObjectPartialPropertyMatch: Partial<SimpleStringObject> = { a: 'b' };
+
 const simpleStringObjectArray: SimpleStringObject[] = [{ a: 'a', b: 'c' }, { a: 'b', b: 'b' }, { a: 'c', b: 'a' }];
 const simpleStringObjectList: _.List<SimpleStringObject> = { 0: { a: 'a', b: 'c' }, 1: { a: 'b', b: 'b' }, 2: { a: 'c', b: 'a' }, length: 3 };
+const simpleStringObjectListPropertyModifyingIterator = (value: SimpleStringObject, index: number, list: _.List<SimpleStringObject>) => value.a += 'b';
+const simpleStringObjectListPropertySelectingIterator = (value: SimpleStringObject, index: number, list: _.List<SimpleStringObject>) => value.a;
 
 const simpleStringObjectDictionary: _.Dictionary<SimpleStringObject> = { a: { a: 'a', b: 'c' }, b: { a: 'b', b: 'b' }, c: { a: 'c', b: 'a' } };
+const simpleStringObjectDictionaryPropertyModifyingIterator = (element: SimpleStringObject, key: string, dictionary: _.Dictionary<SimpleStringObject>) => element.a += 'b';
+const simpleStringObjectDictionaryPropertySelectingIterator = (element: SimpleStringObject, key: string, dictionary: _.Dictionary<SimpleStringObject>) => element.a;
+
+type SimpleStringObjectOrUndefined = SimpleStringObject | undefined;
+
+const simpleStringObjectOrUndefinedArray: SimpleStringObjectOrUndefined[] = [{ a: 'a', b: 'c' }, { a: 'b', b: 'b' }, undefined];
+const simpleStringObjectOrUndefinedList: _.List<SimpleStringObjectOrUndefined> = { 0: { a: 'a', b: 'c' }, 1: { a: 'b', b: 'b' }, 2: undefined, length: 3 };
+const simpleStringObjectOrUndefinedDictionary: _.Dictionary<SimpleStringObjectOrUndefined> = { a: { a: 'a', b: 'c' }, b: { a: 'b', b: 'b' }, c: undefined };
+
+interface SimpleMultiTypeObject {
+    a: boolean;
+    c: string;
+}
+
+type IntersectingObjectPropertiesType = SimpleStringObject | SimpleMultiTypeObject;
+
+const intersectingObjectPropertiesArray: IntersectingObjectPropertiesType[] = [{ a: 'a', b: 'b' }, { a: true, c: 'c' }];
+const intersectingObjectPropertiesList: _.List<IntersectingObjectPropertiesType> = { 0: { a: 'a', b: 'b' }, 1: { a: true, c: 'c' }, length: 2 };
+const intersectingObjectPropertiesDictionary: _.Dictionary<IntersectingObjectPropertiesType> = { a: { a: 'a', b: 'b' }, b: { a: true, c: 'c' } };
+
+interface SimpleNonIntersectingObject {
+    onlySimpleNonIntersectingObject: string;
+}
+
+type NonIntersectingObjectPropertiesType = SimpleStringObject | SimpleNonIntersectingObject;
+
+const nonIntersectingObjectPropertiesArray: NonIntersectingObjectPropertiesType[] = [{ a: 'a', b: 'c' }, { onlySimpleNonIntersectingObject: 'b' }];
+const nonIntersectingObjectPropertiesList: _.List<NonIntersectingObjectPropertiesType> = { 0: { a: 'a', b: 'c' }, 1: { onlySimpleNonIntersectingObject: 'b' }, length: 2 };
+const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObjectPropertiesType> = { a: { a: 'a', b: 'c' }, b: { onlySimpleNonIntersectingObject: 'b' } };
 
 const simpleString = 'abc';
+const stringListModifyingIterator = (value: string, index: number, list: _.List<string>) => value + 'b';
 
 const simpleNumber = 7;
+
+// Collections
+
+// each, forEach
+{
+    {
+
+        let result: SimpleStringObject[];
+
+        // $ExpectType SimpleStringObject[]
+        result = _.each<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType SimpleStringObject[]
+        result = _.each<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator, context);
+        // $ExpectType SimpleStringObject[]
+        result = _.each(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType SimpleStringObject[]
+        result = _.each(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator, context);
+
+        // $ExpectType SimpleStringObject[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).each(simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType SimpleStringObject[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).each(simpleStringObjectListPropertyModifyingIterator, context);
+        // $ExpectType SimpleStringObject[]
+        result = _(simpleStringObjectArray).each(simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType SimpleStringObject[]
+        result = _(simpleStringObjectArray).each(simpleStringObjectListPropertyModifyingIterator, context);
+
+        // $ExpectType SimpleStringObject[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).each(simpleStringObjectListPropertyModifyingIterator).value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).each(simpleStringObjectListPropertyModifyingIterator, context).value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain(simpleStringObjectArray).each(simpleStringObjectListPropertyModifyingIterator).value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain(simpleStringObjectArray).each(simpleStringObjectListPropertyModifyingIterator, context).value();
+
+        // $ExpectType SimpleStringObject[]
+        result = _.forEach<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType SimpleStringObject[]
+        result = _.forEach<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator, context);
+        // $ExpectType SimpleStringObject[]
+        result = _.forEach(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType SimpleStringObject[]
+        result = _.forEach(simpleStringObjectArray, simpleStringObjectListPropertyModifyingIterator, context);
+
+        // $ExpectType SimpleStringObject[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).forEach(simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType SimpleStringObject[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).forEach(simpleStringObjectListPropertyModifyingIterator, context);
+        // $ExpectType SimpleStringObject[]
+        result = _(simpleStringObjectArray).forEach(simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType SimpleStringObject[]
+        result = _(simpleStringObjectArray).forEach(simpleStringObjectListPropertyModifyingIterator, context);
+
+        // $ExpectType SimpleStringObject[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).forEach(simpleStringObjectListPropertyModifyingIterator).value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).forEach(simpleStringObjectListPropertyModifyingIterator, context).value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain(simpleStringObjectArray).forEach(simpleStringObjectListPropertyModifyingIterator).value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain(simpleStringObjectArray).forEach(simpleStringObjectListPropertyModifyingIterator, context).value();
+    }
+
+    {
+        let result: _.List<SimpleStringObject>;
+
+        // $ExpectType List<SimpleStringObject>
+        result = _.each<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType List<SimpleStringObject>
+        result = _.each<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator, context);
+        // $ExpectType List<SimpleStringObject>
+        result = _.each(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType List<SimpleStringObject>
+        result = _.each(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator, context);
+
+        // $ExpectType List<SimpleStringObject>
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).each(simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType List<SimpleStringObject>
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).each(simpleStringObjectListPropertyModifyingIterator, context);
+        // $ExpectType List<SimpleStringObject>
+        result = _(simpleStringObjectList).each(simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType List<SimpleStringObject>
+        result = _(simpleStringObjectList).each(simpleStringObjectListPropertyModifyingIterator, context);
+
+        // $ExpectType List<SimpleStringObject>
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).each(simpleStringObjectListPropertyModifyingIterator).value();
+        // $ExpectType List<SimpleStringObject>
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).each(simpleStringObjectListPropertyModifyingIterator, context).value();
+        // $ExpectType List<SimpleStringObject>
+        result = _.chain(simpleStringObjectList).each(simpleStringObjectListPropertyModifyingIterator).value();
+        // $ExpectType List<SimpleStringObject>
+        result = _.chain(simpleStringObjectList).each(simpleStringObjectListPropertyModifyingIterator, context).value();
+
+        // $ExpectType List<SimpleStringObject>
+        result = _.forEach<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType List<SimpleStringObject>
+        result = _.forEach<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator, context);
+        // $ExpectType List<SimpleStringObject>
+        result = _.forEach(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType List<SimpleStringObject>
+        result = _.forEach(simpleStringObjectList, simpleStringObjectListPropertyModifyingIterator, context);
+
+        // $ExpectType List<SimpleStringObject>
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).forEach(simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType List<SimpleStringObject>
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).forEach(simpleStringObjectListPropertyModifyingIterator, context);
+        // $ExpectType List<SimpleStringObject>
+        result = _(simpleStringObjectList).forEach(simpleStringObjectListPropertyModifyingIterator);
+        // $ExpectType List<SimpleStringObject>
+        result = _(simpleStringObjectList).forEach(simpleStringObjectListPropertyModifyingIterator, context);
+
+        // $ExpectType List<SimpleStringObject>
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).forEach(simpleStringObjectListPropertyModifyingIterator).value();
+        // $ExpectType List<SimpleStringObject>
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).forEach(simpleStringObjectListPropertyModifyingIterator, context).value();
+        // $ExpectType List<SimpleStringObject>
+        result = _.chain(simpleStringObjectList).forEach(simpleStringObjectListPropertyModifyingIterator).value();
+        // $ExpectType List<SimpleStringObject>
+        result = _.chain(simpleStringObjectList).forEach(simpleStringObjectListPropertyModifyingIterator, context).value();
+    }
+
+    {
+        let result: _.Dictionary<SimpleStringObject>;
+
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.each<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator);
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.each<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator, context);
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.each(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator);
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.each(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator, context);
+
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).each(simpleStringObjectDictionaryPropertyModifyingIterator);
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).each(simpleStringObjectDictionaryPropertyModifyingIterator, context);
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _(simpleStringObjectDictionary).each(simpleStringObjectDictionaryPropertyModifyingIterator);
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _(simpleStringObjectDictionary).each(simpleStringObjectDictionaryPropertyModifyingIterator, context);
+
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).each(simpleStringObjectDictionaryPropertyModifyingIterator).value();
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).each(simpleStringObjectDictionaryPropertyModifyingIterator, context).value();
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.chain(simpleStringObjectDictionary).each(simpleStringObjectDictionaryPropertyModifyingIterator).value();
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.chain(simpleStringObjectDictionary).each(simpleStringObjectDictionaryPropertyModifyingIterator, context).value();
+
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.forEach<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator);
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.forEach<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator, context);
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.forEach(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator);
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.forEach(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertyModifyingIterator, context);
+
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).forEach(simpleStringObjectDictionaryPropertyModifyingIterator);
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).forEach(simpleStringObjectDictionaryPropertyModifyingIterator, context);
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _(simpleStringObjectDictionary).forEach(simpleStringObjectDictionaryPropertyModifyingIterator);
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _(simpleStringObjectDictionary).forEach(simpleStringObjectDictionaryPropertyModifyingIterator, context);
+
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).forEach(simpleStringObjectDictionaryPropertyModifyingIterator).value();
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).forEach(simpleStringObjectDictionaryPropertyModifyingIterator, context).value();
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.chain(simpleStringObjectDictionary).forEach(simpleStringObjectDictionaryPropertyModifyingIterator).value();
+        // $ExpectType Dictionary<SimpleStringObject>
+        result = _.chain(simpleStringObjectDictionary).forEach(simpleStringObjectDictionaryPropertyModifyingIterator, context).value();
+    }
+}
+
+// map, collect
+{
+    // function iterator
+    {
+        let result: string[];
+
+        // $ExpectType string[]
+        result = _.map<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _.map<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
+        // $ExpectType string[]
+        result = _.map(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _.map(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).map<string>(simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).map<string>(simpleStringObjectListPropertySelectingIterator, context);
+        // $ExpectType string[]
+        result = _(simpleStringObjectArray).map(simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _(simpleStringObjectArray).map(simpleStringObjectListPropertySelectingIterator, context);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).map<string>(simpleStringObjectListPropertySelectingIterator).value();
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).map<string>(simpleStringObjectListPropertySelectingIterator, context).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectArray).map(simpleStringObjectListPropertySelectingIterator).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectArray).map(simpleStringObjectListPropertySelectingIterator, context).value();
+
+        // $ExpectType string[]
+        result = _.collect<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _.collect<SimpleStringObject, string>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
+        // $ExpectType string[]
+        result = _.collect(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _.collect(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).collect<string>(simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).collect<string>(simpleStringObjectListPropertySelectingIterator, context);
+        // $ExpectType string[]
+        result = _(simpleStringObjectArray).collect(simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _(simpleStringObjectArray).collect(simpleStringObjectListPropertySelectingIterator, context);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).collect<string>(simpleStringObjectListPropertySelectingIterator).value();
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).collect<string>(simpleStringObjectListPropertySelectingIterator, context).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectArray).collect(simpleStringObjectListPropertySelectingIterator).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectArray).collect(simpleStringObjectListPropertySelectingIterator, context).value();
+    }
+
+    {
+        let result: string[];
+
+        // $ExpectType string[]
+        result = _.map<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _.map<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
+        // $ExpectType string[]
+        result = _.map(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _.map(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).map<string>(simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).map<string>(simpleStringObjectListPropertySelectingIterator, context);
+        // $ExpectType string[]
+        result = _(simpleStringObjectList).map(simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _(simpleStringObjectList).map(simpleStringObjectListPropertySelectingIterator, context);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).map<string>(simpleStringObjectListPropertySelectingIterator).value();
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).map<string>(simpleStringObjectListPropertySelectingIterator, context).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectList).map(simpleStringObjectListPropertySelectingIterator).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectList).map(simpleStringObjectListPropertySelectingIterator, context).value();
+
+        // $ExpectType string[]
+        result = _.collect<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _.collect<SimpleStringObject, string>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
+        // $ExpectType string[]
+        result = _.collect(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _.collect(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).collect<string>(simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).collect<string>(simpleStringObjectListPropertySelectingIterator, context);
+        // $ExpectType string[]
+        result = _(simpleStringObjectList).collect(simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _(simpleStringObjectList).collect(simpleStringObjectListPropertySelectingIterator, context);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).collect<string>(simpleStringObjectListPropertySelectingIterator).value();
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).collect<string>(simpleStringObjectListPropertySelectingIterator, context).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectList).collect(simpleStringObjectListPropertySelectingIterator).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectList).collect(simpleStringObjectListPropertySelectingIterator, context).value();
+    }
+
+    {
+        let result: string[];
+
+        // $ExpectType string[]
+        result = _.map<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _.map<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
+        // $ExpectType string[]
+        result = _.map(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _.map(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).map<string>(simpleStringObjectDictionaryPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).map<string>(simpleStringObjectDictionaryPropertySelectingIterator, context);
+        // $ExpectType string[]
+        result = _(simpleStringObjectDictionary).map(simpleStringObjectDictionaryPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _(simpleStringObjectDictionary).map(simpleStringObjectDictionaryPropertySelectingIterator, context);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).map<string>(simpleStringObjectDictionaryPropertySelectingIterator).value();
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).map<string>(simpleStringObjectDictionaryPropertySelectingIterator, context).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectDictionary).map(simpleStringObjectDictionaryPropertySelectingIterator).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectDictionary).map(simpleStringObjectDictionaryPropertySelectingIterator, context).value();
+
+        // $ExpectType string[]
+        result = _.collect<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _.collect<SimpleStringObject, string>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
+        // $ExpectType string[]
+        result = _.collect(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _.collect(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).collect<string>(simpleStringObjectDictionaryPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).collect<string>(simpleStringObjectDictionaryPropertySelectingIterator, context);
+        // $ExpectType string[]
+        result = _(simpleStringObjectDictionary).collect(simpleStringObjectDictionaryPropertySelectingIterator);
+        // $ExpectType string[]
+        result = _(simpleStringObjectDictionary).collect(simpleStringObjectDictionaryPropertySelectingIterator, context);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).collect<string>(simpleStringObjectDictionaryPropertySelectingIterator).value();
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).collect<string>(simpleStringObjectDictionaryPropertySelectingIterator, context).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectDictionary).collect(simpleStringObjectDictionaryPropertySelectingIterator).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectDictionary).collect(simpleStringObjectDictionaryPropertySelectingIterator, context).value();
+    }
+
+    {
+        let result: string[];
+
+        // $ExpectType string[]
+        result = _.map<string, string>(simpleString, stringListModifyingIterator);
+        // $ExpectType string[]
+        result = _.map<string, string>(simpleString, stringListModifyingIterator, context);
+        // $ExpectType string[]
+        result = _.map(simpleString, stringListModifyingIterator);
+        // $ExpectType string[]
+        result = _.map(simpleString, stringListModifyingIterator, context);
+
+        // $ExpectType string[]
+        result = _<string, string>(simpleString).map<string>(stringListModifyingIterator);
+        // $ExpectType string[]
+        result = _<string, string>(simpleString).map<string>(stringListModifyingIterator, context);
+        // $ExpectType string[]
+        result = _(simpleString).map(stringListModifyingIterator);
+        // $ExpectType string[]
+        result = _(simpleString).map(stringListModifyingIterator, context);
+
+        // $ExpectType string[]
+        result = _.chain<string, string>(simpleString).map<string>(stringListModifyingIterator).value();
+        // $ExpectType string[]
+        result = _.chain<string, string>(simpleString).map<string>(stringListModifyingIterator, context).value();
+        // $ExpectType string[]
+        result = _.chain(simpleString).map(stringListModifyingIterator).value();
+        // $ExpectType string[]
+        result = _.chain(simpleString).map(stringListModifyingIterator, context).value();
+
+        // $ExpectType string[]
+        result = _.collect<string, string>(simpleString, stringListModifyingIterator);
+        // $ExpectType string[]
+        result = _.collect<string, string>(simpleString, stringListModifyingIterator, context);
+        // $ExpectType string[]
+        result = _.collect(simpleString, stringListModifyingIterator);
+        // $ExpectType string[]
+        result = _.collect(simpleString, stringListModifyingIterator, context);
+
+        // $ExpectType string[]
+        result = _<string, string>(simpleString).collect<string>(stringListModifyingIterator);
+        // $ExpectType string[]
+        result = _<string, string>(simpleString).collect<string>(stringListModifyingIterator, context);
+        // $ExpectType string[]
+        result = _(simpleString).collect(stringListModifyingIterator);
+        // $ExpectType string[]
+        result = _(simpleString).collect(stringListModifyingIterator, context);
+
+        // $ExpectType string[]
+        result = _.chain<string, string>(simpleString).collect<string>(stringListModifyingIterator).value();
+        // $ExpectType string[]
+        result = _.chain<string, string>(simpleString).collect<string>(stringListModifyingIterator, context).value();
+        // $ExpectType string[]
+        result = _.chain(simpleString).collect(stringListModifyingIterator).value();
+        // $ExpectType string[]
+        result = _.chain(simpleString).collect(stringListModifyingIterator, context).value();
+    }
+
+    // partial object iterator with a non-nullable single type
+    {
+        let result: boolean[];
+
+        // $ExpectType boolean[]
+        result = _.map<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.map(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).map(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(simpleStringObjectArray).map(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).map(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(simpleStringObjectArray).map(simpleStringObjectPartialPropertyMatch).value();
+
+        // $ExpectType boolean[]
+        result = _.collect<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.collect(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).collect(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(simpleStringObjectArray).collect(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).collect(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(simpleStringObjectArray).collect(simpleStringObjectPartialPropertyMatch).value();
+    }
+
+    {
+        let result: boolean[];
+
+        // $ExpectType boolean[]
+        result = _.map<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.map(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).map(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(simpleStringObjectList).map(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).map(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(simpleStringObjectList).map(simpleStringObjectPartialPropertyMatch).value();
+
+        // $ExpectType boolean[]
+        result = _.collect<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.collect(simpleStringObjectList, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).collect(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(simpleStringObjectList).collect(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).collect(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(simpleStringObjectList).collect(simpleStringObjectPartialPropertyMatch).value();
+    }
+
+    {
+        let result: boolean[];
+
+        // $ExpectType boolean[]
+        result = _.map<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.map(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).map(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(simpleStringObjectDictionary).map(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).map(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(simpleStringObjectDictionary).map(simpleStringObjectPartialPropertyMatch).value();
+
+        // $ExpectType boolean[]
+        result = _.collect<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.collect(simpleStringObjectDictionary, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).collect(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(simpleStringObjectDictionary).collect(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).collect(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(simpleStringObjectDictionary).collect(simpleStringObjectPartialPropertyMatch).value();
+    }
+
+    // partial object iterator with a non-nullable intersecting type union
+    {
+        let result: boolean[];
+
+        // $ExpectType boolean[]
+        result = _.map<IntersectingObjectPropertiesType>(intersectingObjectPropertiesArray, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.map(intersectingObjectPropertiesArray, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<IntersectingObjectPropertiesType, IntersectingObjectPropertiesType[]>(intersectingObjectPropertiesArray).map(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(intersectingObjectPropertiesArray).map(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<IntersectingObjectPropertiesType, IntersectingObjectPropertiesType[]>(intersectingObjectPropertiesArray).map(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(intersectingObjectPropertiesArray).map(simpleStringObjectPartialPropertyMatch).value();
+
+        // $ExpectType boolean[]
+        result = _.collect<IntersectingObjectPropertiesType>(intersectingObjectPropertiesArray, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.collect(intersectingObjectPropertiesArray, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<IntersectingObjectPropertiesType, IntersectingObjectPropertiesType[]>(intersectingObjectPropertiesArray).collect(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(intersectingObjectPropertiesArray).collect(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<IntersectingObjectPropertiesType, IntersectingObjectPropertiesType[]>(intersectingObjectPropertiesArray).collect(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(intersectingObjectPropertiesArray).collect(simpleStringObjectPartialPropertyMatch).value();
+    }
+
+    {
+        let result: boolean[];
+
+        // $ExpectType boolean[]
+        result = _.map<IntersectingObjectPropertiesType>(intersectingObjectPropertiesList, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.map(intersectingObjectPropertiesList, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<IntersectingObjectPropertiesType, _.List<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesList).map(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(intersectingObjectPropertiesList).map(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<IntersectingObjectPropertiesType, _.List<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesList).map(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(intersectingObjectPropertiesList).map(simpleStringObjectPartialPropertyMatch).value();
+
+        // $ExpectType boolean[]
+        result = _.collect<IntersectingObjectPropertiesType>(intersectingObjectPropertiesList, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.collect(intersectingObjectPropertiesList, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<IntersectingObjectPropertiesType, _.List<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesList).collect(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(intersectingObjectPropertiesList).collect(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<IntersectingObjectPropertiesType, _.List<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesList).collect(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(intersectingObjectPropertiesList).collect(simpleStringObjectPartialPropertyMatch).value();
+    }
+
+    {
+        let result: boolean[];
+
+        // $ExpectType boolean[]
+        result = _.map<IntersectingObjectPropertiesType>(intersectingObjectPropertiesDictionary, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.map(intersectingObjectPropertiesDictionary, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<IntersectingObjectPropertiesType, _.Dictionary<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesDictionary).map(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(intersectingObjectPropertiesDictionary).map(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<IntersectingObjectPropertiesType, _.Dictionary<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesDictionary).map(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(intersectingObjectPropertiesDictionary).map(simpleStringObjectPartialPropertyMatch).value();
+
+        // $ExpectType boolean[]
+        result = _.collect<IntersectingObjectPropertiesType>(intersectingObjectPropertiesDictionary, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.collect(intersectingObjectPropertiesDictionary, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<IntersectingObjectPropertiesType, _.Dictionary<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesDictionary).collect(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(intersectingObjectPropertiesDictionary).collect(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<IntersectingObjectPropertiesType, _.Dictionary<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesDictionary).collect(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(intersectingObjectPropertiesDictionary).collect(simpleStringObjectPartialPropertyMatch).value();
+    }
+
+    // partial object iterator with a nullable type union
+    {
+        let result: boolean[];
+
+        // $ExpectType boolean[]
+        result = _.map<SimpleStringObjectOrUndefined>(simpleStringObjectOrUndefinedArray, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.map(simpleStringObjectOrUndefinedArray, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<SimpleStringObjectOrUndefined, SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).map(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(simpleStringObjectOrUndefinedArray).map(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<SimpleStringObjectOrUndefined, SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).map(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(simpleStringObjectOrUndefinedArray).map(simpleStringObjectPartialPropertyMatch).value();
+
+        // $ExpectType boolean[]
+        result = _.collect<SimpleStringObjectOrUndefined>(simpleStringObjectOrUndefinedArray, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.collect(simpleStringObjectOrUndefinedArray, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<SimpleStringObjectOrUndefined, SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).collect(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(simpleStringObjectOrUndefinedArray).collect(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<SimpleStringObjectOrUndefined, SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).collect(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(simpleStringObjectOrUndefinedArray).collect(simpleStringObjectPartialPropertyMatch).value();
+    }
+
+    {
+        let result: boolean[];
+
+        // $ExpectType boolean[]
+        result = _.map<SimpleStringObjectOrUndefined>(simpleStringObjectOrUndefinedList, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.map(simpleStringObjectOrUndefinedList, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<SimpleStringObjectOrUndefined, _.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).map(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(simpleStringObjectOrUndefinedList).map(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<SimpleStringObjectOrUndefined, _.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).map(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(simpleStringObjectOrUndefinedList).map(simpleStringObjectPartialPropertyMatch).value();
+
+        // $ExpectType boolean[]
+        result = _.collect<SimpleStringObjectOrUndefined>(simpleStringObjectOrUndefinedList, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.collect(simpleStringObjectOrUndefinedList, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<SimpleStringObjectOrUndefined, _.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).collect(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(simpleStringObjectOrUndefinedList).collect(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<SimpleStringObjectOrUndefined, _.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).collect(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(simpleStringObjectOrUndefinedList).collect(simpleStringObjectPartialPropertyMatch).value();
+    }
+
+    {
+        let result: boolean[];
+
+        // $ExpectType boolean[]
+        result = _.map<SimpleStringObjectOrUndefined>(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.map(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<SimpleStringObjectOrUndefined, _.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).map(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(simpleStringObjectOrUndefinedDictionary).map(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<SimpleStringObjectOrUndefined, _.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).map(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(simpleStringObjectOrUndefinedDictionary).map(simpleStringObjectPartialPropertyMatch).value();
+
+        // $ExpectType boolean[]
+        result = _.collect<SimpleStringObjectOrUndefined>(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.collect(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<SimpleStringObjectOrUndefined, _.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).collect(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(simpleStringObjectOrUndefinedDictionary).collect(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<SimpleStringObjectOrUndefined, _.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).collect(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(simpleStringObjectOrUndefinedDictionary).collect(simpleStringObjectPartialPropertyMatch).value();
+    }
+
+    // partial object iterator with a non-nullable non-intersecting type union
+    {
+        let result: boolean[];
+
+        // $ExpectType boolean[]
+        result = _.map<NonIntersectingObjectPropertiesType>(nonIntersectingObjectPropertiesArray, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.map(nonIntersectingObjectPropertiesArray, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<NonIntersectingObjectPropertiesType, NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).map(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(nonIntersectingObjectPropertiesArray).map(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<NonIntersectingObjectPropertiesType, NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).map(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(nonIntersectingObjectPropertiesArray).map(simpleStringObjectPartialPropertyMatch).value();
+
+        // $ExpectType boolean[]
+        result = _.collect<NonIntersectingObjectPropertiesType>(nonIntersectingObjectPropertiesArray, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.collect(nonIntersectingObjectPropertiesArray, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<NonIntersectingObjectPropertiesType, NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).collect(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(nonIntersectingObjectPropertiesArray).collect(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<NonIntersectingObjectPropertiesType, NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).collect(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(nonIntersectingObjectPropertiesArray).collect(simpleStringObjectPartialPropertyMatch).value();
+    }
+
+    {
+        let result: boolean[];
+
+        // $ExpectType boolean[]
+        result = _.map<NonIntersectingObjectPropertiesType>(nonIntersectingObjectPropertiesList, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.map(nonIntersectingObjectPropertiesList, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<NonIntersectingObjectPropertiesType, _.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesList).map(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(nonIntersectingObjectPropertiesList).map(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<NonIntersectingObjectPropertiesType, _.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesList).map(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(nonIntersectingObjectPropertiesList).map(simpleStringObjectPartialPropertyMatch).value();
+
+        // $ExpectType boolean[]
+        result = _.collect<NonIntersectingObjectPropertiesType>(nonIntersectingObjectPropertiesList, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.collect(nonIntersectingObjectPropertiesList, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<NonIntersectingObjectPropertiesType, _.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesList).collect(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(nonIntersectingObjectPropertiesList).collect(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<NonIntersectingObjectPropertiesType, _.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesList).collect(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(nonIntersectingObjectPropertiesList).collect(simpleStringObjectPartialPropertyMatch).value();
+    }
+
+    {
+        let result: boolean[];
+
+        // $ExpectType boolean[]
+        result = _.map<NonIntersectingObjectPropertiesType>(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.map(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<NonIntersectingObjectPropertiesType, _.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).map(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(nonIntersectingObjectPropertiesDictionary).map(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<NonIntersectingObjectPropertiesType, _.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).map(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(nonIntersectingObjectPropertiesDictionary).map(simpleStringObjectPartialPropertyMatch).value();
+
+        // $ExpectType boolean[]
+        result = _.collect<NonIntersectingObjectPropertiesType>(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.collect(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<NonIntersectingObjectPropertiesType, _.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).collect(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(nonIntersectingObjectPropertiesDictionary).collect(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<NonIntersectingObjectPropertiesType, _.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).collect(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(nonIntersectingObjectPropertiesDictionary).collect(simpleStringObjectPartialPropertyMatch).value();
+    }
+
+    // property name iterator with a non-nullable single type
+    {
+        let result: string[];
+
+        // $ExpectType string[]
+        result = _.map<SimpleStringObject, typeof simpleStringObjectPropertyName>(simpleStringObjectArray, simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _.map(simpleStringObjectArray, simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _(simpleStringObjectArray).map(simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectArray).map(simpleStringObjectPropertyName).value();
+
+        // $ExpectType string[]
+        result = _.collect<SimpleStringObject, typeof simpleStringObjectPropertyName>(simpleStringObjectArray, simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _.collect(simpleStringObjectArray, simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _(simpleStringObjectArray).collect(simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectArray).collect(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: string[];
+
+        // $ExpectType string[]
+        result = _.map<SimpleStringObject, typeof simpleStringObjectPropertyName>(simpleStringObjectList, simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _.map(simpleStringObjectList, simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _(simpleStringObjectList).map(simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectList).map(simpleStringObjectPropertyName).value();
+
+        // $ExpectType string[]
+        result = _.collect<SimpleStringObject, typeof simpleStringObjectPropertyName>(simpleStringObjectList, simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _.collect(simpleStringObjectList, simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _(simpleStringObjectList).collect(simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectList).collect(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: string[];
+
+        // $ExpectType string[]
+        result = _.map<SimpleStringObject, typeof simpleStringObjectPropertyName>(simpleStringObjectDictionary, simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _.map(simpleStringObjectDictionary, simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _(simpleStringObjectDictionary).map(simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectDictionary).map(simpleStringObjectPropertyName).value();
+
+        // $ExpectType string[]
+        result = _.collect<SimpleStringObject, typeof simpleStringObjectPropertyName>(simpleStringObjectDictionary, simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _.collect(simpleStringObjectDictionary, simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _(simpleStringObjectDictionary).collect(simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectDictionary).collect(simpleStringObjectPropertyName).value();
+    }
+
+    // property name iterator with a non-nullable intersecting type union
+    {
+        let result: (string | boolean)[];
+
+        // $ExpectType (string | boolean)[]
+        result = _.map<IntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(intersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _.map(intersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _<IntersectingObjectPropertiesType, IntersectingObjectPropertiesType[]>(intersectingObjectPropertiesArray).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _(intersectingObjectPropertiesArray).map(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _.chain<IntersectingObjectPropertiesType, IntersectingObjectPropertiesType[]>(intersectingObjectPropertiesArray).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | boolean)[]
+        result = _.chain(intersectingObjectPropertiesArray).map(simpleStringObjectPropertyName).value();
+
+        // $ExpectType (string | boolean)[]
+        result = _.collect<IntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(intersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _.collect(intersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _<IntersectingObjectPropertiesType, IntersectingObjectPropertiesType[]>(intersectingObjectPropertiesArray).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _(intersectingObjectPropertiesArray).collect(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _.chain<IntersectingObjectPropertiesType, IntersectingObjectPropertiesType[]>(intersectingObjectPropertiesArray).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | boolean)[]
+        result = _.chain(intersectingObjectPropertiesArray).collect(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: (string | boolean)[];
+
+        // $ExpectType (string | boolean)[]
+        result = _.map<IntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(intersectingObjectPropertiesList, simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _.map(intersectingObjectPropertiesList, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _<IntersectingObjectPropertiesType, _.List<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesList).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _(intersectingObjectPropertiesList).map(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _.chain<IntersectingObjectPropertiesType, _.List<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesList).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | boolean)[]
+        result = _.chain(intersectingObjectPropertiesList).map(simpleStringObjectPropertyName).value();
+
+        // $ExpectType (string | boolean)[]
+        result = _.collect<IntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(intersectingObjectPropertiesList, simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _.collect(intersectingObjectPropertiesList, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _<IntersectingObjectPropertiesType, _.List<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesList).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _(intersectingObjectPropertiesList).collect(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _.chain<IntersectingObjectPropertiesType, _.List<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesList).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | boolean)[]
+        result = _.chain(intersectingObjectPropertiesList).collect(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: (string | boolean)[];
+
+        // $ExpectType (string | boolean)[]
+        result = _.map<IntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(intersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _.map(intersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _<IntersectingObjectPropertiesType, _.Dictionary<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesDictionary).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _(intersectingObjectPropertiesDictionary).map(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _.chain<IntersectingObjectPropertiesType, _.Dictionary<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesDictionary).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | boolean)[]
+        result = _.chain(intersectingObjectPropertiesDictionary).map(simpleStringObjectPropertyName).value();
+
+        // $ExpectType (string | boolean)[]
+        result = _.collect<IntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(intersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _.collect(intersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _<IntersectingObjectPropertiesType, _.Dictionary<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesDictionary).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _(intersectingObjectPropertiesDictionary).collect(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _.chain<IntersectingObjectPropertiesType, _.Dictionary<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesDictionary).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | boolean)[]
+        result = _.chain(intersectingObjectPropertiesDictionary).collect(simpleStringObjectPropertyName).value();
+    }
+
+    // property name iterator with a nullable type union
+    {
+        let result: (string | undefined)[];
+
+        // $ExpectType (string | undefined)[]
+        result = _.map<SimpleStringObjectOrUndefined, typeof simpleStringObjectPropertyName>(simpleStringObjectOrUndefinedArray, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.map(simpleStringObjectOrUndefinedArray, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<SimpleStringObjectOrUndefined, SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(simpleStringObjectOrUndefinedArray).map(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<SimpleStringObjectOrUndefined, SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(simpleStringObjectOrUndefinedArray).map(simpleStringObjectPropertyName).value();
+
+        // $ExpectType (string | undefined)[]
+        result = _.collect<SimpleStringObjectOrUndefined, typeof simpleStringObjectPropertyName>(simpleStringObjectOrUndefinedArray, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.collect(simpleStringObjectOrUndefinedArray, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<SimpleStringObjectOrUndefined, SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(simpleStringObjectOrUndefinedArray).collect(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<SimpleStringObjectOrUndefined, SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(simpleStringObjectOrUndefinedArray).collect(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: (string | undefined)[];
+
+        // $ExpectType (string | undefined)[]
+        result = _.map<SimpleStringObjectOrUndefined, typeof simpleStringObjectPropertyName>(simpleStringObjectOrUndefinedList, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.map(simpleStringObjectOrUndefinedList, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<SimpleStringObjectOrUndefined, _.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(simpleStringObjectOrUndefinedList).map(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<SimpleStringObjectOrUndefined, _.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(simpleStringObjectOrUndefinedList).map(simpleStringObjectPropertyName).value();
+
+        // $ExpectType (string | undefined)[]
+        result = _.collect<SimpleStringObjectOrUndefined, typeof simpleStringObjectPropertyName>(simpleStringObjectOrUndefinedList, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.collect(simpleStringObjectOrUndefinedList, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<SimpleStringObjectOrUndefined, _.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(simpleStringObjectOrUndefinedList).collect(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<SimpleStringObjectOrUndefined, _.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(simpleStringObjectOrUndefinedList).collect(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: (string | undefined)[];
+
+        // $ExpectType (string | undefined)[]
+        result = _.map<SimpleStringObjectOrUndefined, typeof simpleStringObjectPropertyName>(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.map(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<SimpleStringObjectOrUndefined, _.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(simpleStringObjectOrUndefinedDictionary).map(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<SimpleStringObjectOrUndefined, _.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(simpleStringObjectOrUndefinedDictionary).map(simpleStringObjectPropertyName).value();
+
+        // $ExpectType (string | undefined)[]
+        result = _.collect<SimpleStringObjectOrUndefined, typeof simpleStringObjectPropertyName>(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.collect(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<SimpleStringObjectOrUndefined, _.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(simpleStringObjectOrUndefinedDictionary).collect(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<SimpleStringObjectOrUndefined, _.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(simpleStringObjectOrUndefinedDictionary).collect(simpleStringObjectPropertyName).value();
+    }
+
+    // property name iterator with a non-nullable non-intersecting type union
+    {
+        let result: (string | undefined)[];
+
+        // $ExpectType (string | undefined)[]
+        result = _.map<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.map(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<NonIntersectingObjectPropertiesType, NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(nonIntersectingObjectPropertiesArray).map(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<NonIntersectingObjectPropertiesType, NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(nonIntersectingObjectPropertiesArray).map(simpleStringObjectPropertyName).value();
+
+        // $ExpectType (string | undefined)[]
+        result = _.collect<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.collect(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<NonIntersectingObjectPropertiesType, NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(nonIntersectingObjectPropertiesArray).collect(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<NonIntersectingObjectPropertiesType, NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(nonIntersectingObjectPropertiesArray).collect(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: (string | undefined)[];
+
+        // $ExpectType (string | undefined)[]
+        result = _.map<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesList, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.map(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<NonIntersectingObjectPropertiesType, _.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesArray).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(nonIntersectingObjectPropertiesArray).map(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<NonIntersectingObjectPropertiesType, _.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesArray).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(nonIntersectingObjectPropertiesArray).map(simpleStringObjectPropertyName).value();
+
+        // $ExpectType (string | undefined)[]
+        result = _.collect<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.collect(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<NonIntersectingObjectPropertiesType, _.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesArray).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(nonIntersectingObjectPropertiesArray).collect(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<NonIntersectingObjectPropertiesType, _.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesArray).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(nonIntersectingObjectPropertiesArray).collect(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: (string | undefined)[];
+
+        // $ExpectType (string | undefined)[]
+        result = _.map<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.map(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<NonIntersectingObjectPropertiesType, _.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(nonIntersectingObjectPropertiesDictionary).map(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<NonIntersectingObjectPropertiesType, _.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(nonIntersectingObjectPropertiesDictionary).map(simpleStringObjectPropertyName).value();
+
+        // $ExpectType (string | undefined)[]
+        result = _.collect<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.collect(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<NonIntersectingObjectPropertiesType, _.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(nonIntersectingObjectPropertiesDictionary).collect(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<NonIntersectingObjectPropertiesType, _.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(nonIntersectingObjectPropertiesDictionary).collect(simpleStringObjectPropertyName).value();
+    }
+}
+
+// pluck
+{
+    // property name iterator with a non-nullable single type
+    {
+        let result: string[];
+
+        // $ExpectType string[]
+        result = _.pluck<SimpleStringObject, typeof simpleStringObjectPropertyName>(simpleStringObjectArray, simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _.pluck(simpleStringObjectArray, simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _(simpleStringObjectArray).pluck(simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectArray).pluck(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: (string | boolean)[];
+
+        // $ExpectType string[]
+        result = _.pluck<SimpleStringObject, typeof simpleStringObjectPropertyName>(simpleStringObjectList, simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _.pluck(simpleStringObjectList, simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _(simpleStringObjectList).pluck(simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectList).pluck(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: (string | boolean)[];
+
+        // $ExpectType string[]
+        result = _.pluck<SimpleStringObject, typeof simpleStringObjectPropertyName>(simpleStringObjectDictionary, simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _.pluck(simpleStringObjectDictionary, simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType string[]
+        result = _(simpleStringObjectDictionary).pluck(simpleStringObjectPropertyName);
+
+        // $ExpectType string[]
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringObjectDictionary).pluck(simpleStringObjectPropertyName).value();
+    }
+
+    // property name iterator with a non-nullable intersecting type union
+    {
+        let result: (string | boolean)[];
+
+        // $ExpectType (string | boolean)[]
+        result = _.pluck<IntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(intersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _.pluck(intersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _<IntersectingObjectPropertiesType, IntersectingObjectPropertiesType[]>(intersectingObjectPropertiesArray).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _(intersectingObjectPropertiesArray).pluck(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _.chain<IntersectingObjectPropertiesType, IntersectingObjectPropertiesType[]>(intersectingObjectPropertiesArray).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | boolean)[]
+        result = _.chain(intersectingObjectPropertiesArray).pluck(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: (string | boolean)[];
+
+        // $ExpectType (string | boolean)[]
+        result = _.pluck<IntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(intersectingObjectPropertiesList, simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _.pluck(intersectingObjectPropertiesList, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _<IntersectingObjectPropertiesType, _.List<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesList).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _(intersectingObjectPropertiesList).pluck(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _.chain<IntersectingObjectPropertiesType, _.List<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesList).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | boolean)[]
+        result = _.chain(intersectingObjectPropertiesList).pluck(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: (string | boolean)[];
+
+        // $ExpectType (string | boolean)[]
+        result = _.pluck<IntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(intersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _.pluck(intersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _<IntersectingObjectPropertiesType, _.Dictionary<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesDictionary).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | boolean)[]
+        result = _(intersectingObjectPropertiesDictionary).pluck(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | boolean)[]
+        result = _.chain<IntersectingObjectPropertiesType, _.Dictionary<IntersectingObjectPropertiesType>>(intersectingObjectPropertiesDictionary).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | boolean)[]
+        result = _.chain(intersectingObjectPropertiesDictionary).pluck(simpleStringObjectPropertyName).value();
+    }
+
+    // property name iterator with a nullable type union
+    {
+        let result: (string | undefined)[];
+
+        // $ExpectType (string | undefined)[]
+        result = _.pluck<SimpleStringObjectOrUndefined, typeof simpleStringObjectPropertyName>(simpleStringObjectOrUndefinedArray, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.pluck(simpleStringObjectOrUndefinedArray, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<SimpleStringObjectOrUndefined, SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(simpleStringObjectOrUndefinedArray).pluck(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<SimpleStringObjectOrUndefined, SimpleStringObjectOrUndefined[]>(simpleStringObjectOrUndefinedArray).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(simpleStringObjectOrUndefinedArray).pluck(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: (string | undefined)[];
+
+        // $ExpectType (string | undefined)[]
+        result = _.pluck<SimpleStringObjectOrUndefined, typeof simpleStringObjectPropertyName>(simpleStringObjectOrUndefinedList, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.pluck(simpleStringObjectOrUndefinedList, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<SimpleStringObjectOrUndefined, _.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(simpleStringObjectOrUndefinedList).pluck(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<SimpleStringObjectOrUndefined, _.List<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedList).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(simpleStringObjectOrUndefinedList).pluck(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: (string | undefined)[];
+
+        // $ExpectType (string | undefined)[]
+        result = _.pluck<SimpleStringObjectOrUndefined, typeof simpleStringObjectPropertyName>(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.pluck(simpleStringObjectOrUndefinedDictionary, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<SimpleStringObjectOrUndefined, _.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(simpleStringObjectOrUndefinedDictionary).pluck(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<SimpleStringObjectOrUndefined, _.Dictionary<SimpleStringObjectOrUndefined>>(simpleStringObjectOrUndefinedDictionary).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(simpleStringObjectOrUndefinedDictionary).pluck(simpleStringObjectPropertyName).value();
+    }
+
+    // property name iterator with a non-nullable non-intersecting type union
+    {
+        let result: (string | undefined)[];
+
+        // $ExpectType (string | undefined)[]
+        result = _.pluck<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.pluck(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<NonIntersectingObjectPropertiesType, NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(nonIntersectingObjectPropertiesArray).pluck(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<NonIntersectingObjectPropertiesType, NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(nonIntersectingObjectPropertiesArray).pluck(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: (string | undefined)[];
+
+        // $ExpectType (string | undefined)[]
+        result = _.pluck<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesList, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.pluck(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<NonIntersectingObjectPropertiesType, _.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesArray).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(nonIntersectingObjectPropertiesArray).pluck(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<NonIntersectingObjectPropertiesType, _.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesArray).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(nonIntersectingObjectPropertiesArray).pluck(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: (string | undefined)[];
+
+        // $ExpectType (string | undefined)[]
+        result = _.pluck<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _.pluck(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _<NonIntersectingObjectPropertiesType, _.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType (string | undefined)[]
+        result = _(nonIntersectingObjectPropertiesDictionary).pluck(simpleStringObjectPropertyName);
+
+        // $ExpectType (string | undefined)[]
+        result = _.chain<NonIntersectingObjectPropertiesType, _.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType (string | undefined)[]
+        result = _.chain(nonIntersectingObjectPropertiesDictionary).pluck(simpleStringObjectPropertyName).value();
+    }
+}
+
+// Arrays
+
+// flatten
+{
+    // one dimension, deep
+    {
+        let result: SimpleStringObject[];
+
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten<SimpleStringObject>(simpleStringObjectArray);
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten(simpleStringObjectArray);
+
+        // $ExpectType SimpleStringObject[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).flatten();
+        // $ExpectType SimpleStringObject[]
+        result = _(simpleStringObjectArray).flatten();
+
+        // $ExpectType SimpleStringObject[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).flatten().value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain(simpleStringObjectArray).flatten().value();
+    }
+
+    {
+        let result: SimpleStringObject[];
+
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten<SimpleStringObject>(simpleStringObjectList);
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten(simpleStringObjectList);
+
+        // $ExpectType SimpleStringObject[]
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).flatten();
+        // $ExpectType SimpleStringObject[]
+        result = _(simpleStringObjectList).flatten();
+
+        // $ExpectType SimpleStringObject[]
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).flatten().value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain(simpleStringObjectList).flatten().value();
+    }
+
+    // one dimension, shallow
+    {
+        let result: SimpleStringObject[];
+
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten<SimpleStringObject>(simpleStringObjectArray, true);
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten(simpleStringObjectArray, true);
+
+        // $ExpectType SimpleStringObject[]
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).flatten(true);
+        // $ExpectType SimpleStringObject[]
+        result = _(simpleStringObjectArray).flatten(true);
+
+        // $ExpectType SimpleStringObject[]
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).flatten(true).value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain(simpleStringObjectArray).flatten(true).value();
+    }
+
+    {
+        let result: SimpleStringObject[];
+
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten<SimpleStringObject>(simpleStringObjectList, true);
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten(simpleStringObjectList, true);
+
+        // $ExpectType SimpleStringObject[]
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).flatten(true);
+        // $ExpectType SimpleStringObject[]
+        result = _(simpleStringObjectList).flatten(true);
+
+        // $ExpectType SimpleStringObject[]
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).flatten(true).value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain(simpleStringObjectList).flatten(true).value();
+    }
+
+    // two dimensions, deep
+    {
+        const array: SimpleStringObject[][] = [simpleStringObjectArray];
+        let result: SimpleStringObject[];
+
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten<SimpleStringObject[]>(array);
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten(array);
+
+        // $ExpectType SimpleStringObject[]
+        result = _<SimpleStringObject[], SimpleStringObject[][]>(array).flatten();
+        // $ExpectType SimpleStringObject[]
+        result = _(array).flatten();
+
+        // $ExpectType SimpleStringObject[]
+        result = _.chain<SimpleStringObject[], SimpleStringObject[][]>(array).flatten().value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain(array).flatten().value();
+    }
+
+    {
+        const list: _.List<_.List<SimpleStringObject>> = { 0: simpleStringObjectList, length: 1 };
+        let result: SimpleStringObject[];
+
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten<_.List<SimpleStringObject>>(list);
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten(list);
+
+        // $ExpectType SimpleStringObject[]
+        result = _<_.List<SimpleStringObject>, _.List<_.List<SimpleStringObject>>>(list).flatten();
+        // $ExpectType SimpleStringObject[]
+        result = _(list).flatten();
+
+        // $ExpectType SimpleStringObject[]
+        result = _.chain<_.List<SimpleStringObject>, _.List<_.List<SimpleStringObject>>>(list).flatten().value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain(list).flatten().value();
+    }
+
+    // two dimensions, shallow
+    {
+        const array: SimpleStringObject[][] = [simpleStringObjectArray];
+        let result: SimpleStringObject[];
+
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten<SimpleStringObject[]>(array, true);
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten(array, true);
+
+        // $ExpectType SimpleStringObject[]
+        result = _<SimpleStringObject[], SimpleStringObject[][]>(array).flatten(true);
+        // $ExpectType SimpleStringObject[]
+        result = _(array).flatten(true);
+
+        // $ExpectType SimpleStringObject[]
+        result = _.chain<SimpleStringObject[], SimpleStringObject[][]>(array).flatten(true).value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain(array).flatten(true).value();
+    }
+
+    {
+        const list: _.List<_.List<SimpleStringObject>> = { 0: simpleStringObjectList, length: 1 };
+        let result: SimpleStringObject[];
+
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten<_.List<SimpleStringObject>>(list, true);
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten(list, true);
+
+        // $ExpectType SimpleStringObject[]
+        result = _<_.List<SimpleStringObject>, _.List<_.List<SimpleStringObject>>>(list).flatten(true);
+        // $ExpectType SimpleStringObject[]
+        result = _(list).flatten(true);
+
+        // $ExpectType SimpleStringObject[]
+        result = _.chain<_.List<SimpleStringObject>, _.List<_.List<SimpleStringObject>>>(list).flatten(true).value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain(list).flatten(true).value();
+    }
+
+    // three dimensions, deep
+    {
+        const array: SimpleStringObject[][][] = [[simpleStringObjectArray]];
+        let result: SimpleStringObject[];
+
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten<SimpleStringObject[][]>(array);
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten(array);
+
+        // $ExpectType SimpleStringObject[]
+        result = _<SimpleStringObject[][], SimpleStringObject[][][]>(array).flatten();
+        // $ExpectType SimpleStringObject[]
+        result = _(array).flatten();
+
+        // $ExpectType SimpleStringObject[]
+        result = _.chain<SimpleStringObject[][], SimpleStringObject[][][]>(array).flatten().value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain(array).flatten().value();
+    }
+
+    {
+        const list: _.List<_.List<_.List<SimpleStringObject>>> = { 0: { 0: simpleStringObjectList, length: 1 }, length: 1 };
+        let result: SimpleStringObject[];
+
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten<_.List<_.List<SimpleStringObject>>>(list);
+        // $ExpectType SimpleStringObject[]
+        result = _.flatten(list);
+
+        // $ExpectType SimpleStringObject[]
+        result = _<_.List<_.List<SimpleStringObject>>, _.List<_.List<_.List<SimpleStringObject>>>>(list).flatten();
+        // $ExpectType SimpleStringObject[]
+        result = _(list).flatten();
+
+        // $ExpectType SimpleStringObject[]
+        result = _.chain<_.List<_.List<SimpleStringObject>>, _.List<_.List<_.List<SimpleStringObject>>>>(list).flatten().value();
+        // $ExpectType SimpleStringObject[]
+        result = _.chain(list).flatten().value();
+    }
+
+    // three dimensions, shallow
+    {
+        const array: SimpleStringObject[][][] = [[simpleStringObjectArray]];
+        let result: SimpleStringObject[][];
+
+        // $ExpectType SimpleStringObject[][]
+        result = _.flatten<SimpleStringObject[][]>(array, true);
+        // $ExpectType SimpleStringObject[][]
+        result = _.flatten(array, true);
+
+        // $ExpectType SimpleStringObject[][]
+        result = _<SimpleStringObject[][], SimpleStringObject[][][]>(array).flatten(true);
+        // $ExpectType SimpleStringObject[][]
+        result = _(array).flatten(true);
+
+        // $ExpectType SimpleStringObject[][]
+        result = _.chain<SimpleStringObject[][], SimpleStringObject[][][]>(array).flatten(true).value();
+        // $ExpectType SimpleStringObject[][]
+        result = _.chain(array).flatten(true).value();
+    }
+
+    {
+        const list: _.List<_.List<_.List<SimpleStringObject>>> = { 0: { 0: simpleStringObjectList, length: 1 }, length: 1 };
+        let result: _.List<SimpleStringObject>[];
+
+        // $ExpectType List<SimpleStringObject[]>
+        result = _.flatten<_.List<_.List<SimpleStringObject>>>(list, true);
+        // $ExpectType List<SimpleStringObject[]>
+        result = _.flatten(list, true);
+
+        // $ExpectType List<SimpleStringObject[]>
+        result = _<_.List<_.List<SimpleStringObject>>, _.List<_.List<_.List<SimpleStringObject>>>>(list).flatten(true);
+        // $ExpectType List<SimpleStringObject[]>
+        result = _(list).flatten(true);
+
+        // $ExpectType List<SimpleStringObject[]>
+        result = _.chain<_.List<_.List<SimpleStringObject>>, _.List<_.List<_.List<SimpleStringObject>>>>(list).flatten(true).value();
+        // $ExpectType List<SimpleStringObject[]>
+        result = _.chain(list).flatten(true).value();
+    }
+
+    // four dimensions, deep - this is where recursion gives up and results in unknown[]
+    {
+        const array: SimpleStringObject[][][][] = [[[simpleStringObjectArray]]];
+        let result: unknown[];
+
+        // $ExpectType unknown[]
+        result = _.flatten<SimpleStringObject[][][]>(array);
+        // $ExpectType unknown[]
+        result = _.flatten(array);
+
+        // $ExpectType unknown[]
+        result = _<SimpleStringObject[][][], SimpleStringObject[][][][]>(array).flatten();
+        // $ExpectType unknown[]
+        result = _(array).flatten();
+
+        // $ExpectType unknown[]
+        result = _.chain<SimpleStringObject[][][], SimpleStringObject[][][][]>(array).flatten().value();
+        // $ExpectType unknown[]
+        result = _.chain(array).flatten().value();
+    }
+
+    {
+        const list: _.List<_.List<_.List<_.List<SimpleStringObject>>>> = { 0: { 0: { 0: simpleStringObjectList, length: 1 }, length: 1 }, length: 1 };
+        let result: unknown[];
+
+        // $ExpectType unknown[]
+        result = _.flatten<_.List<_.List<_.List<SimpleStringObject>>>>(list);
+        // $ExpectType unknown[]
+        result = _.flatten(list);
+
+        // $ExpectType unknown[]
+        result = _<_.List<_.List<_.List<SimpleStringObject>>>, _.List<_.List<_.List<_.List<SimpleStringObject>>>>>(list).flatten();
+        // $ExpectType unknown[]
+        result = _(list).flatten();
+
+        // $ExpectType unknown[]
+        result = _.chain<_.List<_.List<_.List<SimpleStringObject>>>, _.List<_.List<_.List<_.List<SimpleStringObject>>>>>(list).flatten().value();
+        // $ExpectType unknown[]
+        result = _.chain(list).flatten().value();
+    }
+}
 
 // OOP Style
 
@@ -507,13 +2307,13 @@ let usersTable: { age: number; name: string; id: string }[] = _.chain(usersData)
 
 // Test map function with _ChainOfArrays<>
 let usersTable_2 /*: { age: number; name: string; id: string }[][]*/ = _.chain(usersData)
-    .map<{ age: number; name: string; id: string }>((p, k: string) => {
+    .map<{ age: number; name: string; id: string }[]>((p, k: string) => {
         return [{ id: k, ...p }];
     })
     .value();
 
 let usersTable_3 /*: { score: number; fullName: string; login: string }[][]*/ = _.chain(usersTable)
-    .map<{ score: number; fullName: string; login: string }>(p => {
+    .map<{ score: number; fullName: string; login: string }[]>(p => {
         return [
             {
                 login: p.id,
