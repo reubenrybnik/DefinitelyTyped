@@ -87,17 +87,17 @@ declare module _ {
         (value: T): boolean;
     }
 
-    interface ListIterator<T, TResult> {
-        (value: T, index: number, list: List<T>): TResult;
+    interface ListIterator<T, TResult, V = List<T>> {
+        (value: T, key: number, collection: V): TResult;
     }
 
-    interface ObjectIterator<T, TResult> {
-        (element: T, key: string, list: Dictionary<T>): TResult;
+    interface ObjectIterator<T, TResult, V = Dictionary<T>> {
+        (value: T, key: string, collection: V): TResult;
     }
+
+    type CollectionIterator<T, TResult, V> = V extends List<T> ? ListIterator<T, TResult, V> : ObjectIterator<T, TResult, V>;
 
     type IterateePropertyShorthand = string | number;
-
-    type IterateeMatcherShorthand<T> = Dictionary<T>;
 
     interface MemoIterator<T, TResult> {
         (prev: TResult, curr: T, index: number, list: List<T>): TResult;
