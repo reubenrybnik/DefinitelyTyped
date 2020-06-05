@@ -1525,6 +1525,161 @@ const simpleNumber = 7;
     }
 }
 
+// groupBy
+{
+    // function iterator
+    {
+        let result: _.Dictionary<SimpleStringObject[]>;
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy(simpleStringObjectArray, simpleStringObjectListPropertySelectingIterator, context);
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).groupBy(simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).groupBy(simpleStringObjectListPropertySelectingIterator, context);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _(simpleStringObjectArray).groupBy(simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _(simpleStringObjectArray).groupBy(simpleStringObjectListPropertySelectingIterator, context);
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).groupBy(simpleStringObjectListPropertySelectingIterator).value();
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).groupBy(simpleStringObjectListPropertySelectingIterator, context).value();
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain(simpleStringObjectArray).groupBy(simpleStringObjectListPropertySelectingIterator).value();
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain(simpleStringObjectArray).groupBy(simpleStringObjectListPropertySelectingIterator, context).value();
+    }
+
+    {
+        let result: _.Dictionary<SimpleStringObject[]>;
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy<SimpleStringObject>(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy(simpleStringObjectList, simpleStringObjectListPropertySelectingIterator, context);
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).groupBy(simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).groupBy(simpleStringObjectListPropertySelectingIterator, context);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _(simpleStringObjectList).groupBy(simpleStringObjectListPropertySelectingIterator);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _(simpleStringObjectList).groupBy(simpleStringObjectListPropertySelectingIterator, context);
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).groupBy(simpleStringObjectListPropertySelectingIterator).value();
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).groupBy(simpleStringObjectListPropertySelectingIterator, context).value();
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain(simpleStringObjectList).groupBy(simpleStringObjectListPropertySelectingIterator).value();
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain(simpleStringObjectList).groupBy(simpleStringObjectListPropertySelectingIterator, context).value();
+    }
+
+    {
+        let result: _.Dictionary<SimpleStringObject[]>;
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy(simpleStringObjectDictionary, simpleStringObjectDictionaryPropertySelectingIterator, context);
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).groupBy(simpleStringObjectDictionaryPropertySelectingIterator);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).groupBy(simpleStringObjectDictionaryPropertySelectingIterator, context);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _(simpleStringObjectDictionary).groupBy(simpleStringObjectDictionaryPropertySelectingIterator);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _(simpleStringObjectDictionary).groupBy(simpleStringObjectDictionaryPropertySelectingIterator, context);
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).groupBy(simpleStringObjectDictionaryPropertySelectingIterator).value();
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).groupBy(simpleStringObjectDictionaryPropertySelectingIterator, context).value();
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain(simpleStringObjectDictionary).groupBy(simpleStringObjectDictionaryPropertySelectingIterator).value();
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain(simpleStringObjectDictionary).groupBy(simpleStringObjectDictionaryPropertySelectingIterator, context).value();
+    }
+
+    // property name iterator
+    {
+        let result: _.Dictionary<SimpleStringObject[]>;
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy<SimpleStringObject>(simpleStringObjectArray, simpleStringObjectPropertyName);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy(simpleStringObjectArray, simpleStringObjectPropertyName);
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).groupBy(simpleStringObjectPropertyName);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _(simpleStringObjectArray).groupBy(simpleStringObjectPropertyName);
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain<SimpleStringObject, SimpleStringObject[]>(simpleStringObjectArray).groupBy(simpleStringObjectPropertyName).value();
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain(simpleStringObjectArray).groupBy(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: _.Dictionary<SimpleStringObject[]>;
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy<SimpleStringObject>(simpleStringObjectList, simpleStringObjectPropertyName);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy(simpleStringObjectList, simpleStringObjectPropertyName);
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).groupBy(simpleStringObjectPropertyName);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _(simpleStringObjectList).groupBy(simpleStringObjectPropertyName);
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain<SimpleStringObject, _.List<SimpleStringObject>>(simpleStringObjectList).groupBy(simpleStringObjectPropertyName).value();
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain(simpleStringObjectList).groupBy(simpleStringObjectPropertyName).value();
+    }
+
+    {
+        let result: _.Dictionary<SimpleStringObject[]>;
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy<SimpleStringObject>(simpleStringObjectDictionary, simpleStringObjectPropertyName);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.groupBy(simpleStringObjectDictionary, simpleStringObjectPropertyName);
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).groupBy(simpleStringObjectPropertyName);
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _(simpleStringObjectDictionary).groupBy(simpleStringObjectPropertyName);
+
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain<SimpleStringObject, _.Dictionary<SimpleStringObject>>(simpleStringObjectDictionary).groupBy(simpleStringObjectPropertyName).value();
+        // $ExpectType Dictionary<SimpleStringObject[]>
+        result = _.chain(simpleStringObjectDictionary).groupBy(simpleStringObjectPropertyName).value();
+    }
+}
+
 // Arrays
 
 // flatten
@@ -1755,19 +1910,19 @@ const simpleNumber = 7;
         const list: _.List<_.List<_.List<SimpleStringObject>>> = { 0: { 0: simpleStringObjectList, length: 1 }, length: 1 };
         let result: _.List<SimpleStringObject>[];
 
-        // $ExpectType List<SimpleStringObject[]>
+        // $ExpectType List<SimpleStringObject>[]
         result = _.flatten<_.List<_.List<SimpleStringObject>>>(list, true);
-        // $ExpectType List<SimpleStringObject[]>
+        // $ExpectType List<SimpleStringObject>[]
         result = _.flatten(list, true);
 
-        // $ExpectType List<SimpleStringObject[]>
+        // $ExpectType List<SimpleStringObject>[]
         result = _<_.List<_.List<SimpleStringObject>>, _.List<_.List<_.List<SimpleStringObject>>>>(list).flatten(true);
-        // $ExpectType List<SimpleStringObject[]>
+        // $ExpectType List<SimpleStringObject>[]
         result = _(list).flatten(true);
 
-        // $ExpectType List<SimpleStringObject[]>
+        // $ExpectType List<SimpleStringObject>[]
         result = _.chain<_.List<_.List<SimpleStringObject>>, _.List<_.List<_.List<SimpleStringObject>>>>(list).flatten(true).value();
-        // $ExpectType List<SimpleStringObject[]>
+        // $ExpectType List<SimpleStringObject>[]
         result = _.chain(list).flatten(true).value();
     }
 
