@@ -130,17 +130,18 @@ declare module _ {
         // this should never actually be evaluated since all types extend any
         : never;
 
-    type ShallowFlattenedList<T> = T extends List<infer TItem> ? TItem[] : T[];
+    // '& object' prevents strings from being matched by list checks
+    type ShallowFlattenedList<T> = T extends List<infer TItem> & object ? TItem : T;
 
     // unfortunately it's not possible to recursively collapse all possible list dimensions to T[] at this time,
     // so give up after two recursions and require an assertion
-    type DeepFlattenedList<T> = T extends List<infer TItem>
-        ? TItem extends List<infer TInnerItem>
-        ? TInnerItem extends List<unknown>
-        ? unknown[]
-        : TInnerItem[]
-        : TItem[]
-        : T[];
+    type DeepFlattenedList<T> = T extends List<infer TItem> & object
+        ? TItem extends List<infer TInnerItem> & object
+        ? TInnerItem extends List<unknown> & object
+        ? unknown
+        : TInnerItem
+        : TItem
+        : T;
 
     interface Cancelable {
         cancel(): void;
@@ -912,8 +913,8 @@ declare module _ {
          * @param shallow If true then only flatten one level, optional, default = false.
          * @return The flattened list.
          **/
-        flatten<T>(list: List<T>, shallow?: false): DeepFlattenedList<T>;
-        flatten<T>(list: List<T>, shallow: true): ShallowFlattenedList<T>;
+        flatten<T>(list: List<T>, shallow?: false): DeepFlattenedList<T>[];
+        flatten<T>(list: List<T>, shallow: true): ShallowFlattenedList<T>[];
 
         /**
         * Returns a copy of the array with all instances of the values removed.
@@ -4537,8 +4538,8 @@ declare module _ {
          * @param shallow If true then only flatten one level, optional, default = false.
          * @return The flattened list.
          **/
-        flatten(shallow?: false): DeepFlattenedList<T>;
-        flatten(shallow: true): ShallowFlattenedList<T>;
+        flatten(shallow?: false): DeepFlattenedList<T>[];
+        flatten(shallow: true): ShallowFlattenedList<T>[];
 
         /**
         * Wrapped type `any[]`.
@@ -5497,8 +5498,8 @@ declare module _ {
          * @param shallow If true then only flatten one level, optional, default = false.
          * @return The wrapped flattened list.
          **/
-        flatten(shallow?: false): _Chain<TypeOfList<DeepFlattenedList<T>>, DeepFlattenedList<T>>;
-        flatten(shallow: true): _Chain<TypeOfList<ShallowFlattenedList<T>>, ShallowFlattenedList<T>>;
+        flatten(shallow?: false): _Chain<DeepFlattenedList<T>, DeepFlattenedList<T>[]>;
+        flatten(shallow: true): _Chain<ShallowFlattenedList<T>, ShallowFlattenedList<T>[]>;
 
         /**
         * Wrapped type `any[]`.

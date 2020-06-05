@@ -48,6 +48,9 @@ const nonIntersectingObjectPropertiesDictionary: _.Dictionary<NonIntersectingObj
 const simpleString = 'abc';
 const stringListModifyingIterator = (value: string, index: number, list: _.List<string>) => value + 'b';
 
+const simpleStringArray: string[] = ['a', 'c'];
+const simpleStringList: _.List<string> = { 0: 'a', 1: 'c', length: 2 };
+
 const simpleNumber = 7;
 
 // Collections
@@ -1969,6 +1972,166 @@ const simpleNumber = 7;
         result = _.chain<_.List<_.List<_.List<SimpleStringObject>>>, _.List<_.List<_.List<_.List<SimpleStringObject>>>>>(list).flatten().value();
         // $ExpectType unknown[]
         result = _.chain(list).flatten().value();
+    }
+
+    // string lists, deep
+    {
+        const array: string[][] = [simpleStringArray];
+        let result: string[];
+
+        // $ExpectType string[]
+        result = _.flatten<string[]>(array);
+        // $ExpectType string[]
+        result = _.flatten(array);
+
+        // $ExpectType string[]
+        result = _<string[], string[][]>(array).flatten();
+        // $ExpectType string[]
+        result = _(array).flatten();
+
+        // $ExpectType string[]
+        result = _.chain<string[], string[][]>(array).flatten().value();
+        // $ExpectType string[]
+        result = _.chain(array).flatten().value();
+    }
+
+    {
+        const list: _.List<_.List<string>> = { 0: simpleStringList, length: 1 };
+        let result: string[];
+
+        // $ExpectType string[]
+        result = _.flatten<_.List<string>>(list);
+        // $ExpectType string[]
+        result = _.flatten(list);
+
+        // $ExpectType string[]
+        result = _<_.List<string>, _.List<_.List<string>>>(list).flatten();
+        // $ExpectType string[]
+        result = _(list).flatten();
+
+        // $ExpectType string[]
+        result = _.chain<_.List<string>, _.List<_.List<string>>>(list).flatten().value();
+        // $ExpectType string[]
+        result = _.chain(list).flatten().value();
+    }
+
+    // string lists, shallow
+    {
+        let result: string[];
+
+        // $ExpectType string[]
+        result = _.flatten<string>(simpleStringArray, true);
+        // $ExpectType string[]
+        result = _.flatten(simpleStringArray, true);
+
+        // $ExpectType string[]
+        result = _<string, string[]>(simpleStringArray).flatten(true);
+        // $ExpectType string[]
+        result = _(simpleStringArray).flatten(true);
+
+        // $ExpectType string[]
+        result = _.chain<string, string[]>(simpleStringArray).flatten(true).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringArray).flatten(true).value();
+    }
+
+    {
+        let result: string[];
+
+        // $ExpectType string[]
+        result = _.flatten<string>(simpleStringList, true);
+        // $ExpectType string[]
+        result = _.flatten(simpleStringList, true);
+
+        // $ExpectType string[]
+        result = _<string, _.List<string>>(simpleStringList).flatten(true);
+        // $ExpectType string[]
+        result = _(simpleStringList).flatten(true);
+
+        // $ExpectType string[]
+        result = _.chain<string, _.List<string>>(simpleStringList).flatten(true).value();
+        // $ExpectType string[]
+        result = _.chain(simpleStringList).flatten(true).value();
+    }
+
+    // type unions, deep
+    {
+        const array: NonIntersectingObjectPropertiesType[][] = [nonIntersectingObjectPropertiesArray];
+        let result: NonIntersectingObjectPropertiesType[];
+
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.flatten<NonIntersectingObjectPropertiesType[]>(array);
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.flatten(array);
+
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _<NonIntersectingObjectPropertiesType[], NonIntersectingObjectPropertiesType[][]>(array).flatten();
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _(array).flatten();
+
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.chain<NonIntersectingObjectPropertiesType[], NonIntersectingObjectPropertiesType[][]>(array).flatten().value();
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.chain(array).flatten().value();
+    }
+
+    {
+        const list: _.List<_.List<NonIntersectingObjectPropertiesType>> = { 0: nonIntersectingObjectPropertiesList, length: 1 };
+        let result: NonIntersectingObjectPropertiesType[];
+
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.flatten<_.List<NonIntersectingObjectPropertiesType>>(list);
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.flatten(list);
+
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _<_.List<NonIntersectingObjectPropertiesType>, _.List<_.List<NonIntersectingObjectPropertiesType>>>(list).flatten();
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _(list).flatten();
+
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.chain<_.List<NonIntersectingObjectPropertiesType>, _.List<_.List<NonIntersectingObjectPropertiesType>>>(list).flatten().value();
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.chain(list).flatten().value();
+    }
+
+    // type unions, shallow
+    {
+        let result: NonIntersectingObjectPropertiesType[];
+
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.flatten<NonIntersectingObjectPropertiesType>(nonIntersectingObjectPropertiesArray, true);
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.flatten(nonIntersectingObjectPropertiesArray, true);
+
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _<NonIntersectingObjectPropertiesType, NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).flatten(true);
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _(nonIntersectingObjectPropertiesArray).flatten(true);
+
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.chain<NonIntersectingObjectPropertiesType, NonIntersectingObjectPropertiesType[]>(nonIntersectingObjectPropertiesArray).flatten(true).value();
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.chain(nonIntersectingObjectPropertiesArray).flatten(true).value();
+    }
+
+    {
+        let result: NonIntersectingObjectPropertiesType[];
+
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.flatten<NonIntersectingObjectPropertiesType>(nonIntersectingObjectPropertiesList, true);
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.flatten(nonIntersectingObjectPropertiesList, true);
+
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _<NonIntersectingObjectPropertiesType, _.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesList).flatten(true);
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _(nonIntersectingObjectPropertiesList).flatten(true);
+
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.chain<NonIntersectingObjectPropertiesType, _.List<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesList).flatten(true).value();
+        // $ExpectType NonIntersectingObjectPropertiesType[]
+        result = _.chain(nonIntersectingObjectPropertiesList).flatten(true).value();
     }
 }
 
