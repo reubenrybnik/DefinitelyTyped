@@ -165,9 +165,9 @@ declare module _ {
          * bound to the context object, if one is passed. Each invocation of iterator is called with three
          * arguments: (value, key, collection).
          * @param collection Iterates over this list of elements.
-         * @param iterator Iterator function for each element in `collection`.
-         * @param context 'this' object in `iterator`, optional.
-         * @returns The original `collection`.
+         * @param iterator Iterator function for each element in the collection.
+         * @param context `this` object in `iterator`, optional.
+         * @returns The original collection.
          **/
         each<T>(
             collection: T[],
@@ -191,7 +191,7 @@ declare module _ {
          * Produces a new array of values by mapping each value in the collection through a transformation function
          * (iterator). Each invocation of iterator is called with three arguments: (value, key, collection).
          * @param collection Maps the elements of this collection.
-         * @param iterator Map iterator function for each element in `collection`.
+         * @param iterator Map iterator function for each element in the collection.
          * @param context `this` object in `iterator`, optional.
          * @returns The mapped result.
          **/
@@ -689,27 +689,30 @@ declare module _ {
             context?: any): T[];
 
         /**
-        * Splits a collection into sets, grouped by the result of running each value through iterator.
-        * If iterator is a string instead of a function, groups by the property named by iterator on
-        * each of the values.
-        * @param list Groups this list.
-        * @param iterator Group iterator for each element within `list`, return the key to group the element by.
-        * @param context `this` object in `iterator`, optional.
-        * @return An object with the group names as properties where each property contains the grouped elements from `list`.
-        **/
+         * Splits a collection into sets, grouped by the result of running each value through iterator.
+         * @param collection The collection to group.
+         * @param iterator An iterator that returns the value to group by for each item in the collection.
+         * @param context `this` object in `iterator`, optional.
+         * @returns A dictionary with the group names as properties where each property contains the grouped elements from the collection.
+         **/
         groupBy<T>(
-            list: _.List<T>,
-            iterator?: _.ListIterator<T, any>,
-            context?: any): _.Dictionary<T[]>;
+            collection: List<T>,
+            iterator: ListIterator<T, unknown>,
+            context?: unknown): Dictionary<T[]>;
+        groupBy<T>(
+            collection: Dictionary<T>,
+            iterator: ObjectIterator<T, unknown>,
+            context?: unknown): Dictionary<T[]>;
 
         /**
-        * @see _.groupBy
-        * @param iterator Property on each object to group them by.
-        **/
+         * Splits a collection into sets, grouped by the specified property.
+         * @param collection The collection to group.
+         * @param iterator Group iterator for each element within the collection, return the key to group the element by.
+         * @returns A dictionary with the group names as properties where each property contains the grouped elements from the collection.
+         **/
         groupBy<T>(
-            list: _.List<T>,
-            iterator: string,
-            context?: any): _.Dictionary<T[]>;
+            collection: Collection<T>,
+            iterator: keyof T): Dictionary<T[]>;
 
         /**
         * Given a `list`, and an `iterator` function that returns a key for each element in the list (or a property name),
@@ -4384,16 +4387,19 @@ declare module _ {
         sortBy(iterator: string, context?: any): T[];
 
         /**
-        * Wrapped type `any[]`.
-        * @see _.groupBy
-        **/
-        groupBy(iterator?: _.ListIterator<T, any>, context?: any): _.Dictionary<_.List<T>>;
+         * Splits the wrapped collection into sets, grouped by the result of running each value through iterator.
+         * @param iterator An iterator that returns the value to group by for each item in the collection.
+         * @param context `this` object in `iterator`, optional.
+         * @returns A dictionary with the group names as properties where each property contains the grouped elements from the collection.
+         **/
+        groupBy(iterator: CollectionIterator<T, unknown, V>, context?: unknown): Dictionary<T[]>;
 
         /**
-        * Wrapped type `any[]`.
-        * @see _.groupBy
-        **/
-        groupBy(iterator: string, context?: any): _.Dictionary<T[]>;
+         * Splits the wrapped collection into sets, grouped by the specified property.
+         * @param iterator Group iterator for each element within the collection, return the key to group the element by.
+         * @returns A dictionary with the group names as properties where each property contains the grouped elements from the collection.
+         **/
+        groupBy(iterator: keyof T): Dictionary<T[]>;
 
         /**
         * Wrapped type `any[]`.
@@ -5340,16 +5346,19 @@ declare module _ {
         sortBy(iterator: string, context?: any): _Chain<T, T[]>;
 
         /**
-        * Wrapped type `any[]`.
-        * @see _.groupBy
-        **/
-        groupBy(iterator?: _.ListIterator<T, any>, context?: any): _Chain<T[], Dictionary<T[]>>;
+         * Splits the wrapped collection into sets, grouped by the result of running each value through iterator.
+         * @param iterator An iterator that returns the value to group by for each item in the collection.
+         * @param context `this` object in `iterator`, optional.
+         * @return A wrapped dictionary with the group names as properties where each property contains the grouped elements from the collection.
+         **/
+        groupBy(iterator: CollectionIterator<T, unknown, V>, context?: unknown): _Chain<T[], Dictionary<T[]>>;
 
         /**
-        * Wrapped type `any[]`.
-        * @see _.groupBy
-        **/
-        groupBy(iterator: string, context?: any): _Chain<T[], Dictionary<T[]>>;
+         * Splits the wrapped collection into sets, grouped by the specified property.
+         * @param iterator Group iterator for each element within the collection, return the key to group the element by.
+         * @return A wrapped dictionary with the group names as properties where each property contains the grouped elements from the collection.
+         **/
+        groupBy(iterator: keyof T): _Chain<T[], Dictionary<T[]>>;
 
         /**
         * Wrapped type `any[]`.
