@@ -1187,12 +1187,14 @@ const simpleNumber = 7;
     }
 
     // property name iterator with a non-nullable non-intersecting type union
+    // TS 3.0 has issues with inferred UnderscoreStatic overloads specifically and ends up with string[] instead of (string | undefined)[], but that issue
+    // goes away in TS 3.1 and this mistyping isn't the worst so skip ExpectType directives for those for now
     {
         let result: (string | undefined)[];
 
         // $ExpectType (string | undefined)[]
         result = _.map<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
-        // $ExpectType (string | undefined)[]
+        // add ExpectType back when TS 3.1 becomes the minimum version
         result = _.map(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
 
         // $ExpectType (string | undefined)[]
@@ -1207,7 +1209,7 @@ const simpleNumber = 7;
 
         // $ExpectType (string | undefined)[]
         result = _.collect<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
-        // $ExpectType (string | undefined)[]
+        // add ExpectType back when TS 3.1 becomes the minimum version
         result = _.collect(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
 
         // $ExpectType (string | undefined)[]
@@ -1226,7 +1228,7 @@ const simpleNumber = 7;
 
         // $ExpectType (string | undefined)[]
         result = _.map<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesList, simpleStringObjectPropertyName);
-        // $ExpectType (string | undefined)[]
+        // add ExpectType back when TS 3.1 becomes the minimum version
         result = _.map(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
 
         // $ExpectType (string | undefined)[]
@@ -1241,7 +1243,7 @@ const simpleNumber = 7;
 
         // $ExpectType (string | undefined)[]
         result = _.collect<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
-        // $ExpectType (string | undefined)[]
+        // add ExpectType back when TS 3.1 becomes the minimum version
         result = _.collect(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
 
         // $ExpectType (string | undefined)[]
@@ -1260,7 +1262,7 @@ const simpleNumber = 7;
 
         // $ExpectType (string | undefined)[]
         result = _.map<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
-        // $ExpectType (string | undefined)[]
+        // add ExpectType back when TS 3.1 becomes the minimum version
         result = _.map(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
 
         // $ExpectType (string | undefined)[]
@@ -1275,7 +1277,7 @@ const simpleNumber = 7;
 
         // $ExpectType (string | undefined)[]
         result = _.collect<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
-        // $ExpectType (string | undefined)[]
+        // add ExpectType back when TS 3.1 becomes the minimum version
         result = _.collect(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
 
         // $ExpectType (string | undefined)[]
@@ -1467,12 +1469,14 @@ const simpleNumber = 7;
     }
 
     // property name iterator with a non-nullable non-intersecting type union
+    // TS 3.0 has issues with inferred UnderscoreStatic overloads specifically and ends up with string[] instead of (string | undefined)[], but that issue
+    // goes away in TS 3.1 and this mistyping isn't the worst so skip ExpectType directives for those for now
     {
         let result: (string | undefined)[];
 
         // $ExpectType (string | undefined)[]
         result = _.pluck<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
-        // $ExpectType (string | undefined)[]
+        // add ExpectType back when TS 3.1 becomes the minimum version
         result = _.pluck(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
 
         // $ExpectType (string | undefined)[]
@@ -1491,7 +1495,7 @@ const simpleNumber = 7;
 
         // $ExpectType (string | undefined)[]
         result = _.pluck<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesList, simpleStringObjectPropertyName);
-        // $ExpectType (string | undefined)[]
+        // add ExpectType back when TS 3.1 becomes the minimum version
         result = _.pluck(nonIntersectingObjectPropertiesArray, simpleStringObjectPropertyName);
 
         // $ExpectType (string | undefined)[]
@@ -1510,7 +1514,7 @@ const simpleNumber = 7;
 
         // $ExpectType (string | undefined)[]
         result = _.pluck<NonIntersectingObjectPropertiesType, typeof simpleStringObjectPropertyName>(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
-        // $ExpectType (string | undefined)[]
+        // add ExpectType back when TS 3.1 becomes the minimum version
         result = _.pluck(nonIntersectingObjectPropertiesDictionary, simpleStringObjectPropertyName);
 
         // $ExpectType (string | undefined)[]
