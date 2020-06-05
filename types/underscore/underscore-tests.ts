@@ -880,6 +880,41 @@ const simpleNumber = 7;
         result = _.chain(nonIntersectingObjectPropertiesDictionary).collect(simpleStringObjectPartialPropertyMatch).value();
     }
 
+    // partial object iterator of type any
+    {
+        let result: boolean[];
+
+        // $ExpectType boolean[]
+        result = _.map<any>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.map(simpleStringObjectArray as any, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<any>(simpleStringObjectArray).map(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(simpleStringObjectArray as any).map(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<any>(simpleStringObjectArray).map(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(simpleStringObjectArray as any).map(simpleStringObjectPartialPropertyMatch).value();
+
+        // $ExpectType boolean[]
+        result = _.collect<any>(simpleStringObjectArray, simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _.collect(simpleStringObjectArray as any, simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _<any>(simpleStringObjectArray).collect(simpleStringObjectPartialPropertyMatch);
+        // $ExpectType boolean[]
+        result = _(simpleStringObjectArray as any).collect(simpleStringObjectPartialPropertyMatch);
+
+        // $ExpectType boolean[]
+        result = _.chain<any>(simpleStringObjectArray).collect(simpleStringObjectPartialPropertyMatch).value();
+        // $ExpectType boolean[]
+        result = _.chain(simpleStringObjectArray as any).collect(simpleStringObjectPartialPropertyMatch).value();
+    }
+
     // property name iterator with a non-nullable single type
     {
         let result: string[];
@@ -1293,6 +1328,43 @@ const simpleNumber = 7;
         // $ExpectType (string | undefined)[]
         result = _.chain(nonIntersectingObjectPropertiesDictionary).collect(simpleStringObjectPropertyName).value();
     }
+
+    // property name iterator with type any
+    // specifying any as T causes the result to be any[], which isn't ideal, but on the other hand getting that result involves choosing
+    // to specify any in the first place
+    {
+        let result: unknown[];
+
+        // $ExpectType any[]
+        result = _.map<any, typeof simpleStringObjectPropertyName>(simpleStringObjectArray, simpleStringObjectPropertyName);
+        // $ExpectType unknown[]
+        result = _.map(simpleStringObjectArray as any, simpleStringObjectPropertyName);
+
+        // $ExpectType any[]
+        result = _<any>(simpleStringObjectArray).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType unknown[]
+        result = _(simpleStringObjectArray as any).map(simpleStringObjectPropertyName);
+
+        // $ExpectType any[]
+        result = _.chain<any>(simpleStringObjectArray).map<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType unknown[]
+        result = _.chain(simpleStringObjectArray as any).map(simpleStringObjectPropertyName).value();
+
+        // $ExpectType any[]
+        result = _.collect<any, typeof simpleStringObjectPropertyName>(simpleStringObjectArray, simpleStringObjectPropertyName);
+        // $ExpectType unknown[]
+        result = _.collect(simpleStringObjectArray as any, simpleStringObjectPropertyName);
+
+        // $ExpectType any[]
+        result = _<any>(simpleStringObjectArray).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType unknown[]
+        result = _(simpleStringObjectArray as any).collect(simpleStringObjectPropertyName);
+
+        // $ExpectType any[]
+        result = _.chain<any>(simpleStringObjectArray).collect<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType unknown[]
+        result = _.chain(simpleStringObjectArray as any).collect(simpleStringObjectPropertyName).value();
+    }
 }
 
 // pluck
@@ -1529,6 +1601,28 @@ const simpleNumber = 7;
         result = _.chain<NonIntersectingObjectPropertiesType, _.Dictionary<NonIntersectingObjectPropertiesType>>(nonIntersectingObjectPropertiesDictionary).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
         // $ExpectType (string | undefined)[]
         result = _.chain(nonIntersectingObjectPropertiesDictionary).pluck(simpleStringObjectPropertyName).value();
+    }
+
+    // property name iterator with type any
+    // specifying any as T causes the result to be any[], which isn't ideal, but on the other hand getting that result involves choosing
+    // to specify any in the first place
+    {
+        let result: unknown[];
+
+        // $ExpectType any[]
+        result = _.pluck<any, typeof simpleStringObjectPropertyName>(simpleStringObjectArray, simpleStringObjectPropertyName);
+        // $ExpectType unknown[]
+        result = _.pluck(simpleStringObjectArray as any, simpleStringObjectPropertyName);
+
+        // $ExpectType any[]
+        result = _<any>(simpleStringObjectArray).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName);
+        // $ExpectType unknown[]
+        result = _(simpleStringObjectArray as any).pluck(simpleStringObjectPropertyName);
+
+        // $ExpectType any[]
+        result = _.chain<any>(simpleStringObjectArray).pluck<typeof simpleStringObjectPropertyName>(simpleStringObjectPropertyName).value();
+        // $ExpectType unknown[]
+        result = _.chain(simpleStringObjectArray as any).pluck(simpleStringObjectPropertyName).value();
     }
 }
 

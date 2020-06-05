@@ -216,6 +216,9 @@ declare module _ {
         map<T, K extends KeysOfUnion<T>>(
             collection: Collection<T>,
             iterator: K): TypesOfUnionProperty<T, K>[];
+        map(
+            collection: Collection<unknown>,
+            iterator: string): unknown[];
 
         /**
          * Produces a new array of boolean values by checking whether each value in the collection matches
@@ -595,12 +598,15 @@ declare module _ {
          * A convenient version of what is perhaps the most common use-case for map: extracting a list of
          * property values.
          * @param collection The collection of items.
-         * @param iterator The name of a specific property to retrieve from all items.
+         * @param propertyName The name of a specific property to retrieve from all items.
          * @returns The set of values for the specified property for each item in the collection.
          **/
         pluck<T, K extends KeysOfUnion<T>>(
             collection: Collection<T>,
             propertyName: K): TypesOfUnionProperty<T, K>[];
+        pluck(
+            collection: Collection<unknown>,
+            propertyName: string): unknown[];
 
         /**
         * Returns the maximum value in list.
@@ -4184,6 +4190,7 @@ declare module _ {
          * @returns The set of values for the specified property for each item in the collection.
          */
         map<K extends KeysOfUnion<T>>(iterator: K): TypesOfUnionProperty<T, K>[];
+        map(iterator: string): unknown[];
 
         /**
          * Produces a new array of boolean values by checking whether each value in the wrapped collection matches
@@ -4335,10 +4342,11 @@ declare module _ {
         /**
          * A convenient version of what is perhaps the most common use-case for map: extracting a list of
          * property values.
-         * @param iterator The name of a specific property to retrieve from all items.
+         * @param propertyName The name of a specific property to retrieve from all items.
          * @returns The set of values for the specified property for each item in the collection.
          **/
         pluck<K extends KeysOfUnion<T>>(propertyName: K): TypesOfUnionProperty<T, K>[];
+        pluck(propertyName: string): unknown[];
 
         /**
         * Wrapped type `number[]`.
@@ -5144,6 +5152,7 @@ declare module _ {
          * @returns The wrapped set of values for the specified property for each item in the collection.
          **/
         map<K extends KeysOfUnion<T>>(iterator: K): _Chain<TypesOfUnionProperty<T, K>, TypesOfUnionProperty<T, K>[]>;
+        map(iterator: string): _Chain<unknown, unknown[]>;
 
         /**
          * Produces a new array of boolean values by checking whether each value in the wrapped collection matches
@@ -5295,10 +5304,11 @@ declare module _ {
         /**
          * A convenient version of what is perhaps the most common use-case for map: extracting a list of
          * property values.
-         * @param iterator The name of a specific property to retrieve from all items.
+         * @param propertyName The name of a specific property to retrieve from all items.
          * @returns The wrapped set of values for the specified property for each item in the collection.
          **/
         pluck<K extends KeysOfUnion<T>>(propertyName: K): _Chain<TypesOfUnionProperty<T, K>, TypesOfUnionProperty<T, K>[]>;
+        pluck(propertyName: string): _Chain<unknown, unknown[]>;
 
         /**
         * Wrapped type `number[]`.
