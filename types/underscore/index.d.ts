@@ -107,7 +107,7 @@ declare module _ {
     type Iteratee<V, R, T extends TypeOfCollection<V, any> = TypeOfCollection<V>> =
         CollectionIterator<T, R, V> |
         EnumerableKey |
-        EnumerableKey[] |
+        ReadonlyArray<EnumerableKey> |
         Partial<T> |
         null |
         undefined;
@@ -115,7 +115,7 @@ declare module _ {
     type IterateeResult<I, T> =
         I extends (...args: any[]) => infer R ? R
         : I extends keyof T ? T[I]
-        : I extends EnumerableKey | EnumerableKey[] ? any
+        : I extends EnumerableKey | ReadonlyArray<EnumerableKey> ? any
         : I extends object ? boolean
         : I extends null | undefined ? T
         : never;
