@@ -3597,7 +3597,7 @@ declare module _ {
          **/
         pick<V, K extends string>(
             object: V,
-            ...keys: (K | K[])[]
+            ...keys: (K | ReadonlyArray<K>)[]
         ): _Pick<V, K>;
 
         /**
@@ -3623,7 +3623,7 @@ declare module _ {
          **/
         omit<V, K extends string>(
             object: V,
-            ...keys: (K | K[])[]
+            ...keys: (K | ReadonlyArray<K>)[]
         ): _Omit<V, K>;
 
         /**
@@ -4867,7 +4867,7 @@ declare module _ {
          * @returns A copy of the wrapped object with only the `keys`
          * properties.
          **/
-        pick<K extends string>(...keys: (K | K[])[]): _Pick<V, K>;
+        pick<K extends string>(...keys: (K | ReadonlyArray<K>)[]): _Pick<V, K>;
 
         /**
          * Return a copy of the wrapped object that is filtered to only have
@@ -4887,7 +4887,7 @@ declare module _ {
          * @param keys The keys to omit from the wrapped object.
          * @returns A copy of the wrapped object without the `keys` properties.
          **/
-        omit<K extends string>(...keys: (K | K[])[]): _Omit<V, K>;
+        omit<K extends string>(...keys: (K | ReadonlyArray<K>)[]): _Omit<V, K>;
 
         /**
          * Return a copy of the wrapped object that is filtered to not have
@@ -6078,7 +6078,7 @@ declare module _ {
          * @returns A chain wrapper around a copy of the wrapped object with
          * only the `keys` properties.
          **/
-        pick<K extends string>(...keys: (K | K[])[]): _ChainSingle<_Pick<V, K>>;
+        pick<K extends string>(...keys: (K | ReadonlyArray<K>)[]): _ChainSingle<_Pick<V, K>>;
 
         /**
          * Return a copy of the wrapped object that is filtered to only have
@@ -6099,7 +6099,7 @@ declare module _ {
          * @returns A chain wrapper around a copy of the wrapped object without
          * the `keys` properties.
          **/
-        omit<K extends string>(...keys: (K | K[])[]): _ChainSingle<_Omit<V, K>>;
+        omit<K extends string>(...keys: (K | ReadonlyArray<K>)[]): _ChainSingle<_Omit<V, K>>;
 
         /**
          * Return a copy of the wrapped object that is filtered to not have

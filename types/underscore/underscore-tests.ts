@@ -138,6 +138,7 @@ type NonIntersecting = StringRecord | NonIntersectingRecord;
 declare const mixedTypeRecord: MixedTypeRecord;
 declare const mixedTypeSelector: (element: any, key: string, object: MixedTypeRecord) => string;
 declare const mixedTypeTester: (element: any, key: string, object: MixedTypeRecord) => boolean;
+declare const mixedTypePropertyTuple: Readonly<['a']>;
 
 declare const intersectingPropertiesList: _.List<Intersecting>;
 declare const nonIntersectingList: _.List<NonIntersecting>;
@@ -3004,14 +3005,14 @@ undefinedResult; // $ExpectType StringRecord
     extractChainTypes(_.chain(anyValue).pick('a', 'b')); // $ExpectType ChainType<Pick<any, "a" | "b">, any>
 
     // constant string arrays - record
-    _.pick(mixedTypeRecord, ['a'], ['b', 'notAKey']); // $ExpectType Pick<MixedTypeRecord, "a" | "b">
-    _(mixedTypeRecord).pick(['a'], ['b', 'notAKey']); // $ExpectType Pick<MixedTypeRecord, "a" | "b">
-    extractChainTypes(_.chain(mixedTypeRecord).pick(['a'], ['b', 'notAKey'])); // $ExpectType ChainType<Pick<MixedTypeRecord, "a" | "b">, number | StringRecord>
+    _.pick(mixedTypeRecord, mixedTypePropertyTuple, ['b', 'notAKey']); // $ExpectType Pick<MixedTypeRecord, "a" | "b">
+    _(mixedTypeRecord).pick(mixedTypePropertyTuple, ['b', 'notAKey']); // $ExpectType Pick<MixedTypeRecord, "a" | "b">
+    extractChainTypes(_.chain(mixedTypeRecord).pick(mixedTypePropertyTuple, ['b', 'notAKey'])); // $ExpectType ChainType<Pick<MixedTypeRecord, "a" | "b">, number | StringRecord>
 
     // constant string arrays - any
-    _.pick(anyValue, ['a'], ['b']); // $ExpectType Pick<any, "a" | "b">
-    _(anyValue).pick(['a'], ['b']); // $ExpectType Pick<any, "a" | "b">
-    extractChainTypes(_.chain(anyValue).pick(['a'], ['b'])); // $ExpectType ChainType<Pick<any, "a" | "b">, any>
+    _.pick(anyValue, mixedTypePropertyTuple, ['b']); // $ExpectType Pick<any, "a" | "b">
+    _(anyValue).pick(mixedTypePropertyTuple, ['b']); // $ExpectType Pick<any, "a" | "b">
+    extractChainTypes(_.chain(anyValue).pick(mixedTypePropertyTuple, ['b'])); // $ExpectType ChainType<Pick<any, "a" | "b">, any>
 
     // the explicit generics in the below cases are only required in TS versions below 3.6
     // constant strings and string arrays - record
@@ -3073,13 +3074,13 @@ undefinedResult; // $ExpectType StringRecord
     extractChainTypes(_.chain(anyValue).omit('a', 'b')); // $ExpectType ChainType<any, any>
 
     // constant string arrays - record
-    _.omit(mixedTypeRecord, ['a'], ['b', 'notAKey']); // $ExpectType Pick<MixedTypeRecord, "c">
-    _(mixedTypeRecord).omit(['a'], ['b', 'notAKey']); // $ExpectType Pick<MixedTypeRecord, "c">
-    extractChainTypes(_.chain(mixedTypeRecord).omit(['a'], ['b', 'notAKey'])); // $ExpectType ChainType<Pick<MixedTypeRecord, "c">, NonIntersecting>
+    _.omit(mixedTypeRecord, mixedTypePropertyTuple, ['b', 'notAKey']); // $ExpectType Pick<MixedTypeRecord, "c">
+    _(mixedTypeRecord).omit(mixedTypePropertyTuple, ['b', 'notAKey']); // $ExpectType Pick<MixedTypeRecord, "c">
+    extractChainTypes(_.chain(mixedTypeRecord).omit(mixedTypePropertyTuple, ['b', 'notAKey'])); // $ExpectType ChainType<Pick<MixedTypeRecord, "c">, NonIntersecting>
 
     // constant string arrays - any
-    _.omit(anyValue, ['a'], ['b']); // $ExpectType any
-    _(anyValue).omit(['a'], ['b']); // $ExpectType any
+    _.omit(anyValue, mixedTypePropertyTuple, ['b']); // $ExpectType any
+    _(anyValue).omit(mixedTypePropertyTuple, ['b']); // $ExpectType any
     extractChainTypes(_.chain(anyValue).omit(['a'], ['b'])); // $ExpectType ChainType<any, any>
 
     // the explicit generics in the below cases are only required in TS versions below 3.6
