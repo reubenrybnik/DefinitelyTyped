@@ -150,6 +150,9 @@ declare const level2UnionList: _.List<_.List<string | number>>;
 declare const tupleList: _.List<[string, number]>;
 declare const maybeFunction: (() => void) | undefined;
 
+// concrete example types
+const stooges = [{ name: 'moe', age: 40 }, { name: 'larry', age: 50 }, { name: 'curly', age: 60 }];
+
 /***************
  * Usage Tests *
  ***************/
@@ -240,25 +243,17 @@ _.contains([1, 2, 3], 3); // $ExpectType boolean
 // truncating a set of strings to 5 characters or less
 _.invoke(['zebra', 'giraffe', 'lion'], 'substring', 0, 5);
 
-// https://github.com/DefinitelyTyped/DefinitelyTyped/issues/33479
-var foo: any[] = [{'a': 1, 'b': 2}];
-_.pluck(foo, 'a');
+// retrieving a property value from all items in a collection
+_.pluck(stooges, 'name'); // $ExpectType string[]
 
-var stooges = [{ name: 'moe', age: 40 }, { name: 'larry', age: 50 }, { name: 'curly', age: 60 }];
-_.pluck(stooges, 'name');
+// retrieving the minimum number in a list
+_.min([10, 5, 100, 2, 1000]); // $ExpectType number
 
-_.max(stooges, (stooge) => stooge.age);
-_.min(stooges, (stooge) => stooge.age);
-_.max({ a: 1, b: 2 });
-_.max({ a: 'a', b: 'bb' }, (v, k) => v.length);
-_.min({ a: 1, b: 2 });
-_.min({ a: 'a', b: 'bb' }, (v, k) => v.length);
+// retrieving the item with the maximum number in a property
+_.max(stooges, (stooge) => stooge.age); // $ExpectType {name: string, age: number }
 
-var numbers = [10, 5, 100, 2, 1000];
-_.max(numbers);
-_.min(numbers);
-
-_.sortBy([1, 2, 3, 4, 5, 6], (num) => Math.sin(num));
+// sorting by a calculated value
+_.sortBy([1, 2, 3, 4, 5, 6], num => Math.sin(num)); // $ExpectType number[]
 
 _([1, 2, 3]).chain()
     .sortBy(x => -x)
