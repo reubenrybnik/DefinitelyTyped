@@ -154,6 +154,8 @@ declare const maybeFunction: (() => void) | undefined;
  * Usage Tests *
  ***************/
 _.VERSION; // $ExpectType string
+
+// each with different collection types
 _.each([1, 2, 3], (value, key, collection) => {
     value; // $ExpectType number
     key; // $ExpectType number
@@ -166,6 +168,7 @@ _({ one: 1, two: 2, three: 3 }).each((value, key, collection) => {
     collection; // $ExpectType { one: number, two: number, three: number}
 }); // $ExpectType { one: number, two: number, three: number}
 
+// map with a target plain object return type
 _([1, 2, 3]).map((value, key, collection): NumberRecord => {
     value; // $ExpectType number
     key; // $ExpectType number
@@ -182,6 +185,7 @@ _.map({ one: 1, two: 2, three: 3 }, (value, key, collection): NumberRecord => {
     return { a: value };
 }); // $ExpectType NumberRecord[]
 
+// sum with a result of undefined when no values are provided
 _.reduce([1, 2, 3], (memo, num, key, collection) => {
     memo; // $ExpectType number
     num; // $ExpectType number
@@ -191,6 +195,11 @@ _.reduce([1, 2, 3], (memo, num, key, collection) => {
     return memo + num;
 }); // $ExpectType number | undefined
 
+// sum with a result of zero when no values are provided
+_.reduce([1, 2, 3], (memo, num) => memo + num, 0); // $ExpectType number
+
+// sum of numbers as strings in an object collection with a result of undefined when no values are provided
+// and a result of a string when only one value is provided
 _({ a: '1', b: '2', c: '3' }).reduce((memo: string | number, numstr, key, collection) => {
     numstr; // $ExpectType string
     key; // $ExpectType string
@@ -199,18 +208,25 @@ _({ a: '1', b: '2', c: '3' }).reduce((memo: string | number, numstr, key, collec
     return (+memo) + (+numstr);
 }); // $ExpectType string | number | undefined
 
-_.reduce([1, 2, 3], (memo, num) => memo + num, 0); // $ExpectType number
-
+// reverse concatenation of numbers
 _([[0, 1], [2, 3], [4, 5]]).reduceRight((a: number[], b) => a.concat(b), []); // $ExpectType number[]
 
-var evens = _.filter([1, 2, 3, 4, 5, 6], (num) => num % 2 == 0);
+// filtering to only evens
+_.filter([1, 2, 3, 4, 5, 6], num => num % 2 === 0); // $ExpectType number[]
 
-var capitalLetters = _.filter({ a: 'a', b: 'B', c: 'C', d: 'd' }, l => l === l.toUpperCase());
+// rejecting evens
+_.reject([1, 2, 3, 4, 5, 6], (num) => num % 2 === 0); // $ExpectType number[]
 
-var listOfPlays = [{ title: "Cymbeline", author: "Shakespeare", year: 1611 }, { title: "The Tempest", author: "Shakespeare", year: 1611 }, { title: "Other", author: "Not Shakespeare", year: 2012 }];
-_.where(listOfPlays, { author: "Shakespeare", year: 1611 });
+// filtering to only uppercase letters
+_({ a: 'a', b: 'B', c: 'C', d: 'd' }).filter(l => l === l.toUpperCase()); // $ExpectType string[]
 
-var odds = _.reject([1, 2, 3, 4, 5, 6], (num) => num % 2 == 0);
+// filtering to partial matches
+_.where([
+        { title: "Cymbeline", author: "Shakespeare", year: 1611 },
+        { title: "The Tempest", author: "Shakespeare", year: 1611 },
+        { title: "Other", author: "Not Shakespeare", year: 2012 }
+    ],
+    { author: "Shakespeare", year: 1611 }); // $ExpectType { title: string, author: string, year: number }[]
 
 _.every([true, 1, null, 'yes'], x => !!_.identity(x));
 
