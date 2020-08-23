@@ -200,8 +200,6 @@ _({ a: '1', b: '2', c: '3' }).reduce((memo: string | number, numstr, key, collec
 }); // $ExpectType string | number | undefined
 
 _.reduce([1, 2, 3], (memo, num) => memo + num, 0); // $ExpectType number
-_([1, 2, 3]).reduce((memo, num) => memo + num, 0); // $ExpectType number
-_.chain([1, 2, 3]).reduce((memo, num) => memo + num, 0).value(); // $ExpectType number
 
 var list = [[0, 1], [2, 3], [4, 5]];
 //var flat = _.reduceRight(list, (a, b) => a.concat(b), []);    // https://typescript.codeplex.com/workitem/1960
