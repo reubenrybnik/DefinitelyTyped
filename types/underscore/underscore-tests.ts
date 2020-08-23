@@ -109,6 +109,7 @@ declare const booleanDictionary: _.Dictionary<boolean>;
 
 // any
 declare const anyValue: any;
+declare const anyArray: any[];
 declare const anyCollectionIterator: (element: any, index: string | number, collection: any) => void;
 declare const anyCollectionTester: (element: any, index: string | number, collection: any) => boolean;
 
@@ -153,17 +154,51 @@ declare const maybeFunction: (() => void) | undefined;
  * Usage Tests *
  ***************/
 _.VERSION; // $ExpectType string
-_.each([1, 2, 3], (num) => alert(num.toString()));
-_.each({ one: 1, two: 2, three: 3 }, (value, key) => alert(value.toString()));
+_.each([1, 2, 3], (value, key, collection) => {
+    value; // $ExpectType number
+    key; // $ExpectType number
+    collection; // $ExpectType number[]
+}); // $ExpectType number[]
 
-_.map([1, 2, 3], (num) => num * 3);
-_.map({ one: 1, two: 2, three: 3 }, (value, key) => value * 3);
-let plucked: string[] = _.map([{key: 'apples'}, {key: 'oranges'}], 'key');
+_({ one: 1, two: 2, three: 3 }).each((value, key, collection) => {
+    value; // $ExpectType number
+    key; // $ExpectType string
+    collection; // $ExpectType { one: number, two: number, three: number}
+}); // $ExpectType { one: number, two: number, three: number}
 
-//var sum = _.reduce([1, 2, 3], (memo, num) => memo + num, 0);    // https://typescript.codeplex.com/workitem/1960
-_.reduce([1, 2, 3], (memo, num) => memo + num); // $ExpectType number | undefined
-_.reduce<_.Dictionary<string>, number>({ 'a': '1', 'b': '2', 'c': '3' }, (memo, numstr) => (+memo) + (+numstr)); // $ExpectType string | number | undefined
-_.reduce({ 'a': '1', 'b': '2', 'c': '3' }, (memo: string | number, numstr) => (+memo) + (+numstr)); // $ExpectType string | number | undefined
+_([1, 2, 3]).map((value, key, collection): NumberRecord => {
+    value; // $ExpectType number
+    key; // $ExpectType number
+    collection; // $ExpectType number[]
+
+    return { a: value };
+}); // $ExpectType NumberRecord[]
+
+_.map({ one: 1, two: 2, three: 3 }, (value, key, collection): NumberRecord => {
+    value; // $ExpectType number
+    key; // $ExpectType string
+    collection; // $ExpectType { one: number, two: number, three: number}
+
+    return { a: value };
+}); // $ExpectType NumberRecord[]
+
+_.reduce([1, 2, 3], (memo, num, key, collection) => {
+    memo; // $ExpectType number
+    num; // $ExpectType number
+    key; // $ExpectType number
+    collection; // $ExpectType number[]
+
+    return memo + num;
+}); // $ExpectType number | undefined
+
+_({ a: '1', b: '2', c: '3' }).reduce((memo: string | number, numstr, key, collection) => {
+    numstr; // $ExpectType string
+    key; // $ExpectType string
+    collection; // $ExpectType { a: string, b: string, c: string }
+
+    return (+memo) + (+numstr);
+}); // $ExpectType string | number | undefined
+
 _.reduce([1, 2, 3], (memo, num) => memo + num, 0); // $ExpectType number
 _([1, 2, 3]).reduce((memo, num) => memo + num, 0); // $ExpectType number
 _.chain([1, 2, 3]).reduce((memo, num) => memo + num, 0).value(); // $ExpectType number
