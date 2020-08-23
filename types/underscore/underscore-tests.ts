@@ -201,9 +201,7 @@ _({ a: '1', b: '2', c: '3' }).reduce((memo: string | number, numstr, key, collec
 
 _.reduce([1, 2, 3], (memo, num) => memo + num, 0); // $ExpectType number
 
-var list = [[0, 1], [2, 3], [4, 5]];
-//var flat = _.reduceRight(list, (a, b) => a.concat(b), []);    // https://typescript.codeplex.com/workitem/1960
-var flat = _.reduceRight(list, (a, b) => a.concat(b), [] as number[]);
+_([[0, 1], [2, 3], [4, 5]]).reduceRight((a: number[], b) => a.concat(b), []); // $ExpectType number[]
 
 var evens = _.filter([1, 2, 3, 4, 5, 6], (num) => num % 2 == 0);
 
