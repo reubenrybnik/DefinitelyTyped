@@ -208,7 +208,7 @@ _({ a: '1', b: '2', c: '3' }).reduce((memo: string | number, numstr, key, collec
     return (+memo) + (+numstr);
 }); // $ExpectType string | number | undefined
 
-// reverse concatenation of numbers
+// flattening an array in reverse order
 _([[0, 1], [2, 3], [4, 5]]).reduceRight((a: number[], b) => a.concat(b), []); // $ExpectType number[]
 
 // filtering to only evens
@@ -228,19 +228,17 @@ _.where([
     ],
     { author: "Shakespeare", year: 1611 }); // $ExpectType { title: string, author: string, year: number }[]
 
-_.every([true, 1, null, 'yes'], x => !!_.identity(x));
+// determining whether every value is truthy
+_.every([true, 1, null, 'yes']); // $ExpectType boolean
 
-_.any([null, 0, 'yes', false]);
+// determining whether any value is uppercase
+_.some({ a: 'a', b: 'B', c: 'C', d: 'd' }, l => l === l.toUpperCase()); // $ExpectType boolean
 
-_.some([1, 2, 3, 4], l => l % 3 === 0);
+// checking whether an item is in an array
+_.contains([1, 2, 3], 3); // $ExpectType boolean
 
-_.some({ a: 'a', b: 'B', c: 'C', d: 'd' }, l => l === l.toUpperCase());
-
-_.contains([1, 2, 3], 3);
-
-_.contains([1, 2, 3], 3, 1);
-
-_.invoke([[5, 1, 7], [3, 2, 1]], 'sort');
+// truncating a set of strings to 5 characters or less
+_.invoke(['zebra', 'giraffe', 'lion'], 'substring', 0, 5);
 
 // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/33479
 var foo: any[] = [{'a': 1, 'b': 2}];
