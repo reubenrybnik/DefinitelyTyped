@@ -101,6 +101,7 @@ declare const level2StringList: _.List<_.List<string>>;
 // number
 declare const numberValue: number;
 declare const numberList: _.List<number>;
+declare const numberArray: number[];
 declare const numberDictionary: _.Dictionary<number>;
 
 // boolean
@@ -152,6 +153,7 @@ declare const maybeFunction: (() => void) | undefined;
 
 // concrete example types
 const stooges = [{ name: 'moe', age: 40 }, { name: 'larry', age: 50 }, { name: 'curly', age: 60 }];
+const explicitNumberDictionary = { one: 1, two: 2, three: 3 };
 
 /***************
  * Usage Tests *
@@ -159,20 +161,20 @@ const stooges = [{ name: 'moe', age: 40 }, { name: 'larry', age: 50 }, { name: '
 _.VERSION; // $ExpectType string
 
 // each with different collection types
-_.each([1, 2, 3], (value, key, collection) => {
+_.each(numberArray, (value, key, collection) => {
     value; // $ExpectType number
     key; // $ExpectType number
     collection; // $ExpectType number[]
 }); // $ExpectType number[]
 
-_({ one: 1, two: 2, three: 3 }).each((value, key, collection) => {
+_(explicitNumberDictionary).each((value, key, collection) => {
     value; // $ExpectType number
     key; // $ExpectType string
     collection; // $ExpectType { one: number, two: number, three: number}
 }); // $ExpectType { one: number, two: number, three: number}
 
 // map with a target plain object return type
-_([1, 2, 3]).map((value, key, collection): NumberRecord => {
+_(numberArray).map((value, key, collection): NumberRecord => {
     value; // $ExpectType number
     key; // $ExpectType number
     collection; // $ExpectType number[]
@@ -180,7 +182,7 @@ _([1, 2, 3]).map((value, key, collection): NumberRecord => {
     return { a: value };
 }); // $ExpectType NumberRecord[]
 
-_.map({ one: 1, two: 2, three: 3 }, (value, key, collection): NumberRecord => {
+_.map(explicitNumberDictionary, (value, key, collection): NumberRecord => {
     value; // $ExpectType number
     key; // $ExpectType string
     collection; // $ExpectType { one: number, two: number, three: number}
@@ -189,7 +191,7 @@ _.map({ one: 1, two: 2, three: 3 }, (value, key, collection): NumberRecord => {
 }); // $ExpectType NumberRecord[]
 
 // sum with a result of undefined when no values are provided
-_.reduce([1, 2, 3], (memo, num, key, collection) => {
+_.reduce(numberArray, (memo, num, key, collection) => {
     memo; // $ExpectType number
     num; // $ExpectType number
     key; // $ExpectType number
@@ -199,7 +201,7 @@ _.reduce([1, 2, 3], (memo, num, key, collection) => {
 }); // $ExpectType number | undefined
 
 // sum with a result of zero when no values are provided
-_.reduce([1, 2, 3], (memo, num) => memo + num, 0); // $ExpectType number
+_.reduce(numberArray, (memo, num) => memo + num, 0); // $ExpectType number
 
 // sum of numbers as strings in an object collection with a result of undefined when no values are provided
 // and a result of a string when only one value is provided
@@ -215,10 +217,10 @@ _({ a: '1', b: '2', c: '3' }).reduce((memo: string | number, numstr, key, collec
 _([[0, 1], [2, 3], [4, 5]]).reduceRight((a: number[], b) => a.concat(b), []); // $ExpectType number[]
 
 // filtering to only evens
-_.filter([1, 2, 3, 4, 5, 6], num => num % 2 === 0); // $ExpectType number[]
+_.filter(numberArray, num => num % 2 === 0); // $ExpectType number[]
 
 // rejecting evens
-_.reject([1, 2, 3, 4, 5, 6], (num) => num % 2 === 0); // $ExpectType number[]
+_.reject(numberArray, (num) => num % 2 === 0); // $ExpectType number[]
 
 // filtering to only uppercase letters
 _({ a: 'a', b: 'B', c: 'C', d: 'd' }).filter(l => l === l.toUpperCase()); // $ExpectType string[]
@@ -238,7 +240,7 @@ _.every([true, 1, null, 'yes']); // $ExpectType boolean
 _.some({ a: 'a', b: 'B', c: 'C', d: 'd' }, l => l === l.toUpperCase()); // $ExpectType boolean
 
 // checking whether an item is in an array
-_.contains([1, 2, 3], 3); // $ExpectType boolean
+_.contains(numberArray, 3); // $ExpectType boolean
 
 // truncating a set of strings to 5 characters or less
 _.invoke(['zebra', 'giraffe', 'lion'], 'substring', 0, 5);
@@ -247,13 +249,13 @@ _.invoke(['zebra', 'giraffe', 'lion'], 'substring', 0, 5);
 _.pluck(stooges, 'name'); // $ExpectType string[]
 
 // retrieving the minimum number in a list
-_.min([10, 5, 100, 2, 1000]); // $ExpectType number
+_.min(numberArray); // $ExpectType number
 
 // retrieving the item with the maximum number in a property
 _.max(stooges, (stooge) => stooge.age); // $ExpectType {name: string, age: number }
 
 // sorting by a calculated value
-_.sortBy([1, 2, 3, 4, 5, 6], num => Math.sin(num)); // $ExpectType number[]
+_.sortBy(numberArray, num => Math.sin(num)); // $ExpectType number[]
 
 _([1, 2, 3]).chain()
     .sortBy(x => -x)
