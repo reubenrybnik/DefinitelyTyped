@@ -160,37 +160,44 @@ const explicitNumberDictionary = { one: 1, two: 2, three: 3 };
  ***************/
 _.VERSION; // $ExpectType string
 
-// each with different collection types
+// iterating through an array
+// $ExpectType number[]
 _.each(numberArray, (value, key, collection) => {
     value; // $ExpectType number
     key; // $ExpectType number
     collection; // $ExpectType number[]
-}); // $ExpectType number[]
+});
 
+// iterating through a dictionary
+// $ExpectType { one: number; two: number; three: number; }
 _(explicitNumberDictionary).each((value, key, collection) => {
     value; // $ExpectType number
     key; // $ExpectType string
-    collection; // $ExpectType { one: number, two: number, three: number}
-}); // $ExpectType { one: number, two: number, three: number}
+    collection; // $ExpectType { one: number; two: number; three: number; }
+});
 
-// map with a target plain object return type
-_(numberArray).map((value, key, collection): NumberRecord => {
+// mapping an array with an inferred result type
+// $ExpectType number[]
+_(numberArray).map((value, key, collection) => {
     value; // $ExpectType number
     key; // $ExpectType number
     collection; // $ExpectType number[]
 
-    return { a: value };
-}); // $ExpectType NumberRecord[]
+    return value;
+});
 
+// mapping a dictionary with an explicit result type
+// $ExpectType NumberRecord[]
 _.map(explicitNumberDictionary, (value, key, collection): NumberRecord => {
     value; // $ExpectType number
     key; // $ExpectType string
-    collection; // $ExpectType { one: number, two: number, three: number}
+    collection; // $ExpectType { one: number; two: number; three: number; }
 
     return { a: value };
-}); // $ExpectType NumberRecord[]
+});
 
-// sum with a result of undefined when no values are provided
+// summing with a result of undefined when no values are provided
+// $ExpectType number | undefined
 _.reduce(numberArray, (memo, num, key, collection) => {
     memo; // $ExpectType number
     num; // $ExpectType number
@@ -198,20 +205,21 @@ _.reduce(numberArray, (memo, num, key, collection) => {
     collection; // $ExpectType number[]
 
     return memo + num;
-}); // $ExpectType number | undefined
+});
 
-// sum with a result of zero when no values are provided
+// summing with a result of zero when no values are provided
 _.reduce(numberArray, (memo, num) => memo + num, 0); // $ExpectType number
 
-// sum of numbers as strings in an object collection with a result of undefined when no values are provided
+// summing numbers as strings in an object collection with a result of undefined when no values are provided
 // and a result of a string when only one value is provided
+// $ExpectType string | number | undefined
 _({ a: '1', b: '2', c: '3' }).reduce((memo: string | number, numstr, key, collection) => {
     numstr; // $ExpectType string
     key; // $ExpectType string
-    collection; // $ExpectType { a: string, b: string, c: string }
+    collection; // $ExpectType { a: string; b: string; c: string; }
 
     return (+memo) + (+numstr);
-}); // $ExpectType string | number | undefined
+});
 
 // flattening an array in reverse order
 _([[0, 1], [2, 3], [4, 5]]).reduceRight((a: number[], b) => a.concat(b), []); // $ExpectType number[]
@@ -226,12 +234,13 @@ _.reject(numberArray, (num) => num % 2 === 0); // $ExpectType number[]
 _({ a: 'a', b: 'B', c: 'C', d: 'd' }).filter(l => l === l.toUpperCase()); // $ExpectType string[]
 
 // filtering to partial matches
+// $ExpectType { title: string; author: string; year: number; }[]
 _.where([
         { title: "Cymbeline", author: "Shakespeare", year: 1611 },
         { title: "The Tempest", author: "Shakespeare", year: 1611 },
         { title: "Other", author: "Not Shakespeare", year: 2012 }
     ],
-    { author: "Shakespeare", year: 1611 }); // $ExpectType { title: string, author: string, year: number }[]
+    { author: "Shakespeare", year: 1611 });
 
 // determining whether every value is truthy
 _.every([true, 1, null, 'yes']); // $ExpectType boolean
@@ -252,7 +261,8 @@ _.pluck(stooges, 'name'); // $ExpectType string[]
 _.min(numberArray); // $ExpectType number
 
 // retrieving the item with the maximum number in a property
-_.max(stooges, (stooge) => stooge.age); // $ExpectType {name: string, age: number }
+// if no items are provided, the result will be -Infinity
+_.max(stooges, (stooge) => stooge.age); // $ExpectType number | { name: string; age: number; }
 
 // sorting by a calculated value
 _.sortBy(numberArray, num => Math.sin(num)); // $ExpectType number[]
@@ -262,110 +272,99 @@ _([1, 2, 3]).chain()
     .sortBy(x => -x)
     .value().length;
 
-_([1.3, 2.1, 2.4]).groupBy((e) => Math.floor(e));
-_.groupBy([1.3, 2.1, 2.4], (num) => Math.floor(num).toString());
-_.groupBy(['one', 'two', 'three'], 'length');
+// grouping numbers by their non-fractional parts
+_(numberArray).groupBy((e) => Math.floor(e)); // $ExpectType Dictionary<number[]>
 
-_.indexBy(stooges, 'age')['40'].age;
-_(stooges).indexBy('age')['40'].name;
-_(stooges)
-    .chain()
-    .indexBy('age')
-    .value()['40'].age;
+// counting numbers by their evenness
+_.countBy(numberArray, (num) => (num % 2 === 0) ? 'even' : 'odd'); // $ExpectType Dictionary<number>
 
-let pensioners: string[] = _.chain(stooges)
-    .filter(p => p.age >= 60)
-    .map(p => p.name)
-    .value();
+// shuffling numbers
+_.shuffle(numberArray); // $ExpectType number[]
 
-var usersData: _.Dictionary<{ age: number; name: string }> = {
-    'user id': { name: 'moe', age: 40 },
-    'other user Id': { name: 'larry', age: 50 },
-    'fake id': { name: 'curly', age: 60 },
-};
+// determining the number of items in a dictionary
+_.size(explicitNumberDictionary); // $ExpectType number
 
-let youngPeopleId: string[] = _.chain(usersData)
-    .map((p, k: string) => k)
-    .value();
+// splitting numbers into sets of even and odd values
+_.partition(numberArray, num =>  num % 2 === 0); // $ExpectType [number[], number[]]
 
-let usersTable: { age: number; name: string; id: string }[] = _.chain(usersData)
-    .map((p, k: string) => {
-        return { id: k, ...p };
-    })
-    .value();
+// creating a function that can determine if one object's property values matches another's
+const isUncleMoe = _.matches({ name: 'moe', relation: 'uncle' }); // $ExpectType Predicate<{ name: string; relation: string; }>
+isUncleMoe({ name: 'moe', relation: 'uncle' }); // $ExpectType boolean
 
-// Test map function with _ChainOfArrays<>
-let usersTable_2 /*: { age: number; name: string; id: string }[][]*/ = _.chain(usersData)
-    .map((p, k: string) => {
-        return [{ id: k, ...p }];
-    })
-    .value();
+// retrieving the first item in an array
+_.first([5, 4, 3, 2, 1]); // $ExpectType number | undefined
 
-let usersTable_3 /*: { score: number; fullName: string; login: string }[][]*/ = _.chain(usersTable)
-    .map(p => {
-        return [
-            {
-                login: p.id,
-                fullName: p.name,
-                score: p.age,
-            },
-        ];
-    })
-    .value();
+// retrieving all but the last element in an array
+_.initial([5, 4, 3, 2, 1]); // $ExpectType number[]
 
-_.countBy([1, 2, 3, 4, 5], (num) => (num % 2 == 0) ? 'even' : 'odd');
+// retrieving the last two elements in an array
+_.last([5, 4, 3, 2, 1], 2); // $ExpectType number[]
 
-_.shuffle([1, 2, 3, 4, 5, 6]);
+// retrieving all but the first two elements in an array
+_.rest([5, 4, 3, 2, 1], 2); // $ExpectType number[]
 
-(function (a, b, c, d) { return _.toArray(arguments).slice(1); })(1, 2, 3, 4);
+// removing falsy values
+_.compact([0, 1, false, 2, '', '3', undefined]); // $ExpectType (string | number | true)[]
 
-_.size({ one: 1, two: 2, three: 3 });
+// deep flattening an array
+_.flatten([[[1, 2], [3]], [[4, 5]]]); // $ExpectType any[]
 
-_.partition<number[]>([0, 1, 2, 3, 4, 5], (num) => {return num % 2 == 0 });
+// shallow flattening an array
+_.flatten([[[1, 2], [3]], [[4, 5]]], true); // $ExpectType number[][]
 
-interface Family {
-    name: string;
-    relation: string;
-}
-var isUncleMoe = _.matches<Family>({ name: 'moe', relation: 'uncle' });
-_.filter([{ name: 'larry', relation: 'father' }, { name: 'moe', relation: 'uncle' }], isUncleMoe);
-var uncleMoe: Family = { name: 'moe', relation: 'uncle' };
-isUncleMoe(uncleMoe);
+// excluding values from a list
+_.without([1, 2, 1, 0, 3, 1, 4], 0, 1); // $ExpectType number[]
 
-///////////////////////////////////////////////////////////////////////////////////////
+// computing the union of several sets
+_.union([1, 2, 3], [101, 2, 1, 10], [2, 1]); // $ExpectType number[]
 
-_.first([5, 4, 3, 2, 1]);
-_.initial([5, 4, 3, 2, 1]);
-_.last([5, 4, 3, 2, 1]);
-_.rest([5, 4, 3, 2, 1]);
-_.compact([0, 1, false, 2, '', 3]);
+// computing the intersection of several sets
+_.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]); // $ExpectType number[]
 
-_.flatten([1, 2, 3, 4]);
-_.flatten([1, [2]]);
+// computing the difference one set and other sets
+_.difference([1, 2, 3, 4, 5], [5, 2, 10]); // $ExpectType number[]
 
-// typescript doesn't like the elements being different
-_.flatten([1, [2], [3, [[4]]]]);
-_.flatten([1, [2], [3, [[4]]]], true);
-_.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
-_.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
-_.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
-_.difference([1, 2, 3, 4, 5], [5, 2, 10]);
-_.uniq([1, 2, 1, 3, 1, 4]);
-_.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
-var r = _.object(['moe', 'larry', 'curly'], [30, 40, 50]);
-_.object([['moe', 30], ['larry', 40], ['curly', 50]]);
-_.indexOf([1, 2, 3], 2);
-_.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
-_.sortedIndex([10, 20, 30, 40, 50], 35);
-_.findIndex([1, 2, 3, 1, 2, 3], num => num % 2 === 0);
-_.findIndex([{a: 'a'}, {a: 'b'}], {a: 'b'});
-_.findLastIndex([1, 2, 3, 1, 2, 3], num => num % 2 === 0);
-_.findLastIndex([{ a: 'a' }, { a: 'b' }], { a: 'b' });
-_.range(10);
-_.range(1, 11);
-_.range(0, 30, 5);
-_.range(0, 30, 5);
-_.range(0);
+// determining the unique values in an array
+_.uniq([1, 2, 1, 3, 1, 4]); // $ExpectType number[]
+
+// merging together lists of values at a set of positions
+_.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]); // $ExpectType any[][]
+
+// creating an object from a set of keys and a set of values
+_.object(['moe', 'larry', 'curly'], [30, 40, 50]); // $ExpectType Dictionary<number | undefined>
+
+// creating an object from a set of key-value pairs
+_.object([['moe', 30], ['larry', 40], ['curly', 50]] as [string, number][]); // $ExpectType Dictionary<number>
+
+// finding the index of a value
+_.indexOf([1, 2, 3], 2); // $ExpectType number
+
+// finding the last index of a value
+_.lastIndexOf([1, 2, 3, 1, 2, 3], 2); // $ExpectType number
+
+// finding the index at which to insert a value to maintain sorting
+_.sortedIndex([10, 20, 30, 40, 50], 35); // $ExpectType number
+
+// finding the index of the first matching value
+_.findIndex([1, 2, 3, 1, 2, 3], num => num % 2 === 0); // $ExpectType number
+
+// finding the index of the last matching value via a shallow object contents comparison
+_.findIndex([{ a: 'a' }, { a: 'b' }], { a: 'b' }); // $ExpectType number
+
+// finding the index of the first matching value
+_.findLastIndex([1, 2, 3, 1, 2, 3], num => num % 2 === 0); // $ExpectType number
+
+// finding the index of the last matching value via a shallow object contents comparison
+_.findLastIndex([{ a: 'a' }, { a: 'b' }], { a: 'b' }); // $ExpectType number
+
+// creating an array of numbers from 0 to 10
+_.range(10); // $ExpectType number[]
+
+// creating an array of numbers from 1 to 11
+_.range(1, 11); // $ExpectType number[]
+
+// creating an array of numbers from 0 to 30 in increments of 5
+_.range(0, 30, 5); // $ExpectType number[]
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
