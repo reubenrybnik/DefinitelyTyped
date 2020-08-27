@@ -3,8 +3,8 @@
  **************************************/
 declare const $: any;
 declare const window: any;
-declare const alert: (msg: string) => any;
-declare const console: {log: any};
+declare const alert: (msg: string) => void;
+declare const console: { log(...args: any[]): void; };
 
 declare const context: object;
 
@@ -152,12 +152,13 @@ declare const tupleList: _.List<[string, number]>;
 declare const maybeFunction: (() => void) | undefined;
 
 // concrete example types
+declare const manyParameters: (a: string, b: number, c: boolean, d: string, e: number, f: string) => string;
 const stooges = [{ name: 'moe', age: 40 }, { name: 'larry', age: 50 }, { name: 'curly', age: 60 }];
 const explicitNumberDictionary = { one: 1, two: 2, three: 3 };
 
-/***************
- * Usage Tests *
- ***************/
+/*****************************
+ * Usage Tests - Collections *
+ *****************************/
 _.VERSION; // $ExpectType string
 
 // iterating through an array
@@ -287,9 +288,9 @@ _.size(explicitNumberDictionary); // $ExpectType number
 // splitting numbers into sets of even and odd values
 _.partition(numberArray, num =>  num % 2 === 0); // $ExpectType [number[], number[]]
 
-// creating a function that can determine if one object's property values matches another's
-const isUncleMoe = _.matches({ name: 'moe', relation: 'uncle' }); // $ExpectType Predicate<{ name: string; relation: string; }>
-isUncleMoe({ name: 'moe', relation: 'uncle' }); // $ExpectType boolean
+/************************
+ * Usage Tests - Arrays *
+ ************************/
 
 // retrieving the first item in an array
 _.first([5, 4, 3, 2, 1]); // $ExpectType number | undefined
@@ -366,72 +367,102 @@ _.range(1, 11); // $ExpectType number[]
 // creating an array of numbers from 0 to 30 in increments of 5
 _.range(0, 30, 5); // $ExpectType number[]
 
-///////////////////////////////////////////////////////////////////////////////////////
+/***************************
+ * Usage Tests - Functions *
+ ***************************/
 
-var func = function (greeting) { return `${greeting}: ${this.name}` };
-// need a second var otherwise typescript thinks func signature is the above func type,
-// instead of the newly returned _bind => func type.
-var func2 = _.bind(func, { name: 'moe' }, 'hi');
-func2();
+// binding a context and arguments to a function
+_.bind(function (greeting: string) { return `${greeting}: ${this.name}`; }, { name: 'moe' }, 'hi'); // $ExpectType () => any
 
-var buttonView = {
-    label: 'underscore',
-    onClick() { alert('clicked: ' + this.label); },
-    onHover() { console.log('hovering: ' + this.label); }
-};
-_.bindAll(buttonView);
-$('#underscore_button').bind('click', buttonView.onClick);
+// binding a context to all functions in an object
+{
+    const buttonView = {
+        label: 'underscore',
+        onClick() { alert('clicked: ' + this.label); },
+        onHover() { console.log('hovering: ' + this.label); }
+    };
+    _.bindAll(buttonView);
+    $('#underscore_button').bind('click', buttonView.onClick);
+}
 
-var fibonacci = _.memoize(function (n) {
-    return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2);
-});
+// creating a function that will remember previously computed values for a set of arguments
+{
+    const fibonacci = _.memoize((n: number): number => n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2)); // $ExpectType (n: number) => number
+    fibonacci(10); // $ExpectType number
+}
 
-class MyClass {};
+// creating a function that will cache instances of classes as singletons (the second call will return the same object as the first)
+{
+    class MyClass { };
+    const singleton = _.memoize(<T>(classInstance: new () => T) => new classInstance()); // $ExpectType <T>(classInstance: new () => T) => T
+    singleton(MyClass); // $ExpectType MyClass
+    singleton(MyClass); // $ExpectType MyClass
+}
 
-var classMemoized = _.memoize<MyClass>(function (classInstance) {
-    return new classInstance();
-});
+// delaying the execution of a function with arguments
+_.delay(alert, 1000, 'delayed'); // $ExpectType any
 
-var log = _.bind(console.log, console);
-_.delay(log, 1000, 'logged later');
+// deferring the execution of a function
+_.defer(() => alert('deferred'));
 
-_.defer(function () { alert('deferred'); });
+// rate-limiting a function
+{
+    const updatePosition = (param: string) => alert('updating position... Param: ' + param);
+    const throttled = _.throttle(updatePosition, 100); // $ExpectType ((param: string) => void) & Cancelable
+    $(window).scroll(throttled);
+    throttled.cancel(); // $ExpectType void
+}
 
-var updatePosition = (param:string) => alert('updating position... Param: ' + param);
-var throttled = _.throttle(updatePosition, 100);
-$(window).scroll(throttled);
-throttled.cancel();
+// debouncing a function
+{
+    const calculateLayout = (param: string) => alert('calculating layout... Param: ' + param);
+    const lazyLayout = _.debounce(calculateLayout, 300); // $ExpectType ((param: string) => void) & Cancelable
+    $(window).resize(lazyLayout);
+    lazyLayout.cancel(); // $ExpectType void
+}
 
-var calculateLayout = (param:string) => alert('calculating layout... Param: ' + param);
-var lazyLayout = _.debounce(calculateLayout, 300);
-$(window).resize(lazyLayout);
-lazyLayout.cancel();
+// creating a function that will only perform its action once (the second call will return the result of the first call)
+{
+    const createApplication = (param: string) => 'creating application... Param: ' + param;
+    const initialize = _.once(createApplication); // $ExpectType (param: string) => string
+    initialize("first"); // $ExpectType string
+    initialize("second"); // $ExpectType string
+}
 
-var createApplication = (param:string) => alert('creating application... Param: ' + param);
-var initialize = _.once(createApplication);
-initialize("me");
-initialize("me");
+// creating a wrapped function that will only be invoked after the wrapper is invoked a number of times
+{
+    const renderNotes = _.after(anyArray.length, () => alert("rendering..."));
+    _.each(anyArray, (note) => note.asyncSave({ success: renderNotes }));
+}
 
-var notes: any[] = [1,2,3];
-var render = () => alert("rendering...");
-var renderNotes = _.after(notes.length, render);
-_.each(notes, (note) => note.asyncSave({ success: renderNotes }));
+// wrapping a function in another function
+{
+    const hello = (name: string) => "hello: " + name;
+    const hello2 = _.wrap(hello, func => `before, ${func("moe")} + after`); // $ExpectType Function
+    hello2(); // $ExpectType any
+}
 
-var hello = function (name) { return "hello: " + name; };
-// can't use the same "hello" var otherwise typescript fails
-var hello2 = _.wrap(hello, (func) => { return `before, ${func("moe")} + after`; });
-hello2();
+// composing a function as the result of multiple function calls
+{
+    const greet = (name: string) => "hi: " + name;
+    const exclaim = (statement: string) => statement + "!";
+    const welcome = _.compose(exclaim, greet); // $ExpectType Function
+    welcome('moe'); // $ExpectType any
+}
 
-var greet = function (name) { return "hi: " + name; };
-var exclaim = function (statement) { return statement + "!"; };
-var welcome = _.compose(exclaim, greet);
-welcome('moe');
+// providing a partial set of leading arguments
+_.partial(manyParameters, "", 1); // $ExpectType (p3: boolean, p4: string, p5: number, p6: string) => string
 
-var partialApplicationTestFunction = (a: string, b: number, c: boolean, d: string, e: number, f: string) => {  }
-var partialApplicationResult = _.partial(partialApplicationTestFunction, "", 1);
-var parametersCanBeStubbed = _.partial(partialApplicationResult, _, _, _, "");
+// providing a partial set of arguments in the middle of a parameter set
+_.partial(manyParameters, _, _, _, ""); // $ExpectType (p1: string, p2: number, p3: boolean, p5: number, p6: string) => string
 
-///////////////////////////////////////////////////////////////////////////////////////
+/*************************
+ * Usage Tests - Objects *
+ *************************/
+
+// creating a function that can determine if one object's property values matches another's
+const isUncleMoe = _.matches({ name: 'moe', relation: 'uncle' }); // $ExpectType Predicate<{ name: string; relation: string; }>
+isUncleMoe({ name: 'moe', relation: 'uncle' }); // $ExpectType boolean
 
 _.keys({ one: 1, two: 2, three: 3 });
 _.values({ one: 1, two: 2, three: 3 });
