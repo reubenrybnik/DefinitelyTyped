@@ -159,7 +159,6 @@ const explicitNumberDictionary = { one: 1, two: 2, three: 3 };
 /*****************************
  * Usage Tests - Collections *
  *****************************/
-_.VERSION; // $ExpectType string
 
 // iterating through an array
 // $ExpectType number[]
@@ -267,11 +266,6 @@ _.max(stooges, (stooge) => stooge.age); // $ExpectType number | { name: string; 
 
 // sorting by a calculated value
 _.sortBy(numberArray, num => Math.sin(num)); // $ExpectType number[]
-
-_([1, 2, 3]).chain()
-    .sortBy(x => -x)
-    .sortBy(x => -x)
-    .value().length;
 
 // grouping numbers by their non-fractional parts
 _(numberArray).groupBy((e) => Math.floor(e)); // $ExpectType Dictionary<number[]>
@@ -531,6 +525,9 @@ _.has({ a: 1, b: 2, c: 3 }, "b"); // $ExpectType boolean
 /*************************
  * Usage Tests - Utility *
  *************************/
+
+// checking the version of Underscore
+_.VERSION; // $ExpectType string
 
 // creating a function that will always return a specific value
 _.constant({ name: 'moe' }); // $ExpectType () => { name: string; }
