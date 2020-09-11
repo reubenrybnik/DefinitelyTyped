@@ -516,66 +516,98 @@ _.defaults({ flavor: "chocolate" }, { flavor: "vanilla", sprinkles: "lots" }); /
 _.clone({ name: 'moe' }); // $ExpectType { name: string; }
 _.clone(['i', 'am', 'an', 'object!']); // $ExpectType string[]
 
-_.has({ a: 1, b: 2, c: 3 }, "b");
+// checking whether or not an object has a property
+_.has({ a: 1, b: 2, c: 3 }, "b"); // $ExpectType boolean
 
-var moe = { name: 'moe', luckyNumbers: [13, 27, 34] };
+// retrieving shallow and deep property values from an object
+const luckyNumbersMoe = { name: 'moe', luckyNumbers: [13, 27, 34] };
+_.property('name')(luckyNumbersMoe); // $ExpectType any
+_.property(['luckyNumbers', 2])(luckyNumbersMoe); // $ExpectType any
 
-_.property('name')(moe);
-_.property(['name'])(moe);
-_.property(['luckyNumbers', 2])(moe)
+/*************************
+ * Usage Tests - Utility *
+ *************************/
 
-var UncleMoe = { name: 'moe' };
-_.constant(UncleMoe)();
+// creating a function that will always return a specific value
+_.constant({ name: 'moe' }); // $ExpectType () => { name: string; }
 
-typeof _.now() === "number";
+// getting the current time as an integer timestamp
+_.now(); // $ExpectType number
 
-var underscore = _.noConflict();
+// giving control of the _ global variable back to its previous owner (returns a reference to value of _ that is in effect before the function is called)
+_.noConflict(); // $ExpectType any
 
-var moe2 = { name: 'moe' };
-moe2 === _.identity(moe);
+// calling a no-op function that returns the same value that is used as the argument
+_.identity({ name: 'moe' }); // $ExpectType { name: string; }
 
-var genie;
-var r2 = _.times(3, (n) => { return n * n });
-_(3).times(function (n) { genie.grantWishNumber(n); });
+// calling a function multiple times with the iteration as an argument and getting an array containing the result of each call
+// in this case, the result is the squares of the numbers 0 through 4
+_.times(5, n => n * n); // $ExpectType number[]
 
-_.random(0, 100);
+// generating a random number between two bounds
+_.random(0, 100); // $ExpectType number
 
+// adding functions to Underscore by calling _.mixin and augmenting Underscore types
 _.mixin({
-    capitalize(string) {
-        return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
-    }
+    capitalize: (string: string) => string.charAt(0).toUpperCase() + string.substring(1)
 });
-(<any>_("fabio")).capitalize();
 
-_.uniqueId('contact_');
+declare namespace _ {
+    interface UnderscoreStatic {
+        capitalize(string: string): string;
+    }
 
-_.escape('Curly, Larry & Moe');
+    interface Underscore<T, V> {
+        capitalize(): string;
+    }
 
-var object = { cheese: 'crumpets', stuff() { return 'nonsense'; } };
-_.result(object, 'cheese');
+    interface _Chain<T, V> {
+        capitalize(): _ChainSingle<string>;
+    }
+}
 
-_.result(object, 'stuff');
+_.capitalize("fabio"); // $ExpectType string
+_("fabio").capitalize(); // $ExpectType string
+_.chain("fabio").capitalize().value(); // $ExpectType string
 
-var compiled = _.template("hello: <%= name %>");
-compiled({ name: 'moe' });
-let source: string = compiled.source;
-var list2 = "<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>";
-_.template(list2)({ people: ['moe', 'curly', 'larry'] });
-var template = _.template("<b><%- value %></b>");
-template({ value: '<script>' });
-var compiled2 = _.template("<% print('Hello ' + epithet); %>");
-compiled2({ epithet: "stooge" });
-var oldTemplateSettings = _.templateSettings;
+// generating an id that is unique only to this current usage of underscore
+_.uniqueId('contact_'); // $ExpectType string
+
+// HTML-escaping a string
+_.escape('Curly, Larry & Moe'); // $ExpectType string
+
+// getting the result of a property by either:
+//   evaluating it (if it's a function),
+//   returning the value of the default parameter (if it's undefined)
+//   or returning its value
+// the example below will always return a string
+declare const objectWithFunctionOrValue: { functionOrValue: (() => string) | string | undefined; };
+_.result(objectWithFunctionOrValue, 'functionOrValue', 'someDefaultResult'); // $ExpectType any
+
+// compiling and evaluating templates
+const template = _.template("<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>"); // $ExpectType CompiledTemplate
+template({ people: ['moe', 'curly', 'larry'] }); // $ExpectType string
+
+// overriding template settings
+// $ExpectType CompiledTemplate
+const differentSettingsTemplate = _.template("<p>Hello {{: data.name }}!<p><p>The current timestamp is {{= _.now() }}</p>",
+    {
+        escape: /\{\{=(.+?)\}\}/g,
+        interpolate: /\{\{:(.+?)\}\}/g,
+        evaluate: /\{\{\}\}/g,
+        variable: 'data'
+    });
+differentSettingsTemplate({ name: "Mustache O'Grady" }); // $ExpectType string
+
+// setting different global settings for templates
 _.templateSettings = {
-    interpolate: /\{\{(.+?)\}\}/g
+    escape: /\{\{=(.+?)\}\}/g,
+    interpolate: /\{\{:(.+?)\}\}/g,
+    evaluate: /\{\{\}\}/g,
+    variable: 'data'
 };
-var template2 = _.template("Hello {{ name }}!");
-template2({ name: "Mustache" });
-_.template("Using 'with': <%= data.answer %>", oldTemplateSettings)({ variable: 'data' });
-
-_.template("Using 'with': <%= data.answer %>", { variable: 'data' })({ answer: 'no' });
-let template0 = _.template("I don't depend on any variables");
-template0();
+const globalSettingsTemplate = _.template("<p>Hello {{: data.name }}!<p><p>The current timestamp is {{= _.now() }}</p>"); // $ExpectType CompiledTemplate
+globalSettingsTemplate({ name: "Mustache O'Grady" }); // $ExpectType string
 
 /**************************
  * Usage Tests - Chaining *
