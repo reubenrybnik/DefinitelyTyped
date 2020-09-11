@@ -461,8 +461,10 @@ _.partial(manyParameters, _, _, _, ""); // $ExpectType (p1: string, p2: number, 
  *************************/
 
 // creating a function that can determine if one object's property values matches another's
-const isUncleMoe = _.matches({ name: 'moe', relation: 'uncle' }); // $ExpectType Predicate<{ name: string; relation: string; }>
-isUncleMoe({ name: 'moe', relation: 'uncle' }); // $ExpectType boolean
+{
+    const isUncleMoe = _.matches({ name: 'moe', relation: 'uncle' }); // $ExpectType Predicate<{ name: string; relation: string; }>
+    isUncleMoe({ name: 'moe', relation: 'uncle' }); // $ExpectType boolean
+}
 
 // retrieving the keys of an object
 _.keys({ one: 1, two: 2, three: 3 }); // $ExpectType string[]
@@ -520,9 +522,11 @@ _.clone(['i', 'am', 'an', 'object!']); // $ExpectType string[]
 _.has({ a: 1, b: 2, c: 3 }, "b"); // $ExpectType boolean
 
 // retrieving shallow and deep property values from an object
-const luckyNumbersMoe = { name: 'moe', luckyNumbers: [13, 27, 34] };
-_.property('name')(luckyNumbersMoe); // $ExpectType any
-_.property(['luckyNumbers', 2])(luckyNumbersMoe); // $ExpectType any
+{
+    const luckyNumbersMoe = { name: 'moe', luckyNumbers: [13, 27, 34] };
+    _.property('name')(luckyNumbersMoe); // $ExpectType any
+    _.property(['luckyNumbers', 2])(luckyNumbersMoe); // $ExpectType any
+}
 
 /*************************
  * Usage Tests - Utility *
@@ -585,29 +589,35 @@ declare const objectWithFunctionOrValue: { functionOrValue: (() => string) | str
 _.result(objectWithFunctionOrValue, 'functionOrValue', 'someDefaultResult'); // $ExpectType any
 
 // compiling and evaluating templates
-const template = _.template("<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>"); // $ExpectType CompiledTemplate
-template({ people: ['moe', 'curly', 'larry'] }); // $ExpectType string
+{
+    const template = _.template("<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>"); // $ExpectType CompiledTemplate
+    template({ people: ['moe', 'curly', 'larry'] }); // $ExpectType string
+}
 
 // overriding template settings
-// $ExpectType CompiledTemplate
-const differentSettingsTemplate = _.template("<p>Hello {{: data.name }}!<p><p>The current timestamp is {{= _.now() }}</p>",
-    {
+{
+    // $ExpectType CompiledTemplate
+    const template = _.template("<p>Hello {{: data.name }}!<p><p>The current timestamp is {{= _.now() }}</p>",
+        {
+            escape: /\{\{=(.+?)\}\}/g,
+            interpolate: /\{\{:(.+?)\}\}/g,
+            evaluate: /\{\{\}\}/g,
+            variable: 'data'
+        });
+    template({ name: "Mustache O'Grady" }); // $ExpectType string
+}
+
+// setting different global settings for templates
+{
+    _.templateSettings = {
         escape: /\{\{=(.+?)\}\}/g,
         interpolate: /\{\{:(.+?)\}\}/g,
         evaluate: /\{\{\}\}/g,
         variable: 'data'
-    });
-differentSettingsTemplate({ name: "Mustache O'Grady" }); // $ExpectType string
-
-// setting different global settings for templates
-_.templateSettings = {
-    escape: /\{\{=(.+?)\}\}/g,
-    interpolate: /\{\{:(.+?)\}\}/g,
-    evaluate: /\{\{\}\}/g,
-    variable: 'data'
-};
-const globalSettingsTemplate = _.template("<p>Hello {{: data.name }}!<p><p>The current timestamp is {{= _.now() }}</p>"); // $ExpectType CompiledTemplate
-globalSettingsTemplate({ name: "Mustache O'Grady" }); // $ExpectType string
+    };
+    const template = _.template("<p>Hello {{: data.name }}!<p><p>The current timestamp is {{= _.now() }}</p>"); // $ExpectType CompiledTemplate
+    template({ name: "Mustache O'Grady" }); // $ExpectType string
+}
 
 /**************************
  * Usage Tests - Chaining *
@@ -826,6 +836,45 @@ _.chain([1, 2, 3])
     .partition(n => n >= 2)
     .first()
     .size()
+    .value();
+
+// $ExpectType string[]
+_.chain([{ type: 'one' }, { type: 'two' }, { type: 'one' }])
+    .countBy('type')
+    .omit(count => count < 2)
+    .keys()
+    .value();
+
+// $ExpectType number
+_.chain(['rate', 'rest', 'fate', 'best'])
+    .rest(2)
+    .invoke('substring', 2)
+    .indexOf('te')
+    .value();
+
+// $ExpectType number | { food: string; }
+_.chain([{ food: 'apple' }, { food: 'banana' }, { food: 'carrot' }])
+    .initial()
+    .max(['food', 'length'])
+    .value();
+
+// $ExpectType number
+_.chain([{ score: 27 }, { score: 45 }, { score: 16 }])
+    .sortBy('score')
+    .sortedIndex({ score: 33 }, 'score')
+    .value();
+
+// $ExpectType boolean
+_.chain([1, 3, 5])
+    .sample(2)
+    .every(n => n > 2)
+    .value();
+
+// $ExpectType number
+_.chain(10)
+    .range()
+    .shuffle()
+    .findLastIndex(n => n > 3)
     .value();
 
 /*******************************
