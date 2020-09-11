@@ -516,19 +516,6 @@ _.defaults({ flavor: "chocolate" }, { flavor: "vanilla", sprinkles: "lots" }); /
 _.clone({ name: 'moe' }); // $ExpectType { name: string; }
 _.clone(['i', 'am', 'an', 'object!']); // $ExpectType string[]
 
-_([1, 2, 3, 4])
-    .chain()
-    .filter((num) => { return num % 2 == 0; })
-    .tap(alert)
-    .map((num) => { return num * num; })
-    .value();
-
-_.chain([1, 2, 3, 200])
-    .filter((num) => { return num % 2 == 0; })
-    .tap(alert)
-    .map((num) => { return num * num; })
-    .value();
-
 _.has({ a: 1, b: 2, c: 3 }, "b");
 
 var moe = { name: 'moe', luckyNumbers: [13, 27, 34] };
@@ -590,105 +577,47 @@ _.template("Using 'with': <%= data.answer %>", { variable: 'data' })({ answer: '
 let template0 = _.template("I don't depend on any variables");
 template0();
 
-//////////////// Chain Tests
-function chain_tests() {
-    // https://typescript.codeplex.com/workitem/1960
-    var numArray = _.chain([1, 2, 3, 4, 5, 6, 7, 8])
-        .filter(num => num % 2 == 0)
-        .map(num => num * num)
-        .value();
+/**************************
+ * Usage Tests - Chaining *
+ **************************/
 
-    var strArray = _([1, 2, 3, 4])
-        .chain()
-        .filter(num => num % 2 == 0)
-        .tap(alert)
-        .map(num => "string" + num)
-        .value();
+// $ExpectType number[]
+_.chain([1, 2, 3, 4])
+    .filter(num => num % 2 === 0)
+    .tap(alert)
+    .map(num => num * num)
+    .value();
 
-    var n = _.chain([1, 2, 3, 200])
-        .filter(num => num % 2 == 0)
-        .tap(alert)
-        .map(num => num * num)
-        .max()
-        .value();
+// $ExpectType Dictionary<boolean>
+_.chain({
+    'test': { title: 'item1', value: 5 },
+    'another': { title: 'item2', value: 8 },
+    'third': { title: 'item3', value: 10 }
+})
+    .values()
+    .filter(r => r.value >= 8)
+    .map(r => [r.title, true] as [string, boolean])
+    .object()
+    .value();
 
-    var hoverOverValueShouldBeNumberNotAny = _([1, 2, 3]).chain()
-        .map(num => [num, num + 1])
-        .flatten()
-        .find(num => num % 2 == 0)
-        .value();
+// $ExpectType number | undefined
+_.chain([1, 2, 3])
+    .map(num => [num, num + 1])
+    .flatten()
+    .find(num => num % 2 === 0)
+    .value();
 
-    var firstVal: number | undefined = _.chain([1, 2, 3])
-        .first()
-        .value();
+// $ExpectType { [x: string]: number[]; }
+_.chain([{ property: 'odd', value: 1 }, { property: 'even', value: 2 }, { property: 'even', value: 0 }])
+    .groupBy('property')
+    .mapObject((objects) => _.pluck(objects, 'value'))
+    .value();
 
-    var firstVal2: number | undefined = _.chain([])
-        .first()
-        .value();
-
-    let numberObjects = [{property: 'odd', value: 1}, {property: 'even', value: 2}, {property: 'even', value: 0}];
-    let evenAndOddGroupedNumbers = _.chain(numberObjects)
-        .groupBy('property')
-        .mapObject((objects) => _.pluck(objects, 'value'))
-        .value(); // { odd: [1], even: [0, 2] }
-
-  var matrixOfString : string[][] = _.chain({'foo' : '1', 'bar': '1'})
-      .keys()    // return ['foo', 'bar'] : string[]
-      .pairs()   // return [['foo', '0'], ['bar', '1']] : string[][]
-      .value();
-
-    interface IYears {
-        2016: number;
-        2017: number;
-    }
-
-    let yearObject: IYears = {2016: 1, 2017: 2};
-    let valuePerYear: number[] = _.chain(yearObject)
-        .values()
-        .value()
-
-    const arr1: string[] = ['z', 'x', 'y'];
-    const query = 'z';
-    let arr2: string[] = ['a', 'b', 'c'];
-    arr2 = _.chain(arr1)
-        .union(arr2)
-        .without(query)
-        .value();
-}
-
-var obj: { [k: string] : number } = {
-       'test' : 5,
-       'another' : 8,
-       'third' : 10
-    };
-let empty = {};
-
-_.chain(obj).map(function (value, key) {
-    empty[key] = value;
-    console.log("vk", value, key);
-});
-
-function strong_typed_values_tests() {
-    var dictionaryLike: { [k: string] : {title: string, value: number} } = {
-        'test' : { title: 'item1', value: 5 },
-        'another' : { title: 'item2', value: 8 },
-        'third' : { title: 'item3', value: 10 }
-    };
-
-    _.chain(dictionaryLike).values().filter((r) => {
-        return r.value >= 8;
-    }).map((r) => {
-        return [r.title, true];
-    }).object().value();
-
-    var x: number = _(dictionaryLike).chain().filter((x) => {
-        console.log(x.title);
-        console.log(x.value.toFixed());
-        return x.title == 'item1';
-    }).size().value();
-
-    _.values<{title: string, value: number}>(dictionaryLike);
-}
+// $ExpectType string[]
+_.chain(['z', 'x', 'y'])
+    .union(['a', 'b', 'c'])
+    .without('z')
+    .value();
 
 // tests for #7931 - verify that the result of a function like reduce that returns a singleton can be chained further
 // $ExpectType number[]
