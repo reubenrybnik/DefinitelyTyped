@@ -381,7 +381,7 @@ _.bind(function (greeting: string) { return `${greeting}: ${this.name}`; }, { na
         onClick() { alert('clicked: ' + this.label); },
         onHover() { console.log('hovering: ' + this.label); }
     };
-    _.bindAll(buttonView);
+    _.bindAll(buttonView); // $ExpectType any
     $('#underscore_button').bind('click', buttonView.onClick);
 }
 
@@ -464,46 +464,57 @@ _.partial(manyParameters, _, _, _, ""); // $ExpectType (p1: string, p2: number, 
 const isUncleMoe = _.matches({ name: 'moe', relation: 'uncle' }); // $ExpectType Predicate<{ name: string; relation: string; }>
 isUncleMoe({ name: 'moe', relation: 'uncle' }); // $ExpectType boolean
 
-_.keys({ one: 1, two: 2, three: 3 });
-_.values({ one: 1, two: 2, three: 3 });
-_.pairs({ one: 1, two: 2, three: 3 });
-_.invert({ Moe: "Moses", Larry: "Louis", Curly: "Jerome" });
-_.functions(_);
-_.extend({ name: 'moe' }, { age: 50 });
-_.extendOwn({ name: 'moe'}, { age: 50 });
-_.assign({ name: 'moe'}, { age: 50 });
+// retrieving the keys of an object
+_.keys({ one: 1, two: 2, three: 3 }); // $ExpectType string[]
 
-_.pick({ name: 'moe', age: 50, userid: 'moe1' }, 'name', 'age').age = 5;
-_.pick({ name: 'moe', age: 50, userid: 'moe1' }, ['name', 'age']).age = 5;
-_.pick({ name: 'moe', age: 50, userid: 'moe1' }, (value, key) => {
-    return key === 'name' || key === 'age';
-}).age = 5;
+// retrieving the values of a dictionary
+_.values({ one: 1, two: 2, three: 3 }); // $ExpectType number[]
 
-_({ name: 'moe', age: 50, userid: 'moe1' }).pick('name', 'age').age = 5;
-_({ name: 'moe', age: 50, userid: 'moe1' }).pick(['name', 'age']).age = 5;
-_({ name: 'moe', age: 50, userid: 'moe1' }).pick((value, key) => {
-    return key === 'name' || key === 'age';
-}).age = 5;
+// retrieving an array of key-value pairs for an object
+_.pairs({ one: 1, two: 2, three: 3 }); // $ExpectType ["one" | "two" | "three", number][]
 
-_.chain({ name: 'moe', age: 50, userid: 'moe1' }).pick('name', 'age').value().age = 5;
-_.chain({ name: 'moe', age: 50, userid: 'moe1' }).pick(['name', 'age']).value().age = 5;
-_.chain({ name: 'moe', age: 50, userid: 'moe1' }).pick((value, key) => {
-    return key === 'name' || key === 'age';
-}).value().age = 5;
+// making an object's keys its values and values its keys
+_.invert({ Moe: "Moses", Larry: "Louis", Curly: "Jerome" }); // $ExpectType any
 
-_.omit({ name: 'moe', age: 50, userid: 'moe1' }, 'name');
-_.omit({ name: 'moe', age: 50, userid: 'moe1' }, 'name', 'age');
-_.omit({ name: 'moe', age: 50, userid: 'moe1' }, ['name', 'age']);
+// retrieving the names of all of the function-valued properties from an object
+_.functions(_); // $ExpectType string[]
 
-_.mapObject({ a: 1, b: 2 }, val => val * 2) === _.mapObject({ a: 2, b: 4 }, _.identity);
-_.mapObject({ a: 1, b: 2 }, (val, key, o) => o[key] * 2) === _.mapObject({ a: 2, b: 4}, _.identity);
-_.mapObject({ x: "string 1", y: "string 2" }, 'length') === _.mapObject({ x: "string 1", y: "string 2"}, _.property('length'));
+// shallow copying properties from the source objects to the destination object
+_.extend({ name: 'moe' }, { age: 50 }, { userid: 'moe1' }); // $ExpectType any
 
-var iceCream = { flavor: "chocolate" };
-_.defaults(iceCream, { flavor: "vanilla", sprinkles: "lots" });
+// shallow copying own properties from the source objects to the destination object
+_.extendOwn({ name: 'moe' }, { age: 50 }, { userid: 'moe1' }); // $ExpectType any
+_.assign({ name: 'moe' }, { age: 50 }, { userid: 'moe1' }); // $ExpectType any
 
-_.clone({ name: 'moe' });
-_.clone(['i', 'am', 'an', 'object!']);
+// making a copy of an object that includes a specific subset of properties selected by known names
+_.pick({ name: 'moe', age: 50, userid: 'moe1' }, 'name', 'age'); // $ExpectType Pick<{ name: string; age: number; userid: string; }, "name" | "age">
+_.pick({ name: 'moe', age: 50, userid: 'moe1' }, ['name', 'age']); // $ExpectType Pick<{ name: string; age: number; userid: string; }, "name" | "age">
+
+// making a copy of an object that includes a specific subset of properties selected by unknown names
+_.pick({ name: 'moe', age: 50, userid: 'moe1' }, stringArray); // $ExpectType Partial<{ name: string; age: number; userid: string; }>
+
+// making a copy of an object that includes a specific subset of properties selected by an iteratee
+_.pick({ name: 'moe', age: 50, userid: 'moe1' }, (value, key) => key === 'name' || key === 'age'); // $ExpectType Partial<{ name: string; age: number; userid: string; }>
+
+// making a copy of an object that omits a specific subset of properties selected by known names
+_.omit({ name: 'moe', age: 50, userid: 'moe1' }, 'name', 'age'); // $ExpectType Pick<{ name: string; age: number; userid: string; }, "userid">
+_.omit({ name: 'moe', age: 50, userid: 'moe1' }, ['name', 'age']); // $ExpectType Pick<{ name: string; age: number; userid: string; }, "userid">
+
+// making a copy of an object that omits a specific subset of properties selected by unknown names
+_.omit({ name: 'moe', age: 50, userid: 'moe1' }, stringArray); // $ExpectType Partial<{ name: string; age: number; userid: string; }>
+
+// making a copy of an object that omits a specific subset of properties selected by an iteratee
+_.omit({ name: 'moe', age: 50, userid: 'moe1' }, (value, key) => key === 'name' || key === 'age'); // $ExpectType Partial<{ name: string; age: number; userid: string; }>
+
+// converting the properties of an object from numbers to strings
+_.mapObject({ a: '1', b: '2' }, val => +val); // $ExpectType { a: number; b: number; }
+
+// filling in properties missing on an object
+_.defaults({ flavor: "chocolate" }, { flavor: "vanilla", sprinkles: "lots" }); // $ExpectType any
+
+// creating a shallow-copied clone of an object
+_.clone({ name: 'moe' }); // $ExpectType { name: string; }
+_.clone(['i', 'am', 'an', 'object!']); // $ExpectType string[]
 
 _([1, 2, 3, 4])
     .chain()
@@ -847,6 +858,13 @@ _.chain([1, 3, 5])
 _.chain([{ id: 1, name: 'a' }, { id: 2, name: 'b' }])
     .map(o => [o.name, o.id] as Readonly<[string, number]>)
     .object()
+    .value();
+
+// $ExpectType number
+_.chain([1, 2, 3])
+    .partition(n => n >= 2)
+    .first()
+    .size()
     .value();
 
 /*******************************
