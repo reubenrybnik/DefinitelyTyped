@@ -343,10 +343,10 @@ _.sortedIndex([10, 20, 30, 40, 50], 35); // $ExpectType number
 // finding the index of the first matching value
 _.findIndex([1, 2, 3, 1, 2, 3], num => num % 2 === 0); // $ExpectType number
 
-// finding the index of the last matching value via a shallow object contents comparison
+// finding the index of the first matching value via a shallow object contents comparison
 _.findIndex([{ a: 'a' }, { a: 'b' }], { a: 'b' }); // $ExpectType number
 
-// finding the index of the first matching value
+// finding the index of the last matching value
 _.findLastIndex([1, 2, 3, 1, 2, 3], num => num % 2 === 0); // $ExpectType number
 
 // finding the index of the last matching value via a shallow object contents comparison
@@ -548,14 +548,13 @@ _.times(5, n => n * n); // $ExpectType number[]
 // generating a random number between two bounds
 _.random(0, 100); // $ExpectType number
 
-// adding functions to Underscore by calling _.mixin
+// adding functions to Underscore by calling _.mixin and augmenting Underscore's
+// type definitions
 // $ExpectType void
 _.mixin({
     capitalize: (string: string) => string.charAt(0).toUpperCase() + string.substring(1)
 });
 
-// to also augment Underscore's types, do something like the below except use a different
-// module name (most likely 'underscore')
 declare module 'underscore' {
     interface UnderscoreStatic {
         capitalize(string: string): string;
