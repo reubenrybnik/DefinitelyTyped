@@ -22,12 +22,11 @@ declare global {
     interface Element { }
 }
 
-declare module _ {
+declare namespace _ {
     /**
     * underscore.js _.throttle options.
     **/
     interface ThrottleSettings {
-
         /**
         * If you'd like to disable the leading-edge call, pass this as false.
         **/
@@ -1000,7 +999,7 @@ declare module _ {
          * @returns The contents of `list` in chunks no greater than `length`
          * in size.
          **/
-        chunk<V extends List<any>>(list: V, length: number): TypeOfList<V>[][]
+        chunk<V extends List<any>>(list: V, length: number): TypeOfList<V>[][];
 
         /*************
          * Functions *
@@ -3380,7 +3379,7 @@ declare module _ {
         throttle<T extends Function>(
             func: T,
             wait: number,
-            options?: _.ThrottleSettings): T & _.Cancelable;
+            options?: ThrottleSettings): T & Cancelable;
 
         /**
         * Creates and returns a new debounced version of the passed function that will postpone its execution
@@ -3399,7 +3398,7 @@ declare module _ {
         debounce<T extends Function>(
             fn: T,
             wait: number,
-            immediate?: boolean): T & _.Cancelable;
+            immediate?: boolean): T & Cancelable;
 
         /**
         * Creates a version of the function that can only be called one time. Repeated calls to the modified
@@ -3489,7 +3488,7 @@ declare module _ {
         * @param object Retrieve the values of all the properties on this object.
         * @return List of all the values on `object`.
         **/
-        values<T>(object: _.Dictionary<T>): T[];
+        values<T>(object: Dictionary<T>): T[];
 
         /**
         * Return all of the values of the object's properties.
@@ -3689,7 +3688,7 @@ declare module _ {
         * @param attrs Object with key values pair
         * @return Predicate function
         **/
-        matches<T>(attrs: T): _.Predicate<T>;
+        matches<T>(attrs: T): Predicate<T>;
 
         /**
         * Returns a predicate function that will tell you if a passed in object contains all of the key/value properties present in attrs.
@@ -3697,7 +3696,7 @@ declare module _ {
         * @param attrs Object with key values pair
         * @return Predicate function
         **/
-        matcher<T>(attrs: T): _.Predicate<T>;
+        matcher<T>(attrs: T): Predicate<T>;
 
         /**
         * Returns a function that will itself return the key property of any passed-in object.
@@ -3903,17 +3902,14 @@ declare module _ {
         /**
         * Returns a random integer between min and max, inclusive. If you only pass one argument,
         * it will return a number between 0 and that number.
+        * @param minOrMax The maximum random number if no second parameter is
+        * provided or the minimum random number if the first parameter is
+        * provided.
         * @param max The maximum random number.
-        * @return A random number between 0 and `max`.
+        * @return A random number between 0 and `maxOrMin` (if `max` is not
+        * provided) or between `maxOrMin` and `max` (if `max` is provided).
         **/
-        random(max: number): number;
-
-        /**
-        * @see _.random
-        * @param min The minimum random number.
-        * @return A random number between `min` and `max`.
-        **/
-        random(min: number, max: number): number;
+        random(maxOrMin: number, max?: number): number;
 
         /**
         * Allows you to extend Underscore with your own utility functions. Pass a hash of
@@ -3927,13 +3923,11 @@ declare module _ {
         * A mostly-internal function to generate callbacks that can be applied to each element
         * in a collection, returning the desired result -- either identity, an arbitrary callback,
         * a property matcher, or a propetery accessor.
-        * @param string|Function|Object value The value to iterate over, usually the key.
-        * @param any context
+        * @param value The value to iterate over, usually the key.
+        * @param context `this` object in `value`, optional.
         * @return Callback that can be applied to each element in a collection.
         **/
-        iteratee(value: string): Function;
-        iteratee(value: Function, context?: any): Function;
-        iteratee(value: object): Function;
+        iteratee(value: string | object | Function, context?: any): Function;
 
         /**
         * Generate a globally-unique id for client-side models or DOM elements that need one.
@@ -3981,13 +3975,13 @@ declare module _ {
         * @param settings Settings to use while compiling.
         * @return Returns the compiled Underscore HTML template.
         **/
-        template(templateString: string, settings?: _.TemplateSettings): CompiledTemplate;
+        template(templateString: string, settings?: TemplateSettings): CompiledTemplate;
 
         /**
         * By default, Underscore uses ERB-style template delimiters, change the
         * following template settings to use alternative delimiters.
         **/
-        templateSettings: _.TemplateSettings;
+        templateSettings: TemplateSettings;
 
         /**
         * Returns an integer timestamp for the current time, using the fastest method available in the runtime. Useful for implementing timing/animation functions.
@@ -4013,7 +4007,6 @@ declare module _ {
     }
 
     interface Underscore<T, V = T[]> {
-
         /***************
          * Collections *
          ***************/
@@ -4730,13 +4723,13 @@ declare module _ {
         * Wrapped type `Function`.
         * @see _.throttle
         **/
-        throttle(wait: number, options?: _.ThrottleSettings): Function & _.Cancelable;
+        throttle(wait: number, options?: ThrottleSettings): Function & Cancelable;
 
         /**
         * Wrapped type `Function`.
         * @see _.debounce
         **/
-        debounce(wait: number, immediate?: boolean): Function & _.Cancelable;
+        debounce(wait: number, immediate?: boolean): Function & Cancelable;
 
         /**
         * Wrapped type `Function`.
@@ -4933,13 +4926,13 @@ declare module _ {
         * Wrapped type `any[]`.
         * @see _.matches
         **/
-        matches(): _.ListIterator<T, boolean>;
+        matches(): ListIterator<T, boolean>;
 
         /**
          * Wrapped type `any[]`.
          * @see _.matcher
          **/
-        matcher(): _.ListIterator<T, boolean>;
+        matcher(): ListIterator<T, boolean>;
 
         /**
         * Wrapped type `string`.
@@ -5113,12 +5106,7 @@ declare module _ {
         * Wrapped type `number`.
         * @see _.random
         **/
-        random(): number;
-        /**
-        * Wrapped type `number`.
-        * @see _.random
-        **/
-        random(max: number): number;
+        random(max?: number): number;
 
         /**
         * Wrapped type `object`.
@@ -5160,7 +5148,7 @@ declare module _ {
         * Wrapped type `string`.
         * @see _.template
         **/
-        template(settings?: _.TemplateSettings): CompiledTemplate;
+        template(settings?: TemplateSettings): CompiledTemplate;
 
         /************
          * Chaining *
@@ -5181,7 +5169,6 @@ declare module _ {
     }
 
     interface _Chain<T, V = T[]> {
-
         /***************
          * Collections *
          ***************/
@@ -5939,7 +5926,7 @@ declare module _ {
         * Wrapped type `Function`.
         * @see _.throttle
         **/
-        throttle(wait: number, options?: _.ThrottleSettings): _Chain<T>;
+        throttle(wait: number, options?: ThrottleSettings): _Chain<T>;
 
         /**
         * Wrapped type `Function`.
@@ -6344,12 +6331,7 @@ declare module _ {
         * Wrapped type `number`.
         * @see _.random
         **/
-        random(): _Chain<T>;
-        /**
-        * Wrapped type `number`.
-        * @see _.random
-        **/
-        random(max: number): _Chain<T>;
+        random(max?: number): _ChainSingle<number>;
 
         /**
         * Wrapped type `object`.
@@ -6391,7 +6373,7 @@ declare module _ {
         * Wrapped type `string`.
         * @see _.template
         **/
-        template(settings?: _.TemplateSettings): _Chain<CompiledTemplate>;
+        template(settings?: TemplateSettings): _Chain<CompiledTemplate>;
 
         /***************
          * Array proxy *

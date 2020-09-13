@@ -366,7 +366,7 @@ _.range(0, 30, 5); // $ExpectType number[]
  ***************************/
 
 // binding a context and arguments to a function
-_.bind(function (greeting: string) { return `${greeting}: ${this.name}`; }, { name: 'moe' }, 'hi'); // $ExpectType () => any
+_.bind(function(greeting: string) { return `${greeting}: ${this.name}`; }, { name: 'moe' }, 'hi'); // $ExpectType () => any
 
 // binding a context to all functions in an object
 {
@@ -387,7 +387,7 @@ _.bind(function (greeting: string) { return `${greeting}: ${this.name}`; }, { na
 
 // creating a function that will cache instances of classes as singletons (the second call will return the same object as the first)
 {
-    class MyClass { };
+    class MyClass { }
     const singleton = _.memoize(<T>(classInstance: new () => T) => new classInstance()); // $ExpectType <T>(classInstance: new () => T) => T
     singleton(MyClass); // $ExpectType MyClass
     singleton(MyClass); // $ExpectType MyClass
@@ -632,9 +632,9 @@ _.chain([1, 2, 3, 4])
 
 // $ExpectType Dictionary<boolean>
 _.chain({
-    'test': { title: 'item1', value: 5 },
-    'another': { title: 'item2', value: 8 },
-    'third': { title: 'item3', value: 10 }
+    test: { title: 'item1', value: 5 },
+    another: { title: 'item2', value: 8 },
+    third: { title: 'item3', value: 10 }
 })
     .values()
     .filter(r => r.value >= 8)
@@ -1978,7 +1978,7 @@ undefinedResult; // $ExpectType StringRecord
     // shallow property iteratee with other types - lists
     _.pluck(maybeRecordList, shallowProperty); // $ExpectType any[]
     _.pluck(intersectingPropertiesList, shallowProperty); // $ExpectType (string | StringRecord)[]
-    _.pluck(nonIntersectingList, shallowProperty) // $ExpectType any[]
+    _.pluck(nonIntersectingList, shallowProperty); // $ExpectType any[]
     _.pluck(anyValue, shallowProperty); // $ExpectType any[]
 }
 
@@ -3281,7 +3281,7 @@ undefinedResult; // $ExpectType StringRecord
         _.isFunction(anyValue) ? anyValue : neverValue; // $ExpectType Function
     }
 
-    _.isObject(stringy) ? stringy : neverValue // $ExpectType StringRecord
+    _.isObject(stringy) ? stringy : neverValue; // $ExpectType StringRecord
     _.isObject(maybeStringArray) ? maybeStringArray : neverValue; // $ExpectType string[]
     _.isObject(maybeFunction) ? maybeFunction : neverValue; // $ExpectType () => void
     _.isObject(stringValue) ? stringValue : neverValue; // $ExpectType never
