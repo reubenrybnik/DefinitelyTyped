@@ -1023,7 +1023,7 @@ knownShallowPropertyResult; // $ExpectType string | StringRecord
 declare const unknownShallowPropertyResult: _.IterateeResult<typeof shallowProperty, NonIntersecting>;
 unknownShallowPropertyResult; // $ExpectType any
 
-declare const deepPropertyResult: _.IterateeResult<_.EnumerableKey[], StringRecord>;
+declare const deepPropertyResult: _.IterateeResult<(string | number)[], StringRecord>;
 deepPropertyResult; // $ExpectType any
 
 declare const nullResult: _.IterateeResult<null, StringRecord>;
