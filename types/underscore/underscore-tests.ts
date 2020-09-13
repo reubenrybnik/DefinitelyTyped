@@ -78,13 +78,11 @@ interface NoParametersRecord {
 }
 
 declare const noParametersRecordList: _.List<NoParametersRecord>;
-declare const noParametersRecordDictionary: _.Dictionary<NoParametersRecord>;
 
 interface TwoParametersRecord {
     a: (arg0: number, arg1: string) => void;
 }
 
-declare const twoParametersRecordList: _.List<TwoParametersRecord>;
 declare const twoParametersRecordDictionary: _.Dictionary<TwoParametersRecord>;
 
 // string
