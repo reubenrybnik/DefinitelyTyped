@@ -343,10 +343,10 @@ _.sortedIndex([10, 20, 30, 40, 50], 35); // $ExpectType number
 // finding the index of the first matching value
 _.findIndex([1, 2, 3, 1, 2, 3], num => num % 2 === 0); // $ExpectType number
 
-// finding the index of the last matching value via a shallow object contents comparison
+// finding the index of the first matching value via a shallow object contents comparison
 _.findIndex([{ a: 'a' }, { a: 'b' }], { a: 'b' }); // $ExpectType number
 
-// finding the index of the first matching value
+// finding the index of the last matching value
 _.findLastIndex([1, 2, 3, 1, 2, 3], num => num % 2 === 0); // $ExpectType number
 
 // finding the index of the last matching value via a shallow object contents comparison
