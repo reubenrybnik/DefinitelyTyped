@@ -1,3 +1,5 @@
+import _ = require('underscore');
+
 /**************************************
  * Common Testing Types and Variables *
  **************************************/
@@ -548,12 +550,15 @@ _.times(5, n => n * n); // $ExpectType number[]
 // generating a random number between two bounds
 _.random(0, 100); // $ExpectType number
 
-// adding functions to Underscore by calling _.mixin and augmenting Underscore types
+// adding functions to Underscore by calling _.mixin
+// $ExpectType void
 _.mixin({
     capitalize: (string: string) => string.charAt(0).toUpperCase() + string.substring(1)
 });
 
-declare namespace _ {
+// to also augment Underscore's types, do something like the below except use a different
+// module name (most likely 'underscore')
+declare module 'underscore' {
     interface UnderscoreStatic {
         capitalize(string: string): string;
     }
