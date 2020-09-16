@@ -780,6 +780,52 @@ _.chain([{ id: 1, name: 'a' }, { id: 2, name: 'b' }])
     .object()
     .value();
 
+// $ExpectType number
+_.chain([1, 2, 3])
+    .partition(n => n >= 2)
+    .first()
+    .size()
+    .value();
+
+// $ExpectType string[]
+_.chain([{ type: 'one' }, { type: 'two' }, { type: 'one' }])
+    .countBy('type')
+    .omit(count => count < 2)
+    .keys()
+    .value();
+
+// $ExpectType number
+_.chain(['rate', 'rest', 'fate', 'best'])
+    .rest(2)
+    .invoke('substring', 2)
+    .indexOf('te')
+    .value();
+
+// $ExpectType number | { food: string; }
+_.chain([{ food: 'apple' }, { food: 'banana' }, { food: 'carrot' }])
+    .initial()
+    .max(['food', 'length'])
+    .value();
+
+// $ExpectType number
+_.chain([{ score: 27 }, { score: 45 }, { score: 16 }])
+    .sortBy('score')
+    .sortedIndex({ score: 33 }, 'score')
+    .value();
+
+// $ExpectType boolean
+_.chain([1, 3, 5])
+    .sample(2)
+    .every(n => n > 2)
+    .value();
+
+// $ExpectType number
+_.chain(10)
+    .range()
+    .shuffle()
+    .findLastIndex(n => n > 3)
+    .value();
+
 /*******************************
  * Combinatorial Tests - Types *
  *******************************/
