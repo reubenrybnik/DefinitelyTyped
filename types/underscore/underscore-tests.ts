@@ -254,7 +254,7 @@ _.shuffle([1, 2, 3, 4, 5, 6]);
 _.size({ one: 1, two: 2, three: 3 });
 
 // splitting numbers into sets of even and odd values
-_.partition<number[]>([0, 1, 2, 3, 4, 5], (num) => {return num % 2 == 0 });
+_.partition([0, 1, 2, 3, 4, 5], (num) => {return num % 2 === 0 });
 
 interface Family {
     name: string;
