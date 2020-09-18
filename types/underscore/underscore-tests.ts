@@ -366,7 +366,8 @@ var fibonacci = _.memoize(function (n) {
     return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2);
 });
 
-// creating a function that will cache instances of classes as singletons (the second call will return the same object as the first)
+// creating a function that will cache instances of classes as singletons
+// (the second call will return the same object as the first)
 class MyClass {};
 
 var classMemoized = _.memoize<MyClass>(function (classInstance) {
