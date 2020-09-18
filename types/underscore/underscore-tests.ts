@@ -1,3 +1,5 @@
+import _ = require('underscore');
+
 /**************************************
  * Common Testing Types and Variables *
  **************************************/
@@ -518,11 +520,26 @@ _.random(0, 100);
 // adding functions to Underscore by calling _.mixin and augmenting Underscore's
 // type definitions
 _.mixin({
-    capitalize(string) {
-        return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
-    }
+    capitalize: (string: string) => string.charAt(0).toUpperCase() + string.substring(1)
 });
-(<any>_("fabio")).capitalize();
+
+declare module 'underscore' {
+    interface UnderscoreStatic {
+        capitalize(string: string): string;
+    }
+
+    interface Underscore<T, V> {
+        capitalize(): string;
+    }
+
+    interface _Chain<T, V> {
+        capitalize(): _ChainSingle<string>;
+    }
+}
+
+_.capitalize("fabio"); // $ExpectType string
+_("fabio").capitalize(); // $ExpectType string
+_.chain("fabio").capitalize().value(); // $ExpectType string
 
 // generating an id that is unique only to this current usage of underscore
 _.uniqueId('contact_');
