@@ -512,7 +512,7 @@ moe2 === _.identity(moe);
 // in this case, the result is the squares of the numbers 0 through 4
 _.times(5, n => n * n);
 
-// generating a random number between two boundsW
+// generating a random number between two bounds
 _.random(0, 100);
 
 // adding functions to Underscore by calling _.mixin and augmenting Underscore's
