@@ -1081,12 +1081,12 @@ undefinedResult; // $ExpectType StringRecord
     _(stringValue).collect(stringIterator, context); // $ExpectType number[]
     extractChainTypes(_.chain(stringValue).collect(stringIterator, context)); // $ExpectType ChainType<number[], number>
 
-    // function iteratee - any - map
+    // function iteratee - any (see #33479) - map
     _.map(anyValue, recordListSelector, context); // $ExpectType string[]
     _(anyValue).map(recordListSelector, context); // $ExpectType string[]
     extractChainTypes(_.chain(anyValue).map(recordListSelector, context)); // $ExpectType ChainType<string[], string>
 
-    // function iteratee - any - collect
+    // function iteratee - any (see #33479) - collect
     _.collect(anyValue, recordListSelector, context); // $ExpectType string[]
     _(anyValue).collect(recordListSelector, context); // $ExpectType string[]
     extractChainTypes(_.chain(anyValue).collect(recordListSelector, context)); // $ExpectType ChainType<string[], string>
@@ -1181,12 +1181,12 @@ undefinedResult; // $ExpectType StringRecord
     _(recordDictionary).collect(deepProperty); // $ExpectType any[]
     extractChainTypes(_.chain(recordDictionary).collect(deepProperty)); // $ExpectType ChainType<any[], any>
 
-    // deep property iteratee - any - map
+    // deep property iteratee - any (see #33479) - map
     _.map(anyValue, deepProperty); // $ExpectType any[]
     _(anyValue).map(deepProperty); // $ExpectType any[]
     extractChainTypes(_.chain(anyValue).map(deepProperty)); // $ExpectType ChainType<any[], any>
 
-    // deep property iteratee - any - collect
+    // deep property iteratee - any (see #33479) - collect
     _.collect(anyValue, deepProperty); // $ExpectType any[]
     _(anyValue).collect(deepProperty); // $ExpectType any[]
     extractChainTypes(_.chain(anyValue).collect(deepProperty)); // $ExpectType ChainType<any[], any>
