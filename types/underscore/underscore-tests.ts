@@ -404,7 +404,10 @@ _.range(0, 30, 5); // $ExpectType number[]
 ///////////////////////////////////////////////////////////////////////////////////////
 
 // binding a context and arguments to a function
-_.bind(function (greeting: string) { return `${greeting}: ${this.name}`; }, { name: 'moe' }, 'hi'); // $ExpectType () => any
+{
+    const nameGreeting = function (this: { name: string }, greeting: string) { return `${greeting}: ${this.name}`; };
+    _.bind(nameGreeting, { name: 'moe' }, 'hi'); // $ExpectType () => any
+}
 
 // binding a context to all functions in an object
 {
