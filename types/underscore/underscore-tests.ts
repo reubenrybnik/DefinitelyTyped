@@ -652,8 +652,10 @@ _.result(objectWithFunctionOrValue, 'functionOrValue', 'someDefaultResult'); // 
     template({ name: "Mustache O'Grady" }); // $ExpectType string
 }
 
-//////////////// Chain Tests
-// move to chain tests
+/************
+ * Chaining *
+ ************/
+
 // $ExpectType number | undefined
 _.chain([1, 2, 3])
     .map(num => [num, num + 1])
@@ -661,7 +663,6 @@ _.chain([1, 2, 3])
     .find(num => num % 2 === 0)
     .value();
 
-// move to chain tets
 // $ExpectType { [x: string]: number[]; }
 _.chain([{ property: 'odd', value: 1 }, { property: 'even', value: 2 }, { property: 'even', value: 0 }])
     .groupBy('property')
