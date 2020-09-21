@@ -167,7 +167,7 @@ declare const maybeFunction: (() => void) | undefined;
 
 // concrete example types
 declare const manyParameters: (a: string, b: number, c: boolean, d: string, e: number, f: string) => string;
-const stooges = [{ name: 'moe', age: 40 }, { name: 'larry', age: 50 }, { name: 'curly', age: 60 }];
+declare const people: { name: string; age: number; }[];
 declare const explicitNumberDictionary: { one: number; two: number; three: number; };
 
 /***************
@@ -280,13 +280,13 @@ _.contains(numberArray, 3, 1); // $ExpectType boolean
 _.invoke(['zebra', 'giraffe', 'lion'], 'substring', 0, 5); // $ExpectType any[]
 
 // retrieving a property value from all items in a collection
-_.pluck(stooges, 'name'); // $ExpectType string[]
+_.pluck(people, 'name'); // $ExpectType string[]
 
 // retrieving the minimum number in a dictionary
 _.min(numberDictionary); // $ExpectType number
 
 // retrieving the item with the maximum number in a property
-_.max(stooges, (stooge) => stooge.age); // $ExpectType number | { name: string; age: number; }
+_.max(people, person => person.age); // $ExpectType number | { name: string; age: number; }
 
 // sorting by a calculated value
 _.sortBy(numberArray, num => Math.sin(num)); // $ExpectType number[]
@@ -298,7 +298,7 @@ _([1.3, 2.1, 2.4]).groupBy((e) => Math.floor(e)); // $ExpectType Dictionary<numb
 _.groupBy(['one', 'two', 'three'], 'length'); // $ExpectType Dictionary<string[]>
 
 // indexing items in a dictionary by age
-_.indexBy(stooges, 'age'); // $ExpectType Dictionary<{ name: string; age: number; }>
+_.indexBy(people, 'age'); // $ExpectType Dictionary<{ name: string; age: number; }>
 
 // counting numbers by their evenness
 _.countBy(numberArray, num => (num % 2 === 0) ? 'even' : 'odd'); // $ExpectType Dictionary<number>
