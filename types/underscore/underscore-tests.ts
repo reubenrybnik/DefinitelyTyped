@@ -259,7 +259,8 @@ _.where([
     { title: "The Tempest", author: "Shakespeare", year: 1611 },
     { title: "Other", author: "Not Shakespeare", year: 2012 }
 ],
-    { author: "Shakespeare", year: 1611 });
+    { author: "Shakespeare", year: 1611 }
+);
 
 // determining whether every value is truthy
 _.every([true, 1, null, 'yes']); // $ExpectType boolean
