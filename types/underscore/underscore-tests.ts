@@ -312,6 +312,9 @@ _.shuffle(numberArray); // $ExpectType number[]
     return args;
 })(1, 2, 3, 4);
 
+// converting a dictionary to an array
+_.toArray(explicitNumberDictionary); // $ExpectType number[]
+
 // determining the number of items in a dictionary
 _.size(explicitNumberDictionary); // $ExpectType number
 
