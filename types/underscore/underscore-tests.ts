@@ -422,7 +422,10 @@ _.range(0, 30, 5); // $ExpectType number[]
 
 // creating a function that will remember previously computed values for a set of arguments
 {
-    const fibonacci = _.memoize((n: number): number => n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2)); // $ExpectType (n: number) => number
+    // $ExpectType (n: number) => number
+    const fibonacci = _.memoize((n: number): number => {
+        return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2)
+    });
     fibonacci(10); // $ExpectType number
 }
 
