@@ -184,100 +184,6 @@ _.VERSION; // $ExpectType string
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-// binding a context and arguments to a function
-{
-    const nameGreeting = function (this: { name: string }, greeting: string) { return `${greeting}: ${this.name}`; };
-    _.bind(nameGreeting, { name: 'moe' }, 'hi'); // $ExpectType () => any
-}
-
-// binding a context to all functions in an object
-{
-    const buttonView = {
-        label: 'underscore',
-        onClick() { alert('clicked: ' + this.label); },
-        onHover() { console.log('hovering: ' + this.label); }
-    };
-    _.bindAll(buttonView); // $ExpectType any
-    $('#underscore_button').bind('click', buttonView.onClick);
-}
-
-// creating a function that will remember previously computed values for a set of arguments
-{
-    // $ExpectType (n: number) => number
-    const fibonacci = _.memoize((n: number): number => {
-        return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2)
-    });
-    fibonacci(10); // $ExpectType number
-}
-
-// creating a function that will cache instances of classes as singletons
-// (the second call will return the same object as the first)
-{
-    class MyClass { };
-    const singleton = _.memoize(<T>(classInstance: new () => T) => new classInstance()); // $ExpectType <T>(classInstance: new () => T) => T
-    singleton(MyClass); // $ExpectType MyClass
-    singleton(MyClass); // $ExpectType MyClass
-}
-
-// delaying the execution of a function with arguments
-_.delay(alert, 1000, 'delayed'); // $ExpectType any
-
-// deferring the execution of a function
-_.defer(() => alert('deferred')); // $ExpectType void
-
-// rate-limiting a function
-{
-    const updatePosition = (param: string) => alert('updating position... Param: ' + param);
-    const throttled = _.throttle(updatePosition, 100); // $ExpectType ((param: string) => void) & Cancelable
-    $(window).scroll(throttled);
-    throttled.cancel(); // $ExpectType void
-}
-
-// debouncing a function
-{
-    const calculateLayout = (param: string) => alert('calculating layout... Param: ' + param);
-    const lazyLayout = _.debounce(calculateLayout, 300); // $ExpectType ((param: string) => void) & Cancelable
-    $(window).resize(lazyLayout);
-    lazyLayout.cancel(); // $ExpectType void
-}
-
-// creating a function that will only perform its action once (the second call will return the result of the first call)
-{
-    const createApplication = (param: string) => 'creating application... Param: ' + param;
-    const initialize = _.once(createApplication); // $ExpectType (param: string) => string
-    initialize("first"); // $ExpectType string
-    initialize("second"); // $ExpectType string
-}
-
-// creating a wrapped function that will only be invoked after the wrapper is invoked a number of times
-{
-    const renderNotes = _.after(anyArray.length, () => alert("rendering...")); // $ExpectType Function
-    _.each(anyArray, note => note.asyncSave({ success: renderNotes })); // $ExpectType any[]
-}
-
-// wrapping a function in another function
-{
-    const hello = (name: string) => "hello: " + name;
-    const hello2 = _.wrap(hello, func => `before, ${func("moe")} + after`); // $ExpectType Function
-    hello2(); // $ExpectType any
-}
-
-// composing a function as the result of multiple function calls
-{
-    const greet = (name: string) => "hi: " + name;
-    const exclaim = (statement: string) => statement + "!";
-    const welcome = _.compose(exclaim, greet); // $ExpectType Function
-    welcome('moe'); // $ExpectType any
-}
-
-// providing a partial set of leading arguments
-_.partial(manyParameters, "", 1); // $ExpectType (p3: boolean, p4: string, p5: number, p6: string) => string
-
-// providing a partial set of arguments in the middle of a parameter set
-_.partial(manyParameters, _, _, _, ""); // $ExpectType (p1: string, p2: number, p3: boolean, p5: number, p6: string) => string
-
-///////////////////////////////////////////////////////////////////////////////////////
-
 // retrieving the keys of an object
 _.keys(explicitNumberDictionary); // $ExpectType string[]
 
@@ -3081,6 +2987,128 @@ _.range(0, 30, 5); // $ExpectType number[]
     _.range(numberValue, numberValue, numberValue); // $ExpectType number[]
     _(numberValue).range(numberValue, numberValue); // $ExpectType number[]
     extractChainTypes(_.chain(numberValue).range(numberValue, numberValue)); // $ExpectType ChainType<number[], number>
+}
+
+/*************
+ * Functions *
+ *************/
+
+// bind
+
+// binding a context and arguments to a function
+{
+    const nameGreeting = function (this: { name: string }, greeting: string) { return `${greeting}: ${this.name}`; };
+    _.bind(nameGreeting, { name: 'moe' }, 'hi'); // $ExpectType () => any
+}
+
+// bindAll
+
+// binding a context to all functions in an object
+{
+    const buttonView = {
+        label: 'underscore',
+        onClick() { alert('clicked: ' + this.label); },
+        onHover() { console.log('hovering: ' + this.label); }
+    };
+    _.bindAll(buttonView); // $ExpectType any
+    $('#underscore_button').bind('click', buttonView.onClick);
+}
+
+// partial
+
+// providing a partial set of leading arguments
+_.partial(manyParameters, "", 1); // $ExpectType (p3: boolean, p4: string, p5: number, p6: string) => string
+
+// providing a partial set of arguments in the middle of a parameter set
+_.partial(manyParameters, _, _, _, ""); // $ExpectType (p1: string, p2: number, p3: boolean, p5: number, p6: string) => string
+
+// memoize
+
+// creating a function that will remember previously computed values for a set of arguments
+{
+    // $ExpectType (n: number) => number
+    const fibonacci = _.memoize((n: number): number => {
+        return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2)
+    });
+    fibonacci(10); // $ExpectType number
+}
+
+// memoize
+
+// creating a function that will cache instances of classes as singletons
+// (the second call will return the same object as the first)
+{
+    class MyClass { };
+    const singleton = _.memoize(<T>(classInstance: new () => T) => new classInstance()); // $ExpectType <T>(classInstance: new () => T) => T
+    singleton(MyClass); // $ExpectType MyClass
+    singleton(MyClass); // $ExpectType MyClass
+}
+
+// delay
+
+// delaying the execution of a function with arguments
+_.delay(alert, 1000, 'delayed'); // $ExpectType any
+
+//defer
+
+// deferring the execution of a function
+_.defer(() => alert('deferred')); // $ExpectType void
+
+// throttle
+
+// rate-limiting a function
+{
+    const updatePosition = (param: string) => alert('updating position... Param: ' + param);
+    const throttled = _.throttle(updatePosition, 100); // $ExpectType ((param: string) => void) & Cancelable
+    $(window).scroll(throttled);
+    throttled.cancel(); // $ExpectType void
+}
+
+// debounce
+
+// debouncing a function
+{
+    const calculateLayout = (param: string) => alert('calculating layout... Param: ' + param);
+    const lazyLayout = _.debounce(calculateLayout, 300); // $ExpectType ((param: string) => void) & Cancelable
+    $(window).resize(lazyLayout);
+    lazyLayout.cancel(); // $ExpectType void
+}
+
+// once
+
+// creating a function that will only perform its action once (the second call will return the result of the first call)
+{
+    const createApplication = (param: string) => 'creating application... Param: ' + param;
+    const initialize = _.once(createApplication); // $ExpectType (param: string) => string
+    initialize("first"); // $ExpectType string
+    initialize("second"); // $ExpectType string
+}
+
+// after
+
+// creating a wrapped function that will only be invoked after the wrapper is invoked a number of times
+{
+    const renderNotes = _.after(anyArray.length, () => alert("rendering...")); // $ExpectType Function
+    _.each(anyArray, note => note.asyncSave({ success: renderNotes })); // $ExpectType any[]
+}
+
+// wrap
+
+// wrapping a function in another function
+{
+    const hello = (name: string) => "hello: " + name;
+    const hello2 = _.wrap(hello, func => `before, ${func("moe")} + after`); // $ExpectType Function
+    hello2(); // $ExpectType any
+}
+
+// compose
+
+// composing a function as the result of multiple function calls
+{
+    const greet = (name: string) => "hi: " + name;
+    const exclaim = (statement: string) => statement + "!";
+    const welcome = _.compose(exclaim, greet); // $ExpectType Function
+    welcome('moe'); // $ExpectType any
 }
 
 /*********************************
