@@ -184,83 +184,6 @@ _.VERSION; // $ExpectType string
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-// retrieving the first item in an array
-_.first(numberArray); // $ExpectType number | undefined
-
-// retrieving all but the last element in an array
-_.initial(numberArray); // $ExpectType number[]
-
-// retrieving the last two elements in an array
-_.last(numberArray, 2); // $ExpectType number[]
-
-// retrieving all but the first two elements in an array
-_.rest(numberArray, 2); // $ExpectType number[]
-
-// removing falsy values
-_.compact([0, 1, false, 2, '', '3', undefined]); // $ExpectType (string | number | true)[]
-
-// deep flattening an array
-_.flatten([[[1, 2], [3]], [[4, 5]]]); // $ExpectType any[]
-
-// shallow flattening an array
-_.flatten([[[1, 2], [3]], [[4, 5]]], true); // $ExpectType number[][]
-
-// excluding values from a list
-_.without([1, 2, 1, 0, 3, 1, 4], 0, 1); // $ExpectType number[]
-
-// computing the union of several sets
-_.union([1, 2, 3], [101, 2, 1, 10], [2, 1]); // $ExpectType number[]
-
-// computing the intersection of several sets
-_.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]); // $ExpectType number[]
-
-// computing the difference one set and other sets
-_.difference([1, 2, 3, 4, 5], [5, 2, 10]); // $ExpectType number[]
-
-// determining the unique values in an array
-_.uniq([1, 2, 1, 3, 1, 4]); // $ExpectType number[]
-
-// merging together lists of values at a set of positions
-_.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]); // $ExpectType any[][]
-
-// creating an object from a set of keys and a set of values
-_.object(['moe', 'larry', 'curly'], [30, 40, 50]); // $ExpectType Dictionary<number | undefined>
-
-// creating an object from a set of key-value pairs
-_.object([['moe', 30], ['larry', 40], ['curly', 50]] as [string, number][]); // $ExpectType Dictionary<number>
-
-// finding the index of a value
-_.indexOf(numberArray, 2); // $ExpectType number
-
-// finding the last index of a value
-_.lastIndexOf(numberArray, 2); // $ExpectType number
-
-// finding the index at which to insert a value to maintain sorting
-_.sortedIndex(numberArray, 35); // $ExpectType number
-
-// finding the index of the first matching value
-_.findIndex(numberArray, num => num % 2 === 0); // $ExpectType number
-
-// finding the index of the first matching value via a shallow object contents comparison
-_.findIndex([{ a: 'a' }, { a: 'b' }], { a: 'b' }); // $ExpectType number
-
-// finding the index of the last matching value
-_.findLastIndex([1, 2, 3, 1, 2, 3], num => num % 2 === 0); // $ExpectType number
-
-// finding the index of the last matching value via a shallow object contents comparison
-_.findLastIndex([{ a: 'a' }, { a: 'b' }], { a: 'b' }); // $ExpectType number
-
-// creating an array of numbers from 0 to 10
-_.range(10); // $ExpectType number[]
-
-// creating an array of numbers from 1 to 11
-_.range(1, 11); // $ExpectType number[]
-
-// creating an array of numbers from 0 to 30 in increments of 5
-_.range(0, 30, 5); // $ExpectType number[]
-
-///////////////////////////////////////////////////////////////////////////////////////
-
 // binding a context and arguments to a function
 {
     const nameGreeting = function (this: { name: string }, greeting: string) { return `${greeting}: ${this.name}`; };
@@ -2507,11 +2430,15 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
     extractChainTypes(_.chain(numberDictionary).partition()); // $ExpectType ChainType<[number[], number[]], number[]>
 }
 
-/********************************
- * Combinatorial Tests - Arrays *
- ********************************/
+/**********
+ * Arrays *
+ **********/
 
 // first, head, take
+
+// retrieving the first item in an array
+_.first(numberArray); // $ExpectType number | undefined
+
 {
     // without n - first
     _.first(recordList); // $ExpectType StringRecord | undefined
@@ -2545,6 +2472,10 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // initial
+
+// retrieving all but the last element in an array
+_.initial(numberArray); // $ExpectType number[]
+
 {
     // without n
     _.initial(recordList); // $ExpectType StringRecord[]
@@ -2558,6 +2489,10 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // last
+
+// retrieving the last two elements in an array
+_.last(numberArray, 2); // $ExpectType number[]
+
 {
     // without n
     _.last(recordList); // $ExpectType StringRecord | undefined
@@ -2571,6 +2506,10 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // rest, tail, drop
+
+// retrieving all but the first two elements in an array
+_.rest(numberArray, 2); // $ExpectType number[]
+
 {
     // without n - rest
     _.rest(recordList); // $ExpectType StringRecord[]
@@ -2604,6 +2543,10 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // compact
+
+// removing falsy values
+_.compact([0, 1, false, 2, '', '3', undefined]); // $ExpectType (string | number | true)[]
+
 {
     // lists
     _.compact(truthyFalsyList); // $ExpectType (string | number | true | object | Function | StringRecord | (() => void))[]
@@ -2617,6 +2560,13 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // flatten
+
+// deep flattening an array
+_.flatten([[[1, 2], [3]], [[4, 5]]]); // $ExpectType any[]
+
+// shallow flattening an array
+_.flatten([[[1, 2], [3]], [[4, 5]]], true); // $ExpectType number[][]
+
 {
     // one dimension, deep
     _.flatten(recordList); // $ExpectType StringRecord[]
@@ -2689,6 +2639,10 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // without
+
+// excluding values from a list
+_.without([1, 2, 1, 0, 3, 1, 4], 0, 1); // $ExpectType number[]
+
 {
     // lists
     _.without(recordList, recordList[0], recordList[1]); // $ExpectType StringRecord[]
@@ -2702,6 +2656,10 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // union
+
+// computing the union of several sets
+_.union([1, 2, 3], [101, 2, 1, 10], [2, 1]); // $ExpectType number[]
+
 {
     // lists
     _.union(...recordListArray); // $ExpectType StringRecord[]
@@ -2715,6 +2673,10 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // intersection
+
+// computing the intersection of several sets
+_.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]); // $ExpectType number[]
+
 {
     // lists
     _.intersection(...recordListArray); // $ExpectType StringRecord[]
@@ -2728,6 +2690,10 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // difference
+
+// computing the difference one set and other sets
+_.difference([1, 2, 3, 4, 5], [5, 2, 10]); // $ExpectType number[]
+
 {
     // lists
     _.difference(recordList, ...recordListArray); // $ExpectType StringRecord[]
@@ -2741,6 +2707,10 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // uniq, unique
+
+// determining the unique values in an array
+_.uniq([1, 2, 1, 3, 1, 4]); // $ExpectType number[]
+
 {
     // not sorted - identity iteratee - uniq
     _.uniq(recordList); // $ExpectType StringRecord[]
@@ -2856,6 +2826,10 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // zip
+
+// merging together lists of values at a set of positions
+_.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]); // $ExpectType any[][]
+
 {
     // multiple arguments
     _.zip(stringList, numberList, recordList); // $ExpectType any[][]
@@ -2869,6 +2843,7 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // unzip
+
 {
     // tuple lists
     _.unzip(tupleList); // $ExpectType any[][]
@@ -2882,6 +2857,13 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // object
+
+// creating an object from a set of keys and a set of values
+_.object(['moe', 'larry', 'curly'], [30, 40, 50]); // $ExpectType Dictionary<number | undefined>
+
+// creating an object from a set of key-value pairs
+_.object([['moe', 30], ['larry', 40], ['curly', 50]] as [string, number][]); // $ExpectType Dictionary<number>
+
 {
     // key and value lists
     _.object(stringList, numberList); // $ExpectType Dictionary<number | undefined>
@@ -2905,6 +2887,7 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // chunk
+
 {
     // lists
     _.chunk(recordList, numberValue); // $ExpectType StringRecord[][]
@@ -2918,6 +2901,10 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // indexOf
+
+// finding the index of a value
+_.indexOf(numberArray, 2); // $ExpectType number
+
 {
     // not sorted, from zero
     _.indexOf(recordList, recordList[0]); // $ExpectType number
@@ -2936,6 +2923,10 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // lastIndexOf
+
+// finding the last index of a value
+_.lastIndexOf(numberArray, 2); // $ExpectType number
+
 {
     // from zero
     _.lastIndexOf(recordList, recordList[0]); // $ExpectType number
@@ -2949,6 +2940,13 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // findIndex
+
+// finding the index of the first matching value
+_.findIndex(numberArray, num => num % 2 === 0); // $ExpectType number
+
+// finding the index of the first matching value via a shallow object contents comparison
+_.findIndex([{ a: 'a' }, { a: 'b' }], { a: 'b' }); // $ExpectType number
+
 {
     // function iteratee
     _.findIndex(recordList, recordListTester); // $ExpectType number
@@ -2980,6 +2978,13 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // findLastIndex
+
+// finding the index of the last matching value
+_.findLastIndex([1, 2, 3, 1, 2, 3], num => num % 2 === 0); // $ExpectType number
+
+// finding the index of the last matching value via a shallow object contents comparison
+_.findLastIndex([{ a: 'a' }, { a: 'b' }], { a: 'b' }); // $ExpectType number
+
 {
     // function iteratee
     _.findLastIndex(recordList, recordListTester); // $ExpectType number
@@ -3011,6 +3016,10 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // sortedIndex
+
+// finding the index at which to insert a value to maintain sorting
+_.sortedIndex(numberArray, 35); // $ExpectType number
+
 {
     // identity iteratee
     _.sortedIndex(stringList, stringValue); // $ExpectType number
@@ -3042,6 +3051,16 @@ _.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number
 }
 
 // range
+
+// creating an array of numbers from 0 to 10
+_.range(10); // $ExpectType number[]
+
+// creating an array of numbers from 1 to 11
+_.range(1, 11); // $ExpectType number[]
+
+// creating an array of numbers from 0 to 30 in increments of 5
+_.range(0, 30, 5); // $ExpectType number[]
+
 {
     // only stop
     _.range(numberValue); // $ExpectType number[]
