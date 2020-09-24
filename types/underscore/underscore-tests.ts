@@ -176,66 +176,6 @@ declare const explicitNumberDictionary: { one: number; two: number; three: numbe
 // checking the version of Underscore
 _.VERSION; // $ExpectType string
 
-// creating a function that can determine if one object's property values matches another's
-{
-    const isUncleMoe = _.matches({ name: 'moe', relation: 'uncle' }); // $ExpectType Predicate<{ name: string; relation: string; }>
-    isUncleMoe({ name: 'moe', relation: 'uncle' }); // $ExpectType boolean
-}
-
-///////////////////////////////////////////////////////////////////////////////////////
-
-// retrieving the keys of an object
-_.keys(explicitNumberDictionary); // $ExpectType string[]
-
-// retrieving the values of a dictionary
-_.values(explicitNumberDictionary); // $ExpectType number[]
-
-// retrieving an array of key-value pairs for an object
-_.pairs(explicitNumberDictionary); // $ExpectType ["one" | "two" | "three", number][]
-
-// making an object's keys its values and values its keys
-_.invert({ Moe: "Moses", Larry: "Louis", Curly: "Jerome" }); // $ExpectType any
-
-// retrieving the names of all of the function-valued properties from an object
-_.functions(_); // $ExpectType string[]
-
-// shallow copying properties from the source objects to the destination object
-_.extend({ name: 'moe' }, { age: 50 }, { userid: 'moe1' }); // $ExpectType any
-
-// shallow copying own properties from the source objects to the destination object
-_.extendOwn({ name: 'moe' }, { age: 50 }, { userid: 'moe1' }); // $ExpectType any
-_.assign({ name: 'moe' }, { age: 50 }, { userid: 'moe1' }); // $ExpectType any
-
-// making a copy of an object that includes a specific subset of properties selected by known names
-_.pick({ name: 'moe', age: 50, userid: 'moe1' }, 'name', 'age'); // $ExpectType Pick<{ name: string; age: number; userid: string; }, "name" | "age">
-_.pick({ name: 'moe', age: 50, userid: 'moe1' }, ['name', 'age']); // $ExpectType Pick<{ name: string; age: number; userid: string; }, "name" | "age">
-
-// making a copy of an object that includes a specific subset of properties selected by unknown names
-_.pick({ name: 'moe', age: 50, userid: 'moe1' }, stringArray); // $ExpectType Partial<{ name: string; age: number; userid: string; }>
-
-// making a copy of an object that includes a specific subset of properties selected by an iteratee
-_.pick({ name: 'moe', age: 50, userid: 'moe1' }, (value, key) => key === 'name' || key === 'age'); // $ExpectType Partial<{ name: string; age: number; userid: string; }>
-
-// making a copy of an object that omits a specific subset of properties selected by known names
-_.omit({ name: 'moe', age: 50, userid: 'moe1' }, 'name', 'age'); // $ExpectType Pick<{ name: string; age: number; userid: string; }, "userid">
-_.omit({ name: 'moe', age: 50, userid: 'moe1' }, ['name', 'age']); // $ExpectType Pick<{ name: string; age: number; userid: string; }, "userid">
-
-// making a copy of an object that omits a specific subset of properties selected by unknown names
-_.omit({ name: 'moe', age: 50, userid: 'moe1' }, stringArray); // $ExpectType Partial<{ name: string; age: number; userid: string; }>
-
-// making a copy of an object that omits a specific subset of properties selected by an iteratee
-_.omit({ name: 'moe', age: 50, userid: 'moe1' }, (value, key) => key === 'name' || key === 'age'); // $ExpectType Partial<{ name: string; age: number; userid: string; }>
-
-// converting the properties of an object from numbers to strings
-_.mapObject({ a: '1', b: '2' }, val => +val); // $ExpectType { a: number; b: number; }
-
-// filling in properties missing on an object
-_.defaults({ flavor: "chocolate" }, { flavor: "vanilla", sprinkles: "lots" }); // $ExpectType any
-
-// creating a shallow-copied clone of an object
-_.clone({ name: 'moe' }); // $ExpectType { name: string; }
-_.clone(['i', 'am', 'an', 'object!']); // $ExpectType string[]
-
 // move to chain tests
 // $ExpectType number[]
 _.chain(numberArray)
@@ -243,16 +183,6 @@ _.chain(numberArray)
     .tap(alert)
     .map(num => num * num)
     .value();
-
-// checking whether or not an object has a property
-_.has({ a: 1, b: 2, c: 3 }, "b"); // $ExpectType boolean
-
-// retrieving shallow and deep property values from an object
-{
-    const luckyNumbersMoe = { name: 'moe', luckyNumbers: [13, 27, 34] };
-    _.property('name')(luckyNumbersMoe); // $ExpectType any
-    _.property(['luckyNumbers', 2])(luckyNumbersMoe); // $ExpectType any
-}
 
 // creating a function that will always return a specific value
 _.constant({ name: 'moe' }); // $ExpectType () => { name: string; }
@@ -3111,11 +3041,25 @@ _.defer(() => alert('deferred')); // $ExpectType void
     welcome('moe'); // $ExpectType any
 }
 
-/*********************************
- * Combinatorial Tests - Objects *
- *********************************/
+/***********
+ * Objects *
+ ***********/
+
+// keys
+
+// retrieving the keys of an object
+_.keys(explicitNumberDictionary); // $ExpectType string[]
+
+// values
+
+// retrieving the values of a dictionary
+_.values(explicitNumberDictionary); // $ExpectType number[]
 
 // mapObject
+
+// converting the properties of an object from numbers to strings
+_.mapObject({ a: '1', b: '2' }, val => +val); // $ExpectType { a: number; b: number; }
+
 {
     // function iteratee - objects
     _.mapObject(mixedTypeRecord, mixedTypeSelector, context); // $ExpectType { a: string; b: string; c: string; }
@@ -3164,6 +3108,10 @@ _.defer(() => alert('deferred')); // $ExpectType void
 }
 
 // pairs
+
+// retrieving an array of key-value pairs for an object
+_.pairs(explicitNumberDictionary); // $ExpectType ["one" | "two" | "three", number][]
+
 {
     // dictionaries
     _.pairs(recordDictionary); // $ExpectType [string, StringRecord][]
@@ -3180,6 +3128,27 @@ _.defer(() => alert('deferred')); // $ExpectType void
     _(anyValue).pairs(); // $ExpectType [string, any][]
     extractChainTypes(_.chain(anyValue).pairs()); // $ExpectType ChainType<[string, any][], [string, any]>
 }
+
+// invert
+
+// making an object's keys its values and values its keys
+_.invert({ Moe: "Moses", Larry: "Louis", Curly: "Jerome" }); // $ExpectType any
+
+// functions
+
+// retrieving the names of all of the function-valued properties from an object
+_.functions(_); // $ExpectType string[]
+
+// extend
+
+// shallow copying properties from the source objects to the destination object
+_.extend({ name: 'moe' }, { age: 50 }, { userid: 'moe1' }); // $ExpectType any
+
+// extendOwn, assign
+
+// shallow copying own properties from the source objects to the destination object
+_.extendOwn({ name: 'moe' }, { age: 50 }, { userid: 'moe1' }); // $ExpectType any
+_.assign({ name: 'moe' }, { age: 50 }, { userid: 'moe1' }); // $ExpectType any
 
 // findKey
 {
@@ -3220,6 +3189,17 @@ _.defer(() => alert('deferred')); // $ExpectType void
 }
 
 // pick
+
+// making a copy of an object that includes a specific subset of properties selected by known names
+_.pick({ name: 'moe', age: 50, userid: 'moe1' }, 'name', 'age'); // $ExpectType Pick<{ name: string; age: number; userid: string; }, "name" | "age">
+_.pick({ name: 'moe', age: 50, userid: 'moe1' }, ['name', 'age']); // $ExpectType Pick<{ name: string; age: number; userid: string; }, "name" | "age">
+
+// making a copy of an object that includes a specific subset of properties selected by unknown names
+_.pick({ name: 'moe', age: 50, userid: 'moe1' }, stringArray); // $ExpectType Partial<{ name: string; age: number; userid: string; }>
+
+// making a copy of an object that includes a specific subset of properties selected by an iteratee
+_.pick({ name: 'moe', age: 50, userid: 'moe1' }, (value, key) => key === 'name' || key === 'age'); // $ExpectType Partial<{ name: string; age: number; userid: string; }>
+
 {
     // constant strings - record
     _.pick(mixedTypeRecord, 'a', 'b', 'notAKey'); // $ExpectType Pick<MixedTypeRecord, "a" | "b">
@@ -3289,6 +3269,17 @@ _.defer(() => alert('deferred')); // $ExpectType void
 }
 
 // omit
+
+// making a copy of an object that omits a specific subset of properties selected by known names
+_.omit({ name: 'moe', age: 50, userid: 'moe1' }, 'name', 'age'); // $ExpectType Pick<{ name: string; age: number; userid: string; }, "userid">
+_.omit({ name: 'moe', age: 50, userid: 'moe1' }, ['name', 'age']); // $ExpectType Pick<{ name: string; age: number; userid: string; }, "userid">
+
+// making a copy of an object that omits a specific subset of properties selected by unknown names
+_.omit({ name: 'moe', age: 50, userid: 'moe1' }, stringArray); // $ExpectType Partial<{ name: string; age: number; userid: string; }>
+
+// making a copy of an object that omits a specific subset of properties selected by an iteratee
+_.omit({ name: 'moe', age: 50, userid: 'moe1' }, (value, key) => key === 'name' || key === 'age'); // $ExpectType Partial<{ name: string; age: number; userid: string; }>
+
 {
     // constant strings - record
     _.omit(mixedTypeRecord, 'a', 'b', 'notAKey'); // $ExpectType Pick<MixedTypeRecord, "c">
@@ -3355,6 +3346,41 @@ _.defer(() => alert('deferred')); // $ExpectType void
     _.omit(anyValue, anyCollectionTester); // $ExpectType Partial<any>
     _(anyValue).omit(anyCollectionTester); // $ExpectType Partial<any>
     extractChainTypes(_.chain(anyValue).omit(anyCollectionTester)); // $ExpectType ChainType<Partial<any>, any>
+}
+
+// defaults
+
+// filling in properties missing on an object
+_.defaults({ flavor: "chocolate" }, { flavor: "vanilla", sprinkles: "lots" }); // $ExpectType any
+
+// clone
+
+// creating a shallow-copied clone of an object
+_.clone({ name: 'moe' }); // $ExpectType { name: string; }
+
+// creating a shallow-copied clone of an array
+_.clone(['i', 'am', 'an', 'object!']); // $ExpectType string[]
+
+// has
+
+// checking whether or not an object has a property
+_.has({ a: 1, b: 2, c: 3 }, "b"); // $ExpectType boolean
+
+// matches
+
+// creating a function that can determine if one object's property values matches another's
+{
+    const isUncleMoe = _.matches({ name: 'moe', relation: 'uncle' }); // $ExpectType Predicate<{ name: string; relation: string; }>
+    isUncleMoe({ name: 'moe', relation: 'uncle' }); // $ExpectType boolean
+}
+
+// property
+
+// retrieving shallow and deep property values from an object
+{
+    const luckyNumbersMoe = { name: 'moe', luckyNumbers: [13, 27, 34] };
+    _.property('name')(luckyNumbersMoe); // $ExpectType any
+    _.property(['luckyNumbers', 2])(luckyNumbersMoe); // $ExpectType any
 }
 
 // isEqual
