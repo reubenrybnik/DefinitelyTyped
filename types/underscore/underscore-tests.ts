@@ -173,8 +173,6 @@ declare const explicitNumberDictionary: { one: number; two: number; three: numbe
 /***************
  * Usage Tests *
  ***************/
-// checking the version of Underscore
-_.VERSION; // $ExpectType string
 
 // move to chain tests
 // $ExpectType number[]
@@ -183,94 +181,6 @@ _.chain(numberArray)
     .tap(alert)
     .map(num => num * num)
     .value();
-
-// creating a function that will always return a specific value
-_.constant({ name: 'moe' }); // $ExpectType () => { name: string; }
-
-// getting the current time as an integer timestamp
-_.now(); // $ExpectType number
-
-// giving control of the _ global variable back to its previous owner (returns a reference to value of _ that is in effect before the function is called)
-_.noConflict(); // $ExpectType any
-
-// calling a no-op function that returns the same value that is used as the argument
-_.identity({ name: 'moe' }); // $ExpectType { name: string; }
-
-// calling a function multiple times with the iteration as an argument and getting an array containing the result of each call
-// in this case, the result is the squares of the numbers 0 through 4
-_.times(5, n => n * n); // $ExpectType number[]
-
-// generating a random number between two bounds
-_.random(0, 100); // $ExpectType number
-
-// adding functions to Underscore by calling _.mixin and augmenting Underscore's
-// type definitions
-_.mixin({
-    capitalize: (string: string) => string.charAt(0).toUpperCase() + string.substring(1)
-});
-
-declare module 'underscore' {
-    interface UnderscoreStatic {
-        capitalize(string: string): string;
-    }
-
-    interface Underscore<T, V> {
-        capitalize(): string;
-    }
-
-    interface _Chain<T, V> {
-        capitalize(): _ChainSingle<string>;
-    }
-}
-
-_.capitalize("fabio"); // $ExpectType string
-_("fabio").capitalize(); // $ExpectType string
-_.chain("fabio").capitalize().value(); // $ExpectType string
-
-// generating an id that is unique only to this current usage of underscore
-_.uniqueId('contact_'); // $ExpectType string
-
-// HTML-escaping a string
-_.escape('Curly, Larry & Moe'); // $ExpectType string
-
-// getting the result of a property by either:
-//   evaluating it (if it's a function),
-//   returning the value of the default parameter (if it's undefined)
-//   or returning its value
-// the example below will always return a string
-declare const objectWithFunctionOrValue: { functionOrValue: (() => string) | string | undefined; };
-_.result(objectWithFunctionOrValue, 'functionOrValue', 'someDefaultResult'); // $ExpectType any
-
-// compiling and evaluating templates
-{
-    const template = _.template("<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>"); // $ExpectType CompiledTemplate
-    template({ people: ['moe', 'curly', 'larry'] }); // $ExpectType string
-}
-
-// overriding template settings
-{
-    // $ExpectType CompiledTemplate
-    const template = _.template("<p>Hello {{: data.name }}!<p><p>The current timestamp is {{= _.now() }}</p>",
-        {
-            escape: /\{\{=(.+?)\}\}/g,
-            interpolate: /\{\{:(.+?)\}\}/g,
-            evaluate: /\{\{\}\}/g,
-            variable: 'data'
-        });
-    template({ name: "Mustache O'Grady" }); // $ExpectType string
-}
-
-// setting different global settings for templates
-{
-    _.templateSettings = {
-        escape: /\{\{=(.+?)\}\}/g,
-        interpolate: /\{\{:(.+?)\}\}/g,
-        evaluate: /\{\{\}\}/g,
-        variable: 'data'
-    };
-    const template = _.template("<p>Hello {{: data.name }}!<p><p>The current timestamp is {{= _.now() }}</p>"); // $ExpectType CompiledTemplate
-    template({ name: "Mustache O'Grady" }); // $ExpectType string
-}
 
 /************
  * Chaining *
@@ -3528,6 +3438,127 @@ _.has({ a: 1, b: 2, c: 3 }, "b"); // $ExpectType boolean
     _(anyValue).isUndefined(); // $ExpectType boolean
     extractChainTypes(_.chain(anyValue).isUndefined()); // $ExpectType ChainType<boolean, never>
 }
+
+/***********
+ * Utility *
+ ***********/
+
+// noConflict
+
+// giving control of the _ global variable back to its previous owner (returns a reference to value of _ that is in effect before the function is called)
+_.noConflict(); // $ExpectType any
+
+// identity
+
+// calling a no-op function that returns the same value that is used as the argument
+_.identity({ name: 'moe' }); // $ExpectType { name: string; }
+
+// constant
+
+// creating a function that will always return a specific value
+_.constant({ name: 'moe' }); // $ExpectType () => { name: string; }
+
+// times
+
+// calling a function multiple times with the iteration as an argument and getting an array containing the result of each call
+// in this case, the result is the squares of the numbers 0 through 4
+_.times(5, n => n * n); // $ExpectType number[]
+
+// random
+
+// generating a random number between two bounds
+_.random(0, 100); // $ExpectType number
+
+// mixin
+
+// adding functions to Underscore by calling _.mixin and augmenting Underscore's
+// type definitions
+_.mixin({
+    capitalize: (string: string) => string.charAt(0).toUpperCase() + string.substring(1)
+});
+
+declare module 'underscore' {
+    interface UnderscoreStatic {
+        capitalize(string: string): string;
+    }
+
+    interface Underscore<T, V> {
+        capitalize(): string;
+    }
+
+    interface _Chain<T, V> {
+        capitalize(): _ChainSingle<string>;
+    }
+}
+
+_.capitalize("fabio"); // $ExpectType string
+_("fabio").capitalize(); // $ExpectType string
+_.chain("fabio").capitalize().value(); // $ExpectType string
+
+// uniqueId
+
+// generating an id that is unique only to this current usage of underscore
+_.uniqueId('contact_'); // $ExpectType string
+
+// escape
+
+// HTML-escaping a string
+_.escape('Curly, Larry & Moe'); // $ExpectType string
+
+// result
+
+// getting the result of a property by either:
+//   evaluating it (if it's a function),
+//   returning the value of the default parameter (if it's undefined)
+//   or returning its value
+// the example below will always return a string
+declare const objectWithFunctionOrValue: { functionOrValue: (() => string) | string | undefined; };
+_.result(objectWithFunctionOrValue, 'functionOrValue', 'someDefaultResult'); // $ExpectType any
+
+// template
+
+// compiling and evaluating templates
+{
+    const template = _.template("<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>"); // $ExpectType CompiledTemplate
+    template({ people: ['moe', 'curly', 'larry'] }); // $ExpectType string
+}
+
+// overriding template settings
+{
+    // $ExpectType CompiledTemplate
+    const template = _.template("<p>Hello {{: data.name }}!<p><p>The current timestamp is {{= _.now() }}</p>",
+        {
+            escape: /\{\{=(.+?)\}\}/g,
+            interpolate: /\{\{:(.+?)\}\}/g,
+            evaluate: /\{\{\}\}/g,
+            variable: 'data'
+        });
+    template({ name: "Mustache O'Grady" }); // $ExpectType string
+}
+
+// templateSettings
+
+// setting different global settings for templates
+{
+    _.templateSettings = {
+        escape: /\{\{=(.+?)\}\}/g,
+        interpolate: /\{\{:(.+?)\}\}/g,
+        evaluate: /\{\{\}\}/g,
+        variable: 'data'
+    };
+    const template = _.template("<p>Hello {{: data.name }}!<p><p>The current timestamp is {{= _.now() }}</p>"); // $ExpectType CompiledTemplate
+    template({ name: "Mustache O'Grady" }); // $ExpectType string
+}
+
+// now
+
+// getting the current time as an integer timestamp
+_.now(); // $ExpectType number
+
+// VERSION
+
+// checking the version of Underscore
+_.VERSION; // $ExpectType string
 
 /*****************************
  * Combinatorial Tests - OOP *
