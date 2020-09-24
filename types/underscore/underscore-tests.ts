@@ -170,269 +170,6 @@ declare const manyParameters: (a: string, b: number, c: boolean, d: string, e: n
 const stooges = [{ name: 'moe', age: 40 }, { name: 'larry', age: 50 }, { name: 'curly', age: 60 }];
 declare const explicitNumberDictionary: { one: number; two: number; three: number; };
 
-/***************
- * Usage Tests *
- ***************/
-
-// move to chain tests
-// $ExpectType number[]
-_.chain(numberArray)
-    .filter(num => num % 2 === 0)
-    .tap(alert)
-    .map(num => num * num)
-    .value();
-
-/************
- * Chaining *
- ************/
-
-// $ExpectType number | undefined
-_.chain([1, 2, 3])
-    .map(num => [num, num + 1])
-    .flatten()
-    .find(num => num % 2 === 0)
-    .value();
-
-// $ExpectType { [x: string]: number[]; }
-_.chain([{ property: 'odd', value: 1 }, { property: 'even', value: 2 }, { property: 'even', value: 0 }])
-    .groupBy('property')
-    .mapObject((objects) => _.pluck(objects, 'value'))
-    .value();
-
-// $ExpectType string[]
-_.chain(['z', 'x', 'y'])
-    .union(['a', 'b', 'c'])
-    .without('z')
-    .value();
-
-// $ExpectType Dictionary<boolean>
-_.chain({
-    'test': { title: 'item1', value: 5 },
-    'another': { title: 'item2', value: 8 },
-    'third': { title: 'item3', value: 10 }
-})
-    .values()
-    .filter(r => r.value >= 8)
-    .map(r => [r.title, true] as [string, boolean])
-    .object()
-    .value();
-
-// tests for #7931 - verify that the result of a function like reduce that returns a singleton can be chained further
-// $ExpectType number[]
-_.chain([1, 2, 3])
-    .reduce((acc, x) => { acc.unshift(x); return acc; }, [] as number[])
-    .map(x => x + 1)
-    .value();
-
-// $ExpectType boolean
-_.chain([{ a: 1, b: 2, c: 3 }, { a: 4, b: 5, c: 6 }])
-    .findWhere({ a: 1 })
-    .some(n => n === 2)
-    .value();
-
-// $ExpectType number
-_.chain([1, 2, 3, 4, 5, 6])
-    .chunk(3)
-    .first()
-    .reduce((aggregate, n) => aggregate + n, 0)
-    .value();
-
-// $ExpectType any
-_.chain(anyValue)
-    .filter(i => i.filterBoolean)
-    .reject('rejectBoolean')
-    .find(i => i.findBooleanFunction())
-    .value();
-
-// $ExpectType boolean
-_.chain([{ a: 1 }, { a: 2 }, { a: 3 }, { b: 4 }])
-    .map('a')
-    .contains(3)
-    .value();
-
-// $ExpectType string[]
-_.chain({
-    a: {
-        common: 'only',
-        onlyA: 3
-    },
-    b: {
-        common: 'strings',
-        onlyB: true
-    },
-    c: {
-        common: 'strings',
-        onlyC: []
-    }
-})
-    .mapObject('common')
-    .reject(s => s === 'not')
-    .uniq()
-    .value();
-
-// $ExpectType any[][]
-_.chain({ one: 1, two: 2 })
-    .pairs()
-    .unzip()
-    .value();
-
-// $ExpectType ["one" | "two" | "three", string | number | number[]] | undefined
-_.chain({ one: '1', two: 2, three: [3] })
-    .pairs()
-    .last()
-    .value();
-
-// $ExpectType string | undefined
-_.chain(['one', 'two', 'three'])
-    .object([1, 2, 3])
-    .findKey((element, key, value) => {
-        element; // $ExpectType number | undefined
-        key; // $ExpectType string
-        value; // $ExpectType Dictionary<number | undefined>
-
-        return element === 2;
-    })
-    .value();
-
-// $ExpectType { valueProperty: string; } | undefined
-_.chain([
-    {
-        group: 'a',
-        subGroup: 1,
-        value: { valueProperty: 'first' }
-    },
-    {
-        group: 'b',
-        subGroup: 2,
-        value: { valueProperty: 'second' }
-    },
-    {
-        group: 'b',
-        subGroup: 3,
-        value: { valueProperty: 'third' }
-    }])
-    .groupBy(v => v.group)
-    .filter(g => g.length >= 2)
-    .flatten()
-    .where({ subGroup: 2 })
-    .pluck('value')
-    .sample()
-    .value();
-
-// $ExpectType number[]
-_.chain([1, 2, 3, 4, 5, 6])
-    .sample()
-    .range(10)
-    .value();
-
-// $ExpectType [number[], number[]]
-_.chain([[1, 2, 3], [4, undefined, 5], [undefined, undefined, 6]])
-    .flatten()
-    .compact()
-    .partition(n => n > 3)
-    .value();
-
-// verify that partial objects can be provided without error to where and findWhere for a union type collection
-// where no types in the union share the same property names
-declare const nonIntersectingTypeUnion: _.Dictionary<{ one: string; } | { two: number; }>;
-
-// $ExpectType ({ one: string; } | { two: number; })[]
-_.chain(nonIntersectingTypeUnion)
-    .where({ one: 'one' })
-    .sample(5)
-    .value();
-
-// $ExpectType { one: string; } | { two: number; } | undefined
-_.chain(nonIntersectingTypeUnion)
-    .sample(5)
-    .findWhere({ two: 2 })
-    .value();
-
-// verify that both types can be provided without error to where and findWhere for a union type collection where
-// two properties in the union have different types
-declare const overlappingTypeUnion: _.Dictionary<{ same: string; } | { same: number; }>;
-
-// $ExpectType ({ same: string; } | { same: number; })[]
-_.chain(overlappingTypeUnion)
-    .where({ same: 0 })
-    .shuffle()
-    .value();
-
-// $ExpectType { same: string; } | { same: number; } | undefined
-_.chain(overlappingTypeUnion)
-    .shuffle()
-    .findWhere({ same: 'no' })
-    .value();
-
-declare const nestedObjectList: { a: { b: boolean; c: string; }; }[];
-
-// $ExpectType [{ a: { b: boolean; c: string; }; }[], { a: { b: boolean; c: string; }; }[]]
-_.chain(nestedObjectList)
-    .uniq(['a', 'c'])
-    .without(nestedObjectList[0], nestedObjectList[2])
-    .partition(['a', 'b'])
-    .value();
-
-// $ExpectType number[]
-_.chain([1, 3, 5])
-    .union([2, 4, 6], [7, 8])
-    .difference([2, 5], [3, 6])
-    .intersection([2, 4, 6, 8], [4, 8])
-    .value();
-
-// "as const" isn't supported until TS3.4; the Readonly assertion below mimics its effect
-// $ExpectType Dictionary<number>
-_.chain([{ id: 1, name: 'a' }, { id: 2, name: 'b' }])
-    .map(o => [o.name, o.id] as Readonly<[string, number]>)
-    .object()
-    .value();
-
-// $ExpectType number
-_.chain([1, 2, 3])
-    .partition(n => n >= 2)
-    .first()
-    .size()
-    .value();
-
-// $ExpectType string[]
-_.chain([{ type: 'one' }, { type: 'two' }, { type: 'one' }])
-    .countBy('type')
-    .omit(count => count < 2)
-    .keys()
-    .value();
-
-// $ExpectType number
-_.chain(['rate', 'rest', 'fate', 'best'])
-    .rest(2)
-    .invoke('substring', 2)
-    .indexOf('te')
-    .value();
-
-// $ExpectType number | { food: string; }
-_.chain([{ food: 'apple' }, { food: 'banana' }, { food: 'carrot' }])
-    .initial()
-    .max(['food', 'length'])
-    .value();
-
-// $ExpectType number
-_.chain([{ score: 27 }, { score: 45 }, { score: 16 }])
-    .sortBy('score')
-    .sortedIndex({ score: 33 }, 'score')
-    .value();
-
-// $ExpectType boolean
-_.chain([1, 3, 5])
-    .sample(2)
-    .every(n => n > 2)
-    .value();
-
-// $ExpectType number
-_.chain(10)
-    .range()
-    .shuffle()
-    .findLastIndex(n => n > 3)
-    .value();
-
 /*********
  * Types *
  *********/
@@ -3619,11 +3356,266 @@ _.now(); // $ExpectType number
 // checking the version of Underscore
 _.VERSION; // $ExpectType string
 
-/**********************************
- * Combinatorial Tests - Chaining *
- **********************************/
+/************
+ * Chaining *
+ ************/
+
+// $ExpectType number[]
+_.chain(numberArray)
+    .filter(num => num % 2 === 0)
+    .tap(alert)
+    .map(num => num * num)
+    .value();
+
+// $ExpectType number | undefined
+_.chain([1, 2, 3])
+    .map(num => [num, num + 1])
+    .flatten()
+    .find(num => num % 2 === 0)
+    .value();
+
+// $ExpectType { [x: string]: number[]; }
+_.chain([{ property: 'odd', value: 1 }, { property: 'even', value: 2 }, { property: 'even', value: 0 }])
+    .groupBy('property')
+    .mapObject((objects) => _.pluck(objects, 'value'))
+    .value();
+
+// $ExpectType string[]
+_.chain(['z', 'x', 'y'])
+    .union(['a', 'b', 'c'])
+    .without('z')
+    .value();
+
+// $ExpectType Dictionary<boolean>
+_.chain({
+    'test': { title: 'item1', value: 5 },
+    'another': { title: 'item2', value: 8 },
+    'third': { title: 'item3', value: 10 }
+})
+    .values()
+    .filter(r => r.value >= 8)
+    .map(r => [r.title, true] as [string, boolean])
+    .object()
+    .value();
+
+// tests for #7931 - verify that the result of a function like reduce that returns a singleton can be chained further
+// $ExpectType number[]
+_.chain([1, 2, 3])
+    .reduce((acc, x) => { acc.unshift(x); return acc; }, [] as number[])
+    .map(x => x + 1)
+    .value();
+
+// $ExpectType boolean
+_.chain([{ a: 1, b: 2, c: 3 }, { a: 4, b: 5, c: 6 }])
+    .findWhere({ a: 1 })
+    .some(n => n === 2)
+    .value();
+
+// $ExpectType number
+_.chain([1, 2, 3, 4, 5, 6])
+    .chunk(3)
+    .first()
+    .reduce((aggregate, n) => aggregate + n, 0)
+    .value();
+
+// $ExpectType any
+_.chain(anyValue)
+    .filter(i => i.filterBoolean)
+    .reject('rejectBoolean')
+    .find(i => i.findBooleanFunction())
+    .value();
+
+// $ExpectType boolean
+_.chain([{ a: 1 }, { a: 2 }, { a: 3 }, { b: 4 }])
+    .map('a')
+    .contains(3)
+    .value();
+
+// $ExpectType string[]
+_.chain({
+    a: {
+        common: 'only',
+        onlyA: 3
+    },
+    b: {
+        common: 'strings',
+        onlyB: true
+    },
+    c: {
+        common: 'strings',
+        onlyC: []
+    }
+})
+    .mapObject('common')
+    .reject(s => s === 'not')
+    .uniq()
+    .value();
+
+// $ExpectType any[][]
+_.chain({ one: 1, two: 2 })
+    .pairs()
+    .unzip()
+    .value();
+
+// $ExpectType ["one" | "two" | "three", string | number | number[]] | undefined
+_.chain({ one: '1', two: 2, three: [3] })
+    .pairs()
+    .last()
+    .value();
+
+// $ExpectType string | undefined
+_.chain(['one', 'two', 'three'])
+    .object([1, 2, 3])
+    .findKey((element, key, value) => {
+        element; // $ExpectType number | undefined
+        key; // $ExpectType string
+        value; // $ExpectType Dictionary<number | undefined>
+
+        return element === 2;
+    })
+    .value();
+
+// $ExpectType { valueProperty: string; } | undefined
+_.chain([
+    {
+        group: 'a',
+        subGroup: 1,
+        value: { valueProperty: 'first' }
+    },
+    {
+        group: 'b',
+        subGroup: 2,
+        value: { valueProperty: 'second' }
+    },
+    {
+        group: 'b',
+        subGroup: 3,
+        value: { valueProperty: 'third' }
+    }])
+    .groupBy(v => v.group)
+    .filter(g => g.length >= 2)
+    .flatten()
+    .where({ subGroup: 2 })
+    .pluck('value')
+    .sample()
+    .value();
+
+// $ExpectType number[]
+_.chain([1, 2, 3, 4, 5, 6])
+    .sample()
+    .range(10)
+    .value();
+
+// $ExpectType [number[], number[]]
+_.chain([[1, 2, 3], [4, undefined, 5], [undefined, undefined, 6]])
+    .flatten()
+    .compact()
+    .partition(n => n > 3)
+    .value();
+
+// verify that partial objects can be provided without error to where and findWhere for a union type collection
+// where no types in the union share the same property names
+declare const nonIntersectingTypeUnion: _.Dictionary<{ one: string; } | { two: number; }>;
+
+// $ExpectType ({ one: string; } | { two: number; })[]
+_.chain(nonIntersectingTypeUnion)
+    .where({ one: 'one' })
+    .sample(5)
+    .value();
+
+// $ExpectType { one: string; } | { two: number; } | undefined
+_.chain(nonIntersectingTypeUnion)
+    .sample(5)
+    .findWhere({ two: 2 })
+    .value();
+
+// verify that both types can be provided without error to where and findWhere for a union type collection where
+// two properties in the union have different types
+declare const overlappingTypeUnion: _.Dictionary<{ same: string; } | { same: number; }>;
+
+// $ExpectType ({ same: string; } | { same: number; })[]
+_.chain(overlappingTypeUnion)
+    .where({ same: 0 })
+    .shuffle()
+    .value();
+
+// $ExpectType { same: string; } | { same: number; } | undefined
+_.chain(overlappingTypeUnion)
+    .shuffle()
+    .findWhere({ same: 'no' })
+    .value();
+
+declare const nestedObjectList: { a: { b: boolean; c: string; }; }[];
+
+// $ExpectType [{ a: { b: boolean; c: string; }; }[], { a: { b: boolean; c: string; }; }[]]
+_.chain(nestedObjectList)
+    .uniq(['a', 'c'])
+    .without(nestedObjectList[0], nestedObjectList[2])
+    .partition(['a', 'b'])
+    .value();
+
+// $ExpectType number[]
+_.chain([1, 3, 5])
+    .union([2, 4, 6], [7, 8])
+    .difference([2, 5], [3, 6])
+    .intersection([2, 4, 6, 8], [4, 8])
+    .value();
+
+// "as const" isn't supported until TS3.4; the Readonly assertion below mimics its effect
+// $ExpectType Dictionary<number>
+_.chain([{ id: 1, name: 'a' }, { id: 2, name: 'b' }])
+    .map(o => [o.name, o.id] as Readonly<[string, number]>)
+    .object()
+    .value();
+
+// $ExpectType number
+_.chain([1, 2, 3])
+    .partition(n => n >= 2)
+    .first()
+    .size()
+    .value();
+
+// $ExpectType string[]
+_.chain([{ type: 'one' }, { type: 'two' }, { type: 'one' }])
+    .countBy('type')
+    .omit(count => count < 2)
+    .keys()
+    .value();
+
+// $ExpectType number
+_.chain(['rate', 'rest', 'fate', 'best'])
+    .rest(2)
+    .invoke('substring', 2)
+    .indexOf('te')
+    .value();
+
+// $ExpectType number | { food: string; }
+_.chain([{ food: 'apple' }, { food: 'banana' }, { food: 'carrot' }])
+    .initial()
+    .max(['food', 'length'])
+    .value();
+
+// $ExpectType number
+_.chain([{ score: 27 }, { score: 45 }, { score: 16 }])
+    .sortBy('score')
+    .sortedIndex({ score: 33 }, 'score')
+    .value();
+
+// $ExpectType boolean
+_.chain([1, 3, 5])
+    .sample(2)
+    .every(n => n > 2)
+    .value();
+
+// $ExpectType number
+_.chain(10)
+    .range()
+    .shuffle()
+    .findLastIndex(n => n > 3)
+    .value();
 
 // chain
+
 // verify that the right chain item and value types are yielded by calls to chain
 // these tests also check to make sure that _.chain() and _().chain() yield the same types
 {
@@ -3661,6 +3653,7 @@ _.VERSION; // $ExpectType string
 }
 
 // value
+
 // verify that the object type given to chain is returned by value
 {
     // lists
