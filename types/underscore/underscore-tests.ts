@@ -910,9 +910,9 @@ _.chain(10)
     .findLastIndex(n => n > 3)
     .value();
 
-/*******************************
- * Combinatorial Tests - Types *
- *******************************/
+/*********
+ * Types *
+ *********/
 
 // avoid referencing types under test directly by translating them to other types to avoid needing to make lots of changes if
 // the types under test need to be refactored
