@@ -176,152 +176,6 @@ declare const explicitNumberDictionary: { one: number; two: number; three: numbe
 // checking the version of Underscore
 _.VERSION; // $ExpectType string
 
-// iterating through an array
-// $ExpectType number[]
-_.each(numberArray, (value, key, collection) => {
-    value; // $ExpectType number
-    key; // $ExpectType number
-    collection; // $ExpectType number[]
-});
-
-// iterating through a dictionary
-// $ExpectType { one: number; two: number; three: number; }
-_(explicitNumberDictionary).each((value, key, collection) => {
-    value; // $ExpectType number
-    key; // $ExpectType string
-    collection; // $ExpectType { one: number; two: number; three: number; }
-});
-
-// mapping an array with an inferred result type
-// $ExpectType number[]
-_(numberArray).map((value, key, collection) => {
-    value; // $ExpectType number
-    key; // $ExpectType number
-    collection; // $ExpectType number[]
-
-    return value;
-});
-
-// mapping a dictionary with an explicit result type
-// $ExpectType NumberRecord[]
-_.map(explicitNumberDictionary, (value, key, collection): NumberRecord => {
-    value; // $ExpectType number
-    key; // $ExpectType string
-    collection; // $ExpectType { one: number; two: number; three: number; }
-
-    return { a: value };
-});
-
-// mapping a dictionary by retrieving the value of a specific property
-_.map([{ key: 'apples' }, { key: 'oranges' }], 'key'); // $ExpectType string[]
-
-// summing with a result of undefined when no values are provided
-// $ExpectType number | undefined
-_.reduce(numberArray, (memo, num, key, collection) => {
-    memo; // $ExpectType number
-    num; // $ExpectType number
-    key; // $ExpectType number
-    collection; // $ExpectType number[]
-
-    return memo + num;
-});
-
-// summing numbers as strings in an object collection with a result of undefined when no values are provided
-// and a result of a string when only one value is provided
-// $ExpectType string | number | undefined
-_({ a: '1', b: '2', c: '3' }).reduce((memo: string | number, numstr, key, collection) => {
-    numstr; // $ExpectType string
-    key; // $ExpectType string
-    collection; // $ExpectType { a: string; b: string; c: string; }
-
-    return (+memo) + (+numstr);
-});
-
-// summing with a result of zero when no values are provided
-_.reduce(numberArray, (memo, num) => memo + num, 0); // $ExpectType number
-
-// flattening an array in reverse order
-_([[0, 1], [2, 3], [4, 5]]).reduceRight((a: number[], b) => a.concat(b), []); // $ExpectType number[]
-
-// filtering to only evens
-_.filter(numberArray, num => num % 2 === 0); // $ExpectType number[]
-
-// filtering to only uppercase letters
-_({ a: 'a', b: 'B', c: 'C', d: 'd' }).filter(l => l === l.toUpperCase()); // $ExpectType string[]
-
-// rejecting evens
-_.reject(numberArray, (num) => num % 2 === 0); // $ExpectType number[]
-
-// filtering to partial matches
-// $ExpectType { title: string; author: string; year: number; }[]
-_.where([
-    { title: "Cymbeline", author: "Shakespeare", year: 1611 },
-    { title: "The Tempest", author: "Shakespeare", year: 1611 },
-    { title: "Other", author: "Not Shakespeare", year: 2012 }
-],
-    { author: "Shakespeare", year: 1611 }
-);
-
-// determining whether every value is truthy
-_.every([true, 1, null, 'yes']); // $ExpectType boolean
-
-// determining whether any number in a list is divisible by three
-_.some(numberArray, l => l % 3 === 0); // $ExpectType boolean
-
-// determining whether any value in a dictionary is uppercase
-_.some({ a: 'a', b: 'B', c: 'C', d: 'd' }, l => l === l.toUpperCase()); // $ExpectType boolean
-
-// checking whether an item is in an array
-_.contains(numberArray, 3); // $ExpectType boolean
-
-// checking whether an item is in the portion of an array that starts with index 1
-_.contains(numberArray, 3, 1); // $ExpectType boolean
-
-// truncating a set of strings to 5 characters or less
-_.invoke(['zebra', 'giraffe', 'lion'], 'substring', 0, 5); // $ExpectType any[]
-
-// retrieving a property value from all items in a collection
-_.pluck(stooges, 'name'); // $ExpectType string[]
-
-// retrieving the minimum number in a dictionary
-_.min(numberDictionary); // $ExpectType number
-
-// retrieving the item with the maximum number in a property
-_.max(stooges, (stooge) => stooge.age); // $ExpectType number | { name: string; age: number; }
-
-// sorting by a calculated value
-_.sortBy(numberArray, num => Math.sin(num)); // $ExpectType number[]
-
-// grouping numbers by their non-fractional parts
-_([1.3, 2.1, 2.4]).groupBy((e) => Math.floor(e)); // $ExpectType Dictionary<number[]>
-
-// grouping numbers by the value of a specified property
-_.groupBy(['one', 'two', 'three'], 'length'); // $ExpectType Dictionary<string[]>
-
-// indexing items in a dictionary by age
-_.indexBy(stooges, 'age'); // $ExpectType Dictionary<{ name: string; age: number; }>
-
-// counting numbers by their evenness
-_.countBy(numberArray, num => (num % 2 === 0) ? 'even' : 'odd'); // $ExpectType Dictionary<number>
-
-// shuffling numbers
-_.shuffle(numberArray); // $ExpectType number[]
-
-// converting an array-like structure to an array
-(function (a, b, c, d) {
-    const args = _.toArray(arguments); // $ExpectType any[]
-    return args;
-})(1, 2, 3, 4);
-
-// converting a dictionary to an array
-_.toArray(explicitNumberDictionary); // $ExpectType number[]
-
-// determining the number of items in a dictionary
-_.size(explicitNumberDictionary); // $ExpectType number
-
-// splitting numbers into sets of even and odd values
-_.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number[]]
-
 // creating a function that can determine if one object's property values matches another's
 {
     const isUncleMoe = _.matches({ name: 'moe', relation: 'uncle' }); // $ExpectType Predicate<{ name: string; relation: string; }>
@@ -1091,11 +945,28 @@ nullResult; // $ExpectType StringRecord
 declare const undefinedResult: _.IterateeResult<undefined, StringRecord>;
 undefinedResult; // $ExpectType StringRecord
 
-/*************************************
- * Combinatorial Tests - Collections *
- *************************************/
+/***************
+ * Collections *
+ ***************/
 
 // each, forEach
+
+// iterating through an array
+// $ExpectType number[]
+_.each(numberArray, (value, key, collection) => {
+    value; // $ExpectType number
+    key; // $ExpectType number
+    collection; // $ExpectType number[]
+});
+
+// iterating through a dictionary
+// $ExpectType { one: number; two: number; three: number; }
+_(explicitNumberDictionary).each((value, key, collection) => {
+    value; // $ExpectType number
+    key; // $ExpectType string
+    collection; // $ExpectType { one: number; two: number; three: number; }
+});
+
 {
     // lists - each
     _.each(augmentedList, augmentedListIterator); // $ExpectType AugmentedList
@@ -1139,6 +1010,30 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // map, collect
+
+// mapping an array with an inferred result type
+// $ExpectType number[]
+_(numberArray).map((value, key, collection) => {
+    value; // $ExpectType number
+    key; // $ExpectType number
+    collection; // $ExpectType number[]
+
+    return value;
+});
+
+// mapping a dictionary with an explicit result type
+// $ExpectType NumberRecord[]
+_.map(explicitNumberDictionary, (value, key, collection): NumberRecord => {
+    value; // $ExpectType number
+    key; // $ExpectType string
+    collection; // $ExpectType { one: number; two: number; three: number; }
+
+    return { a: value };
+});
+
+// mapping a dictionary by retrieving the value of a specific property
+_.map([{ key: 'apples' }, { key: 'oranges' }], 'key'); // $ExpectType string[]
+
 {
     // function iteratee - lists - map
     _.map(recordList, recordListSelector, context); // $ExpectType string[]
@@ -1282,6 +1177,32 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // reduce, foldl, inject
+
+// summing with a result of undefined when no values are provided
+// $ExpectType number | undefined
+_.reduce(numberArray, (memo, num, key, collection) => {
+    memo; // $ExpectType number
+    num; // $ExpectType number
+    key; // $ExpectType number
+    collection; // $ExpectType number[]
+
+    return memo + num;
+});
+
+// summing numbers as strings in an object collection with a result of undefined when no values are provided
+// and a result of a string when only one value is provided
+// $ExpectType string | number | undefined
+_({ a: '1', b: '2', c: '3' }).reduce((memo: string | number, numstr, key, collection) => {
+    numstr; // $ExpectType string
+    key; // $ExpectType string
+    collection; // $ExpectType { a: string; b: string; c: string; }
+
+    return (+memo) + (+numstr);
+});
+
+// summing with a result of zero when no values are provided
+_.reduce(numberArray, (memo, num) => memo + num, 0); // $ExpectType number
+
 {
     // constant primitive memo and memo-type result - lists - reduce
     _.reduce(recordList, recordListStringReducer, stringValue); // $ExpectType string
@@ -1417,6 +1338,10 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // reduceRight, foldr
+
+// flattening an array in reverse order
+_([[0, 1], [2, 3], [4, 5]]).reduceRight((a: number[], b) => a.concat(b), []); // $ExpectType number[]
+
 {
     // constant primitive memo and memo-type result - lists - reduceRight
     _.reduceRight(recordList, recordListStringReducer, stringValue); // $ExpectType string
@@ -1508,6 +1433,7 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // find, detect
+
 {
     // function iteratee - lists - find
     _.find(recordList, recordListTester, context); // $ExpectType StringRecord | undefined
@@ -1591,6 +1517,13 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // filter, select
+
+// filtering to only evens
+_.filter(numberArray, num => num % 2 === 0); // $ExpectType number[]
+
+// filtering to only uppercase letters
+_({ a: 'a', b: 'B', c: 'C', d: 'd' }).filter(l => l === l.toUpperCase()); // $ExpectType string[]
+
 {
     // function iteratee - lists - filter
     _.filter(recordList, recordListTester, context); // $ExpectType StringRecord[]
@@ -1674,6 +1607,17 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // where
+
+// filtering to partial matches
+// $ExpectType { title: string; author: string; year: number; }[]
+_.where([
+    { title: "Cymbeline", author: "Shakespeare", year: 1611 },
+    { title: "The Tempest", author: "Shakespeare", year: 1611 },
+    { title: "Other", author: "Not Shakespeare", year: 2012 }
+],
+    { author: "Shakespeare", year: 1611 }
+);
+
 {
     // non-intersecting type union - lists
     _.where(nonIntersectingList, matcher); // $ExpectType NonIntersecting[]
@@ -1692,6 +1636,7 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // findWhere
+
 {
     // non-intersecting type union - lists
     _.findWhere(nonIntersectingList, matcher); // $ExpectType StringRecord | NonIntersectingRecord | undefined
@@ -1710,6 +1655,10 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // reject
+
+// rejecting evens
+_.reject(numberArray, (num) => num % 2 === 0); // $ExpectType number[]
+
 {
     // function iteratee - lists
     _.reject(recordList, recordListTester, context); // $ExpectType StringRecord[]
@@ -1753,6 +1702,10 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // every, all
+
+// determining whether every value is truthy
+_.every([true, 1, null, 'yes']); // $ExpectType boolean
+
 {
     // function iteratee - lists - every
     _.every(recordList, recordListTester); // $ExpectType boolean
@@ -1856,6 +1809,13 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // some, any
+
+// determining whether any number in a list is divisible by three
+_.some(numberArray, l => l % 3 === 0); // $ExpectType boolean
+
+// determining whether any value in a dictionary is uppercase
+_.some({ a: 'a', b: 'B', c: 'C', d: 'd' }, l => l === l.toUpperCase()); // $ExpectType boolean
+
 {
     // function iteratee - lists - some
     _.some(recordList, recordListTester); // $ExpectType boolean
@@ -1959,6 +1919,13 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // contains, include, includes
+
+// checking whether an item is in an array
+_.contains(numberArray, 3); // $ExpectType boolean
+
+// checking whether an item is in the portion of an array that starts with index 1
+_.contains(numberArray, 3, 1); // $ExpectType boolean
+
 {
     // no index - lists - contains
     _.contains(recordList, recordList[0]); // $ExpectType boolean
@@ -2007,6 +1974,10 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // invoke
+
+// truncating a set of strings to 5 characters or less
+_.invoke(['zebra', 'giraffe', 'lion'], 'substring', 0, 5); // $ExpectType any[]
+
 {
     // function without parameters
     _.invoke(noParametersRecordList, shallowProperty); // $ExpectType any[]
@@ -2020,6 +1991,10 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // pluck
+
+// retrieving a property value from all items in a collection
+_.pluck(stooges, 'name'); // $ExpectType string[]
+
 {
     // shallow property iteratee with a non-nullable single type - lists
     _.pluck(recordList, shallowProperty); // $ExpectType string[]
@@ -2039,6 +2014,10 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // max
+
+// retrieving the item with the maximum number in a property
+_.max(stooges, stooge => stooge.age); // $ExpectType number | { name: string; age: number; }
+
 {
     // function iteratee - lists
     _.max(numberRecordList, numberRecordListSelector); // $ExpectType number | NumberRecord
@@ -2088,6 +2067,10 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // min
+
+// retrieving the minimum number in a dictionary
+_.min(numberDictionary); // $ExpectType number
+
 {
     // function iteratee - lists
     _.min(numberRecordList, numberRecordListSelector); // $ExpectType number | NumberRecord
@@ -2137,6 +2120,10 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // sortBy
+
+// sorting by a calculated value
+_.sortBy(numberArray, num => Math.sin(num)); // $ExpectType number[]
+
 {
     // function iteratee - lists
     _.sortBy(recordList, recordListSelector); // $ExpectType StringRecord[]
@@ -2190,6 +2177,13 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // groupBy
+
+// grouping numbers by their non-fractional parts
+_([1.3, 2.1, 2.4]).groupBy((e) => Math.floor(e)); // $ExpectType Dictionary<number[]>
+
+// grouping numbers by the value of a specified property
+_.groupBy(['one', 'two', 'three'], 'length'); // $ExpectType Dictionary<string[]>
+
 {
     // function iteratee - lists
     _.groupBy(recordList, recordListSelector, context); // $ExpectType Dictionary<StringRecord[]>
@@ -2243,6 +2237,10 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // indexBy
+
+// indexing items in a dictionary by age
+_.indexBy(stooges, 'age'); // $ExpectType Dictionary<{ name: string; age: number; }>
+
 {
     // function iteratee - lists
     _.indexBy(recordList, recordListSelector); // $ExpectType Dictionary<StringRecord>
@@ -2296,6 +2294,10 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // countBy
+
+// counting numbers by their evenness
+_.countBy(numberArray, num => (num % 2 === 0) ? 'even' : 'odd'); // $ExpectType Dictionary<number>
+
 {
     // function iteratee - lists
     _.countBy(recordList, recordListSelector); // $ExpectType Dictionary<number>
@@ -2349,6 +2351,10 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // shuffle
+
+// shuffling numbers
+_.shuffle(numberArray); // $ExpectType number[]
+
 {
     // lists
     _.shuffle(recordList); // $ExpectType StringRecord[]
@@ -2367,6 +2373,7 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // sample
+
 {
     // without n - lists
     _.sample(recordList); // $ExpectType StringRecord | undefined
@@ -2400,6 +2407,16 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // toArray
+
+// converting an array-like structure to an array
+(function (a, b, c, d) {
+    const args = _.toArray(arguments); // $ExpectType any[]
+    return args;
+})(1, 2, 3, 4);
+
+// converting a dictionary to an array
+_.toArray(explicitNumberDictionary); // $ExpectType number[]
+
 {
     // lists
     _.toArray(recordList); // $ExpectType StringRecord[]
@@ -2418,6 +2435,10 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // size
+
+// determining the number of items in a dictionary
+_.size(explicitNumberDictionary); // $ExpectType number
+
 {
     // lists
     _.size(recordList); // $ExpectType number
@@ -2436,6 +2457,10 @@ undefinedResult; // $ExpectType StringRecord
 }
 
 // partition
+
+// splitting numbers into sets of even and odd values
+_.partition(numberArray, num => num % 2 === 0); // $ExpectType [number[], number[]]
+
 {
     // function iteratee - lists
     _.partition(recordList, recordListTester); // $ExpectType [StringRecord[], StringRecord[]]
