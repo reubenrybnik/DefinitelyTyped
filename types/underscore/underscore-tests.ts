@@ -932,9 +932,8 @@ interface ChainTypeExtractor {
 
 declare const extractChainTypes: ChainTypeExtractor;
 
-// Types
-
 // TypeOfCollection
+
 declare const listItem: _.TypeOfCollection<_.List<StringRecord>>;
 listItem; // $ExpectType StringRecord
 
@@ -957,6 +956,7 @@ declare const explicitDictionaryLiteralItem: _.TypeOfCollection<ExplicitDictiona
 explicitDictionaryLiteralItem; // $ExpectType StringRecord
 
 // Iteratee
+
 {
     // functions
     const listFunctionIteratee: _.Iteratee<_.List<StringRecord>, string> = (element, key, collection) => {
@@ -1069,6 +1069,7 @@ explicitDictionaryLiteralItem; // $ExpectType StringRecord
 }
 
 // IterateeResult
+
 declare const functionResult: _.IterateeResult<() => string, StringRecord>;
 functionResult; // $ExpectType string
 
