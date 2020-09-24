@@ -351,65 +351,6 @@ nullResult; // $ExpectType StringRecord
 declare const undefinedResult: _.IterateeResult<undefined, StringRecord>;
 undefinedResult; // $ExpectType StringRecord
 
-/*******
- * OOP *
- *******/
-
-// underscore
-
-{
-    // lists
-    extractUnderscoreTypes(_(augmentedList)); // $ExpectType UnderscoreType<AugmentedList, StringRecord>
-    extractUnderscoreTypes(_(recordList)); // $ExpectType UnderscoreType<List<StringRecord>, StringRecord>
-
-    // dictionaries
-    extractUnderscoreTypes(_(explicitDictionary)); // $ExpectType UnderscoreType<ExplicitDictionary, StringRecord>
-    extractUnderscoreTypes(_(recordDictionary)); // $ExpectType UnderscoreType<Dictionary<StringRecord>, StringRecord>
-
-    // strings
-    extractUnderscoreTypes(_(stringValue)); // $ExpectType UnderscoreType<string, string>
-
-    // non-collections
-    extractUnderscoreTypes(_(numberValue)); // $ExpectType UnderscoreType<number, never>
-
-    // mixed non-collections and collections
-    extractUnderscoreTypes(_(mixedIterabilityValue)); // $ExpectType UnderscoreType<number | number[], number>
-
-    // any
-    extractUnderscoreTypes(_(anyValue)); // $ExpectType UnderscoreType<any, any>
-
-    // never
-    extractUnderscoreTypes(_(neverValue)); // $ExpectType UnderscoreType<never, never>
-}
-
-// value
-
-// verify that the object type given to underscore is returned by value
-{
-    // lists
-    _(augmentedList).value(); // $ExpectType AugmentedList
-    _(recordList).value(); // $ExpectType List<StringRecord>
-
-    // dictionaries
-    _(explicitDictionary).value(); // $ExpectType ExplicitDictionary
-    _(recordDictionary).value(); // $ExpectType Dictionary<StringRecord>
-
-    // strings
-    _(stringValue).value(); // $ExpectType string
-
-    // non-collections
-    _(numberValue).value(); // $ExpectType number
-
-    // mixed non-collections and collections
-    _(mixedIterabilityValue).value(); // $ExpectType number | number[]
-
-    // any
-    _(anyValue).value(); // $ExpectType any
-
-    // never
-    _(neverValue).value(); // $ExpectType never
-}
-
 /***************
  * Collections *
  ***************/
@@ -3355,6 +3296,65 @@ _.now(); // $ExpectType number
 
 // checking the version of Underscore
 _.VERSION; // $ExpectType string
+
+/*******
+ * OOP *
+ *******/
+
+// underscore
+
+{
+    // lists
+    extractUnderscoreTypes(_(augmentedList)); // $ExpectType UnderscoreType<AugmentedList, StringRecord>
+    extractUnderscoreTypes(_(recordList)); // $ExpectType UnderscoreType<List<StringRecord>, StringRecord>
+
+    // dictionaries
+    extractUnderscoreTypes(_(explicitDictionary)); // $ExpectType UnderscoreType<ExplicitDictionary, StringRecord>
+    extractUnderscoreTypes(_(recordDictionary)); // $ExpectType UnderscoreType<Dictionary<StringRecord>, StringRecord>
+
+    // strings
+    extractUnderscoreTypes(_(stringValue)); // $ExpectType UnderscoreType<string, string>
+
+    // non-collections
+    extractUnderscoreTypes(_(numberValue)); // $ExpectType UnderscoreType<number, never>
+
+    // mixed non-collections and collections
+    extractUnderscoreTypes(_(mixedIterabilityValue)); // $ExpectType UnderscoreType<number | number[], number>
+
+    // any
+    extractUnderscoreTypes(_(anyValue)); // $ExpectType UnderscoreType<any, any>
+
+    // never
+    extractUnderscoreTypes(_(neverValue)); // $ExpectType UnderscoreType<never, never>
+}
+
+// value
+
+// verify that the object type given to underscore is returned by value
+{
+    // lists
+    _(augmentedList).value(); // $ExpectType AugmentedList
+    _(recordList).value(); // $ExpectType List<StringRecord>
+
+    // dictionaries
+    _(explicitDictionary).value(); // $ExpectType ExplicitDictionary
+    _(recordDictionary).value(); // $ExpectType Dictionary<StringRecord>
+
+    // strings
+    _(stringValue).value(); // $ExpectType string
+
+    // non-collections
+    _(numberValue).value(); // $ExpectType number
+
+    // mixed non-collections and collections
+    _(mixedIterabilityValue).value(); // $ExpectType number | number[]
+
+    // any
+    _(anyValue).value(); // $ExpectType any
+
+    // never
+    _(neverValue).value(); // $ExpectType never
+}
 
 /************
  * Chaining *
