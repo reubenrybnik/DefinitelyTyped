@@ -3267,12 +3267,12 @@ _.random(0, 100); // $ExpectType number
 
 // mixin
 
-// adding functions to Underscore by calling _.mixin and augmenting Underscore's
-// type definitions
+// adding functions to Underscore by calling _.mixin
 _.mixin({
     capitalize: (string: string) => string.charAt(0).toUpperCase() + string.substring(1)
 });
 
+// augmenting Underscore's type definitions to make TSC aware of the above
 declare module 'underscore' {
     interface UnderscoreStatic {
         capitalize(string: string): string;
