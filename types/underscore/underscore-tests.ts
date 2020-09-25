@@ -2837,7 +2837,7 @@ _.pairs(explicitNumberDictionary); // $ExpectType ["one" | "two" | "three", numb
 
 // invert
 
-// making an object's keys its values and values its keys
+// making an object's keys its values and vice versa
 _.invert({ Moe: "Moses", Larry: "Louis", Curly: "Jerome" }); // $ExpectType any
 
 // functions
