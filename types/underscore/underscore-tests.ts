@@ -2669,8 +2669,6 @@ _.partial(manyParameters, _, _, _, ""); // $ExpectType (p1: string, p2: number, 
     fibonacci(10); // $ExpectType number
 }
 
-// memoize
-
 // creating a function that will cache instances of classes as singletons
 // (the second call will return the same object as the first)
 {
