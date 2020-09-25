@@ -2233,7 +2233,7 @@ _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]); // $ExpectType number[]
 
 // difference
 
-// computing the difference one set and other sets
+// computing the difference between one set and other sets
 _.difference([1, 2, 3, 4, 5], [5, 2, 10]); // $ExpectType number[]
 
 {
