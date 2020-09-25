@@ -3246,7 +3246,7 @@ _.noConflict(); // $ExpectType any
 
 // identity
 
-// calling a no-op function that returns the same value that is used as the argument
+// calling a function that returns the same value that is used as the argument
 _.identity({ name: 'moe' }); // $ExpectType { name: string; }
 
 // constant
