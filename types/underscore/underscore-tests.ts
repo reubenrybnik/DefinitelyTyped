@@ -2559,7 +2559,7 @@ _.findLastIndex([{ a: 'a' }, { a: 'b' }], { a: 'b' }); // $ExpectType number
 
 // sortedIndex
 
-// finding the index at which to insert a value to maintain sorting
+// finding the index at which to insert a value to maintain order
 _.sortedIndex(numberArray, 35); // $ExpectType number
 
 {
